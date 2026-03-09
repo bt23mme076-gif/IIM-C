@@ -1,0 +1,206 @@
+/* App Root Styles */
+#root {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Page Wrapper */
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Content Container */
+.content-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+/* Section Backgrounds */
+.section-white {
+  background-color: #ffffff;
+}
+
+.section-offwhite {
+  background-color: #fdfcfb;
+}
+
+.section-yellow {
+  background-color: #ffd700;
+}
+
+.section-yellow-light {
+  background-color: #fff9e6;
+}
+
+.section-yellow-soft {
+  background-color: #fffbf0;
+}
+
+.section-charcoal {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.section-charcoal-yellow {
+  background-color: #1a1a1a;
+  color: #ffd700;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  .text-responsive-lg {
+    font-size: 2.5rem;
+  }
+  
+  .text-responsive-xl {
+    font-size: 3rem;
+  }
+}
+
+/* Navbar Transitions */
+.navbar-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hero Section */
+.hero-gradient {
+  background: linear-gradient(180deg, #fff9e6 0%, #ffffff 100%);
+}
+
+.hero-gradient-yellow {
+  background: linear-gradient(135deg, #ffd700 0%, #fff9e6 50%, #ffffff 100%);
+}
+
+.hero-gradient-white-yellow {
+  background: linear-gradient(180deg, #ffffff 0%, #fffbf0 50%, #ffd700 100%);
+}
+
+/* Footer Styles */
+footer {
+  margin-top: auto;
+}
+
+/* Accessibility */
+.skip-to-content {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #1a1a1a;
+  color: white;
+  padding: 8px;
+  text-decoration: none;
+  z-index: 100;
+}ffd700;
+  outline-offset: 2px;
+}
+
+/* Yellow Accent Colors */
+.text-yellow {
+  color: #ffd700;
+}
+
+.text-yellow-dark {
+  color: #daa520;
+}
+
+.bg-yellow {
+  background-color: #ffd700;
+}
+
+.bg-yellow-light {
+  background-color: #fff9e6;
+}
+
+.border-yellow {
+  border-color: #ffd700;
+}
+
+/* Yellow Button Styles */
+.btn-yellow {
+  background-color: #ffd700;
+  color: #1a1a1a;
+  transition: all 0.3s ease;
+}
+
+.btn-yellow:hover {
+  background-color: #daa520;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3)
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* Focus Visible */
+*:focus-visible {
+  outline: 2px solid #1a1a1a;
+  outline-offset: 2px;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrolling Animations - Right to Left */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-left-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 40s linear infinite;
+  display: flex;
+  gap: 2rem;
+}
+
+.animate-scroll-left-slow {
+  animation: scroll-left-slow 80s linear infinite;
+  display: flex;
+  gap: 2rem;
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-left-slow:hover {
+  animation-play-state: paused;
+}
+
+/* Legacy Styles */
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}

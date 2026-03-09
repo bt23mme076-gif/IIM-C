@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1a1a1a;
+  line-height: 1.65;
+  background-color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', 'Georgia', serif;
+}
+
+.font-inter {
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Custom scrollbar - Safal Niveshak style (subtle and minimal) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f5f5f5;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cccccc;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
+}
+
+/* Scrolling Animations - Right to Left */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-left-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-90.33%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 80s linear infinite;
+  display: flex;
+  gap: 2rem;
+}
+
+.animate-scroll-left-slow {
+  animation: scroll-left-slow 40s linear infinite;
+  display: flex;
+  gap: 2rem;
+}
+
+.animate-scroll-left:hover,
+.animate-scroll-left-slow:hover {
+  animation-play-state: paused;
+}
+
+/* Mobile Responsive Utilities */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  h1 {
+    font-size: 2rem !important;
+  }
+  
+  h2 {
+    font-size: 1.75rem !important;
+  }
+  
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  h4 {
+    font-size: 1.25rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+  
+  h1 {
+    font-size: 1.75rem !important;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+  }
+  
+  h3 {
+    font-size: 1.25rem !important;
+  }
+  
+  h4 {
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Responsive Container */
+.responsive-container {
+  padding-left: 4rem;
+  padding-right: 4rem;
+}
+
+@media (max-width: 1024px) {
+  .responsive-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Hide scrollbar on mobile for cleaner look */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+}

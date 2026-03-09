@@ -1,0 +1,974 @@
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { FiExternalLink, FiBookOpen, FiUsers, FiFileText, FiPlus, FiEdit2, FiTrash2, FiSave, FiX } from 'react-icons/fi';
+import EditableText from '../components/EditableText';
+import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
+import { useAuth } from '../context/AuthContext';
+import { doc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { db } from '../firebase/config';
+
+export default function Research() {
+  const { isAdmin } = useAuth();
+  const [editingPub, setEditingPub] = useState(null);
+  const [editingChapter, setEditingChapter] = useState(null);
+  const [editingCase, setEditingCase] = useState(null);
+  const [showAddPub, setShowAddPub] = useState(false);
+  const [showAddChapter, setShowAddChapter] = useState(false);
+  const [showAddCase, setShowAddCase] = useState(false);
+  
+  // Fetch research content from Firestore
+  const { data: researchData, loading } = useFirestoreDoc('content', 'research', {
+    page_heading: "Research & Publications",
+    page_description: "Explore my academic contributions spanning leadership, organizational behavior, and management research.",
+    featured_publications: [],
+    book_chapters: [],
+    cases: [],
+    technical_notes: [],
+    special_issues: [],
+    phd_students_chairperson: [],
+    phd_students_member: []
+  });
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
+
+  const viewportOptions = {
+    once: true,
+    margin: "0px 0px -50px 0px",
+    amount: 0.1
+  };
+
+  // Add new publication
+  const addPublication = async (newPub) => {
+    try {
+      const pubWithId = { ...newPub, id: Date.now() };
+      await updateDoc(doc(db, 'content', 'research'), {
+        featured_publications: arrayUnion(pubWithId)
+      });
+      setShowAddPub(false);
+    } catch (error) {
+      console.error('Error adding publication:', error);
+      alert('Failed to add publication');
+    }
+  };
+
+  // Update publication
+  const updatePublication = async (updatedPub) => {
+    try {
+      const pubs = researchData.featured_publications || [];
+      const oldPub = pubs.find(p => p.id === updatedPub.id);
+      await updateDoc(doc(db, 'content', 'research'), {
+        featured_publications: arrayRemove(oldPub)
+      });
+      await updateDoc(doc(db, 'content', 'research'), {
+        featured_publications: arrayUnion(updatedPub)
+      });
+      setEditingPub(null);
+    } catch (error) {
+      console.error('Error updating publication:', error);
+      alert('Failed to update publication');
+    }
+  };
+
+  // Delete publication
+  const deletePublication = async (pub) => {
+    if (!confirm('Delete this publication?')) return;
+    try {
+      await updateDoc(doc(db, 'content', 'research'), {
+        featured_publications: arrayRemove(pub)
+      });
+    } catch (error) {
+      console.error('Error deleting publication:', error);
+      alert('Failed to delete publication');
+    }
+  };
+
+  // Similar functions for book chapters
+  const addBookChapter = async (newChapter) => {
+    try {
+      const chapterWithId = { ...newChapter, id: Date.now() };
+      await updateDoc(doc(db, 'content', 'research'), {
+        book_chapters: arrayUnion(chapterWithId)
+      });
+      setShowAddChapter(false);
+    } catch (error) {
+      console.error('Error adding chapter:', error);
+    }
+  };
+
+  const deleteBookChapter = async (chapter) => {
+    if (!confirm('Delete this book chapter?')) return;
+    try {
+      await updateDoc(doc(db, 'content', 'research'), {
+        book_chapters: arrayRemove(chapter)
+      });
+    } catch (error) {
+      console.error('Error deleting chapter:', error);
+    }
+  };
+
+  // Similar functions for cases
+  const addCase = async (newCase) => {
+    try {
+      const caseWithId = { ...newCase, id: Date.now() };
+      await updateDoc(doc(db, 'content', 'research'), {
+        cases: arrayUnion(caseWithId)
+      });
+      setShowAddCase(false);
+    } catch (error) {
+      console.error('Error adding case:', error);
+    }
+  };
+
+  const deleteCase = async (caseItem) => {
+    if (!confirm('Delete this case?')) return;
+    try {
+      await updateDoc(doc(db, 'content', 'research'), {
+        cases: arrayRemove(caseItem)
+      });
+    } catch (error) {
+      console.error('Error deleting case:', error);
+    }
+  };
+
+  const featuredPublications = researchData.featured_publications || [];
+  const phdStudents = {
+    chairperson: researchData.phd_students_chairperson || [],
+    member: researchData.phd_students_member || []
+  };
+  const bookChapters = researchData.book_chapters || [];
+  const specialIssues = researchData.special_issues || [];
+  const cases = researchData.cases || [];
+  const technicalNotes = researchData.technical_notes || [];
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-[#2A35CC] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg font-['Inter'] text-gray-600">Loading research data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white">
+      {/* Hero Section */}
+      <section className="pt-32 pb-16 px-6 lg:px-16 bg-gradient-to-b from-[#e6e8ff] to-white">
+      title: "Public Sector Motivation: Construct Definition, Measurement, and Validation.",
+      journal: "Public Administration Quarterly, 0(0).",
+      doi: "https://doi.org/10.1177/07349149251359153"
+    },
+    {
+      authors: "Gupta, V., Makhecha, U. P., & Shaik, F. H.",
+      year: "2021",
+      title: "Era of Disruption: Opportunities and Challenges for Businesses in India.",
+      journal: "Business Perspectives and Research, 9(2), 192-194.",
+      doi: "https://journals.sagepub.com/doi/full/10.1177/2278533721989828"
+    },
+    {
+      authors: "Wei, L-Q, Lehmberg, D., Gupta, V., Young, M. N., Southam, C., & Liang, J.",
+      year: "2020",
+      title: "From the new editorial team: Publishing quality teaching case.",
+      journal: "Asian Case Research Journal, 24(1), 1-9.",
+      doi: "https://www.worldscientific.com/doi/abs/10.1142/S0218927520010014"
+    },
+    {
+      authors: "Mittal, S., Gupta, V., Motiani, M.",
+      year: "2018",
+      title: "Qasab: Kutch Craftswomen's Producer Co. Ltd.",
+      journal: "Asian Case Research Journal, 22(2), 255-277.",
+      doi: "https://www.worldscientific.com/doi/abs/10.1142/S0218927518500116"
+    },
+    {
+      authors: "Parida, B. & Gupta, V.",
+      year: "2017",
+      title: "Effects of Non-conformity on Perceived Status and Competence: Examining the Moderating Role of Physical Attractiveness.",
+      journal: "Psychological Studies, 62(3), 305-313.",
+      doi: "https://link.springer.com/article/10.1007/s12646-017-0410-1"
+    },
+    {
+      authors: "Desai, N., & Gupta, V.",
+      year: "2016",
+      title: "Selective perceptions and group brainstorming: An investigation of auditors' fraud risk assessment.",
+      journal: "International Journal of Behavioral Accounting and Finance, 6(1), 1-25.",
+      doi: "https://www.inderscience.com/offer.php?id=79875"
+    },
+    {
+      authors: "Mittal, S., Gupta, V., & Motiani, M.",
+      year: "2016",
+      title: "HRD climate impacts customer satisfaction: Empirical study of Indian private banks.",
+      journal: "Indian Journal of Industrial Relations, 51(3), 447-459.",
+      doi: "http://www.publishingindia.com/ijir/22/hrd-climate-customer-satisfaction-in-indian-private-banks/518/3693/"
+    },
+    {
+      authors: "Mittal, S., Gupta, V., & Motiani, M.",
+      year: "2016",
+      title: "Relation between human resource development climate and organizational commitment: Empirical study in Indian Banking Sector.",
+      journal: "International Journal of Indian Culture and Business Management, 12(2), 204-223.",
+      doi: "https://www.inderscience.com/info/inarticletoc.php?jcode=ijicbm&year=2016&vol=12&issue=2"
+    },
+    {
+      authors: "Gupta, V.",
+      year: "2014",
+      title: "HRM Practices and Employee Creativity: Conceptualizing the Mediating and Moderating Role of Psychological Capital.",
+      journal: "Indian Journal of Industrial Relations, 49(4), 649-662.",
+      doi: "http://www.shriramcentrelir.org/publications/indian-journal-industrial-relations/vol-49-no-4-april-2014"
+    },
+    {
+      authors: "Gupta, V. & Singh, S.",
+      year: "2013",
+      title: "Developing a Scale for Measuring Ability-Based Emotional Intelligence in Indian context.",
+      journal: "The International Journal of Indian Culture and Business Management, 6(3), 273-299.",
+      doi: "https://www.inderscience.com/info/inarticle.php?artid=53103"
+    },
+    {
+      authors: "Gupta, V. & Singh, S.",
+      year: "2012",
+      title: "Empirical Evaluation of Dimensionality of Organizational Citizenship Behavior for Indian Business Context.",
+      journal: "Psychological Studies, 57(4), 392-403.",
+      doi: "https://link.springer.com/article/10.1007/s12646-012-0154-x"
+    },
+    {
+      authors: "Gupta, V., Singh, S., Kumar, S., & Bhattacharya, A.",
+      year: "2012",
+      title: "Development of a Causal Framework Linking Leadership to Employee Creativity: A Study of Indian R&D Laboratories.",
+      journal: "The Indian Journal of Industrial Relations, 48(1), 120-136.",
+      doi: "http://www.shriramcentrelir.org/publications/indian-journal-industrial-relations/vol-48-no-1-july-2012"
+    },
+    {
+      authors: "George, P. R. & Gupta, V.",
+      year: "2024",
+      title: "Environmental identity and perceived salience of policy issues in coastal communities: a moderated-mediation analysis.",
+      journal: "Policy Science, 57, 787-822."
+    },
+    {
+      authors: "Khan, F., Preeti, Gupta, V.",
+      year: "2024",
+      title: "Examining the relationships between instructional leadership, teacher self-efficacy and job satisfaction: a study of primary schools in India.",
+      journal: "Journal of Educational Administration, forthcoming."
+    },
+    {
+      authors: "Gupta, V., Mittal, S., Ilavarasan, P. V., & Budhwar, P.",
+      year: "2024",
+      title: "Pay-for-performance, procedural justice, OCB and job performance: A sequential mediation model.",
+      journal: "Personnel Review, 53(1), 136-154."
+    },
+    {
+      authors: "Gopakumar, K. V. & Gupta, V.",
+      year: "2024",
+      title: "Combining profit and purpose: Paradoxical leadership skills and social–business tensions during the formation and sustenance of a social enterprise.",
+      journal: "Nonprofit Management & Leadership, 34, 489-522.",
+      doi: "https://doi.org/10.1002/nml.21580"
+    },
+    {
+      authors: "Singhal, S. & Gupta, V.",
+      year: "2022",
+      title: "Religiosity and homophobia: Examining the impact of perceived importance of childbearing, hostile sexism and gender.",
+      journal: "Sexuality Research and Social Policy, 19, 1636-1649."
+    },
+    {
+      authors: "Mittal, S., Gupta, V. & Mottiani, M.",
+      year: "2022",
+      title: "Examining the linkages between brand love, affective commitment, PWOM and turnover intentions: A social identity theory perspective.",
+      journal: "IIMB Management Review, 34(1), 7-17."
+    },
+    {
+      authors: "Kuril, S., Gupta. V. & Chand, V. S.",
+      year: "2021",
+      title: "Relationship between Negative Teacher Behaviors and Student Engagement: Evidence from India.",
+      journal: "International Journal of Educational Research, 109, 1-19."
+    },
+    {
+      authors: "Bhayana, C., Gupta, V., & Sharda, K.",
+      year: "2021",
+      title: "Exploring dynamics within multigenerational teams with millennials: A research framework.",
+      journal: "Business Perspectives and Research, 9(2), 252-268."
+    },
+    {
+      authors: "Chattopadhyay, P, George, E., Li, J. & Gupta, V.",
+      year: "2020",
+      title: "Geographical dissimilarity and team member influence: Do emotions experienced in the initial team meeting matter?",
+      journal: "Academy of Management Journal, 63(6), 1807-1839."
+    },
+    {
+      authors: "Gupta, V.",
+      year: "2020",
+      title: "Relationships between leadership, motivation, and employee-level innovation: Evidence from India.",
+      journal: "Personnel Review, 49(7), 1363-1379."
+    },
+    {
+      authors: "Pandey, A., Gupta, V., & Gupta, R.",
+      year: "2019",
+      title: "Spirituality and Innovative Behaviour in Teams: Examining the Mediating Role of Team Learning.",
+      journal: "IIMB Management Review, 31(2), 116-126."
+    }
+  ];
+
+  const phdStudents = {
+    chairperson: researchData.phd_students_chairperson || [],
+    member: researchData.phd_students_member || []
+  };
+
+  const bookChapters = researchData.book_chapters || [];
+    {
+      authors: "Gupta, V. and Basant, A.",
+      year: "2025",
+      title: "HEAL: Defining a new POB construct.",
+      book: "In C. L. Cooper, S. Pattnaik & R. V. Rodriguez (Eds.) Advancing Positive Organizational Behaviour. Routledge."
+    },
+    {
+      authors: "Gupta, V.",
+      year: "2023",
+      title: "TREAT Leadership Framework: A Knowledge-Based Theory of the Global Firm.",
+      book: "In A. Akande (Ed.). Springer Handbook on Globalization, Politics in Organizations, Human Rights, and Populism: Reimagining People, Power, and Places. Springer.",
+      doi: "https://link.springer.com/chapter/10.1007/978-3-031-17203-8_28"
+    },
+    {
+      authors: "Gupta, V. & Gopalan, N.",
+      year: "2021",
+      title: "L-E-A-P: A new model of organisational culture for knowledge-based organisations.",
+      book: "In Lepley, M. T. (Ed.) Human Centered Management: Principles and Practices. Routledge.",
+      doi: "https://www.taylorfrancis.com/chapters/edit/10.4324/9781003092025-4-5/new-organizational-culture-framework-knowledge-intensive-organizations-vishal-gupta-neena-gopalan"
+    },
+    {
+      authors: "Gupta, V., Bhattacharya, S. & Gopalan, N.",
+      year: "2021",
+      title: "Emotions, emotional intelligence and conflict management: A conceptual framework.",
+      book: "In Lepley, M. T. (Ed.) Human Centered Management: Principles and Practices. Routledge.",
+      doi: "https://www.taylorfrancis.com/chapters/edit/10.4324/9781003094463-4-6/emotions-emotional-intelligence-conflict-management-vishal-gupta-shalini-bhattacharya-neena-gopalan"
+    },
+    {
+      authors: "Syal, A. & Gupta, V.",
+      year: "2021",
+      title: "Leveraging social media to enable leadership during crises: Linking TREAT leader behaviours and BOAT leader attributes.",
+      book: "In A. Akande, B. Adetoun, & M. Adewuyi (Eds.), The Global Nature of Organizational Science Phenomena. Hauppauge, NY: Nova Science Publishers.",
+      doi: "https://search.bvsalud.org/global-literature-on-novel-coronavirus-2019-ncov/resource/en/covidwho-1469291"
+    },
+    {
+      authors: "Singh, S. & Gupta, V.",
+      year: "2019",
+      title: "Organizational Performance Research in India: A Review and Future Research Agenda.",
+      book: "In Misra, G. (Ed.) The Sixth Indian Council for Social Science Research (ICSSR) Survey of Psychology in India (pp. 1-93), Oxford University Press: New Delhi.",
+      doi: "https://academic.oup.com/book/36805/chapter-abstract/321958320?redirectedFrom=fulltext"
+    },
+    {
+      authors: "Gupta D., & Gupta V.",
+      year: "2018",
+      title: "Effective Policing in a VUCA Environment: Lessons from a Dark Network.",
+      book: "In: Dhir S., Sushil (eds) Flexible Strategies in VUCA Markets (pp. 89-111). Flexible Systems Management. Springer, Singapore.",
+      doi: "https://link.springer.com/chapter/10.1007/978-981-10-8926-8_7"
+    },
+    {
+      authors: "Gupta, D. & Gupta, V.",
+      year: "2017",
+      title: "Why are Dark Networks Resilient and What can the Security Forces Learn from them? A Study of Strategies, Military Tactics and Organizational Structure of CPI (Maoists).",
+      book: "Proceedings of the International Conference on 'Strategies in Volatile and Uncertain Environment for Emerging Markets (pp. 411-417). New Delhi: IIT Delhi.",
+      doi: "https://strategiesinemergingmarkets.com/"
+    },
+    {
+      authors: "Gupta, V., Singh, S. & Bhattacharya, A.",
+      year: "2014",
+      title: "Inspiring creativity in Indian R&D organizations: Examining the role of leadership, justice perceptions, motivation and psychological capital.",
+      book: "In Banerjee, A. (Ed.) Emerging Issues in Management: Proceedings of Pan-IIM World Management Conference (pp. 45-53). New Delhi: Emerald."
+    },
+    {
+      authors: "Gupta, V. & Singh, S.",
+      year: "2011",
+      title: "Development of a Causal Framework Linking Leadership to Employee Creativity.",
+      book: "Proceedings of the 2011 Meeting of the Southern Management Association, Savannah, US, 13-18.",
+      doi: "http://southernmanagement.org/meetings/2011/proceedings/PaperID106.pdf"
+    },
+    {
+      authors: "Gupta, V. & Singh, S.",
+      year: "2010",
+      title: "Developing a Set of High Performance HRM Practices and Exploring its Relationship with OCB and Organizational Justice.",
+      book: "Proceedings of the 2010 Meeting of the Southern Management Association, Florida, US, 464-469.",
+      doi: "https://southernmanagement.org/meetings/2010/proceedings/PaperID232.pdf"
+    }
+  ];
+
+  const specialIssues = researchData.special_issues || [
+    {
+      title: "IIMB Management Review Special Issue",
+      description: "Based on the Seventh Indian Academy of Management (INDAM) conference",
+      link: "https://www.sciencedirect.com/journal/iimb-management-review"
+    },
+    {
+      title: "Business Perspectives and Research Special Issue",
+      description: "Based on the Sixth INDAM conference",
+      link: "https://journals.sagepub.com/toc/bpra/9/2"
+    },
+    {
+      title: "South Asian Journal of Business Studies Special Issue",
+      description: "Based on the Sixth INDAM conference",
+      link: "#"
+    },
+    {
+      title: "Vikalpa Special Issue",
+      description: "On the Fourth Pan-IIM World Management conference",
+      link: "#"
+    }
+  ];
+
+  const cases = researchData.cases || [
+    {
+      title: "Pramukh Swami Maharaj Shatabdi Mahotsav: Event Scale",
+      code: "IIMA/ADCLOD0003",
+      link: "https://cases.iima.ac.in/index.php/pramukh-swami-maharaj-shatabdi-mahotsav-event-scale.html"
+    },
+    {
+      title: "Pramukh Swami Maharaj Shatabdi Mahotsav: Service-Orientation, People Management and Leadership",
+      code: "IIMA/ADCLOD0004",
+      link: "https://cases.iima.ac.in/index.php/pramukh-swami-maharaj-shatabdi-mahotsav-service-orientation-people-management-and-leadership.html"
+    },
+    {
+      title: "Tata vs Mistry: Struggle for Succession and Governance",
+      code: "IIMA/0246 - A, B, C, D",
+      link: "https://cases.iima.ac.in/index.php/tata-vs-mistry-a-struggle-for-succession-and-governance.html"
+    },
+    {
+      title: "VIKAS and SAVE: Combining cause with commerce",
+      code: "IIMA/OB0239",
+      link: "https://cases.iima.ac.in/index.php/vikas-and-save-combining-cause-with-commerce.html"
+    },
+    {
+      title: "Aditya Kumar: Office Politics and managing upwards",
+      code: "IIMA/OB0236",
+      link: "https://cases.iima.ac.in/index.php/aditya-kumar-office-politics-and-managing-upwards.html"
+    },
+    {
+      title: "Vasudha's Dismay",
+      code: "IIMA/OB0230",
+      link: "https://cases.iima.ac.in/index.php/vasudha-s-dismay.html"
+    },
+    {
+      title: "Mohan Dixit",
+      code: "IIMA/OB0233, IIMA/OB0233TN",
+      link: "https://cases.iima.ac.in/index.php/catalogsearch/result/?attr=0&q=OB0233"
+    },
+    {
+      title: "Meera Nair at PhoenixWay: Which Way to Go",
+      code: "IIMA/OB0231, IIMA/OB0231TN",
+      link: "https://cases.iima.ac.in/index.php/catalogsearch/result/?attr=0&q=OB0231"
+    },
+    {
+      title: "GAIL 'Saksham' Program: Remoulding the Future",
+      code: "IIMA/PSG0123, IIMA/PSG0123TN",
+      link: "https://cases.iima.ac.in/index.php/gail-saksham-program-remoulding-the-future.html"
+    },
+    {
+      title: "CSIR Tech Private Limited: Facilitating Lab to Market Journeys",
+      code: "IIMA/OB0218, IIMA/OB0218S",
+      link: "https://www.iveypublishing.ca/s/?id=85693"
+    },
+    {
+      title: "Performance Management at IRD Corporation (A) and (B)",
+      code: "IIMA/P&IR0227A,B",
+      link: "https://cases.iima.ac.in/index.php/performance-management-at-ird-corporation-a.html"
+    }
+  ];
+
+  const technicalNotes = researchData.technical_notes || [
+    {
+      title: "A Note on Decision-Making",
+      code: "IIMA/OB0232TEC",
+      link: "https://cases.iima.ac.in/index.php/performance-management-at-ird-corporation-a.html"
+    },
+    {
+      title: "Understanding the Design of Organizations",
+      code: "IIMA/OB0226TEC",
+      link: "https://cases.iima.ac.in/index.php/new-age-organisations-managing-matrix-structures.html"
+    },
+    {
+      title: "Stress and Our Inner Game",
+      code: "IIMA/OB0228TEC",
+      link: "https://cases.iima.ac.in/index.php/the-inner-game-of-peak-performance.html"
+    },
+    {
+      title: "Appreciative Inquiry: A Positive Way of Managing Change",
+      code: "IIMA/OB0229TEC",
+      link: "https://cases.iima.ac.in/index.php/appreciative-inquiry-a-positive-way-of-managing-change.html"
+    },
+    {
+      title: "Teaching note for 'The Cybertech Project (A) and (B)'",
+      code: "HBS No. 695-030 and 695-041 (IIMA/OB0214TN)"
+    },
+    {
+      title: "Teaching note for 'The Audubon Zoo, 1993', an integrative case published in Daft (2007)",
+      code: "IIMA/OB0215TN"
+    }
+  ];
+
+  return (
+    <div className="bg-white">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-br from-[#e6e8ff] to-[#fff7ed] py-20 px-6 lg:px-16">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={fadeInUp}
+            className="text-center"
+          >
+            <div className="w-20 h-1 bg-[#f97316] mb-8 rounded-full mx-auto"></div>
+            <h1 className="text-5xl lg:text-7xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+              Research
+            </h1>
+            <p className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
+              Advancing knowledge in leadership, organizational behavior, and human resource management
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Quick Links */}
+      <section className="py-12 px-6 lg:px-16 bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-6">
+            <a 
+              href="https://scholar.google.co.in/citations?user=_kfodNoAAAAJ&hl=hi" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#2A35CC] hover:bg-[#1f2a99] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-lg hover:shadow-xl"
+            >
+              <FiExternalLink /> Google Scholar Citations
+            </a>
+            <a 
+              href="https://www.researchgate.net/profile/YOUR_PROFILE" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 bg-[#fb923c] hover:bg-[#f97316] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-lg hover:shadow-xl"
+            >
+              <FiExternalLink /> ResearchGate Profile
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Publications */}
+      <section className="py-16 px-6 lg:px-16 bg-[#faf8f5]">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <div className="flex items-center justify-between flex-wrap gap-4">
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+                  Featured Peer-reviewed Publications
+                </h2>
+                <div className="w-24 h-1 bg-[#2A35CC] rounded-full"></div>
+              </div>
+              {isAdmin && (
+                <button
+                  onClick={() => setShowAddPub(true)}
+                  className="flex items-center gap-2 bg-[#2A35CC] hover:bg-[#1f2a99] text-white px-4 py-2 rounded-lg font-semibold transition-all"
+                >
+                  <FiPlus /> Add Publication
+                </button>
+              )}
+            </div>
+          </motion.div>
+
+          {showAddPub && isAdmin && (
+            <PublicationForm
+              onSave={addPublication}
+              onCancel={() => setShowAddPub(false)}
+            />
+          )}
+
+          <div className="space-y-6">
+            {featuredPublications.map((pub, index) => (
+              <motion.div
+                key={pub.id || index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOptions}
+                variants={fadeInUp}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#2A35CC] relative group"
+              >
+                {isAdmin && (
+                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button
+                      onClick={() => setEditingPub(pub)}
+                      className="p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+                    >
+                      <FiEdit2 size={16} />
+                    </button>
+                    <button
+                      onClick={() => deletePublication(pub)}
+                      className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
+                    >
+                      <FiTrash2 size={16} />
+                    </button>
+                  </div>
+                )}
+                <p className="font-['Inter'] text-gray-700 mb-2">
+                  <span className="font-semibold text-[#1a1a1a]">{pub.authors}</span> ({pub.year}). {pub.title}
+                </p>
+                <p className="font-['Inter'] text-gray-600 italic mb-2">{pub.journal}</p>
+                {pub.doi && (
+                  <a 
+                    href={pub.doi} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#2A35CC] hover:text-[#1f2a99] font-['Inter'] text-sm inline-flex items-center gap-1"
+                  >
+                    <FiExternalLink size={14} /> View Publication
+                  </a>
+                )}
+              </motion.div>
+            ))}
+          </div>
+
+          {editingPub && isAdmin && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <PublicationForm
+                publication={editingPub}
+                onSave={updatePublication}
+                onCancel={() => setEditingPub(null)}
+              />
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Cases and Technical Notes */}
+      <section className="py-16 px-6 lg:px-16 bg-white">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
+          {/* Cases */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-[#fb923c] rounded-lg flex items-center justify-center">
+                <FiFileText className="text-white text-xl" />
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+                Cases
+              </h2>
+            </div>
+            <ul className="space-y-3">
+              {cases.map((caseItem, index) => (
+                <li key={index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#fb923c] hover:bg-[#fff7ed] p-2 transition-colors">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-semibold">{caseItem.title}</span>
+                    <span className="text-sm text-gray-500">({caseItem.code})</span>
+                    {caseItem.link && (
+                      <a 
+                        href={caseItem.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[#fb923c] hover:text-[#ea580c] text-sm inline-flex items-center gap-1 mt-1"
+                      >
+                        <FiExternalLink size={12} /> View Case
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Technical Notes */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+          >
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 bg-[#2A35CC] rounded-lg flex items-center justify-center">
+                <FiBookOpen className="text-white text-xl" />
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+                Technical Notes
+              </h2>
+            </div>
+            <ul className="space-y-3">
+              {technicalNotes.map((note, index) => (
+                <li key={index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#2A35CC] hover:bg-[#e6e8ff] p-2 transition-colors">
+                  <div className="flex flex-col gap-1">
+                    <span className="font-semibold">{note.title}</span>
+                    <span className="text-sm text-gray-500">({note.code})</span>
+                    {note.link && (
+                      <a 
+                        href={note.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-[#2A35CC] hover:text-[#1f2a99] text-sm inline-flex items-center gap-1 mt-1"
+                      >
+                        <FiExternalLink size={12} /> View Note
+                      </a>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Book Chapters */}
+      <section className="py-16 px-6 lg:px-16 bg-[#faf8f5]">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+              Book Chapters & Conference Proceedings
+            </h2>
+            <div className="w-24 h-1 bg-[#2A35CC] rounded-full"></div>
+          </motion.div>
+
+          <div className="space-y-6">
+            {bookChapters.map((chapter, index) => (
+              <motion.div
+                key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOptions}
+                variants={fadeInUp}
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#2A35CC]"
+              >
+                <p className="font-['Inter'] text-gray-700 mb-2">
+                  <span className="font-semibold text-[#1a1a1a]">{chapter.authors}</span> ({chapter.year}). {chapter.title}
+                </p>
+                <p className="font-['Inter'] text-gray-600 italic mb-2">{chapter.book}</p>
+                {chapter.doi && (
+                  <a 
+                    href={chapter.doi} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#2A35CC] hover:text-[#1f2a99] font-['Inter'] text-sm inline-flex items-center gap-1"
+                  >
+                    <FiExternalLink size={14} /> View Chapter
+                  </a>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Special Issues */}
+      <section className="py-16 px-6 lg:px-16 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+            className="mb-12"
+          >
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+              Special Issues Edited
+            </h2>
+            <div className="w-24 h-1 bg-[#f97316] rounded-full"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {specialIssues.map((issue, index) => (
+              <motion.div
+                key={index}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOptions}
+                variants={fadeInUp}
+                className="bg-gradient-to-br from-[#fff7ed] to-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#f97316]"
+              >
+                <h3 className="text-xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-2">
+                  {issue.title}
+                </h3>
+                <p className="font-['Inter'] text-gray-600 mb-3">{issue.description}</p>
+                {issue.link !== "#" && (
+                  <a 
+                    href={issue.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-[#f97316] hover:text-[#ea580c] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
+                  >
+                    <FiExternalLink size={14} /> View Journal
+                  </a>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PhD Students */}
+      <section className="py-16 px-6 lg:px-16 bg-[#e6e8ff]">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOptions}
+            variants={fadeInUp}
+            className="mb-12 text-center"
+          >
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-14 h-14 bg-[#2A35CC] rounded-full flex items-center justify-center">
+                <FiUsers className="text-white text-2xl" />
+              </div>
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+              PhD Students Guided
+            </h2>
+            <div className="w-24 h-1 bg-[#2A35CC] rounded-full mx-auto"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-12">
+            {/* TAC Chairperson */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOptions}
+              variants={fadeInUp}
+              className="bg-white p-8 rounded-xl shadow-lg"
+            >
+              <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+                As TAC Chairperson
+              </h3>
+              <div className="space-y-4">
+                {phdStudents.chairperson.map((student, index) => (
+                  <div key={index} className="border-l-4 border-[#2A35CC] pl-4 py-2 hover:bg-[#e6e8ff] transition-colors">
+                    <p className="font-['Inter'] font-semibold text-[#1a1a1a]">{student.name}</p>
+                    <p className="font-['Inter'] text-sm text-gray-600">{student.position}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* TAC Member */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOptions}
+              variants={fadeInUp}
+              className="bg-white p-8 rounded-xl shadow-lg"
+            >
+              <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+                As TAC Member
+              </h3>
+              <div className="space-y-3">
+                {phdStudents.member.map((student, index) => (
+                  <div key={index} className="border-l-4 border-[#fb923c] pl-4 py-2 hover:bg-[#fff7ed] transition-colors">
+                    <p className="font-['Inter'] text-gray-700">{student}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+// Publication Form Component
+function PublicationForm({ publication, onSave, onCancel }) {
+  const [formData, setFormData] = useState(publication || {
+    authors: '',
+    year: new Date().getFullYear().toString(),
+    title: '',
+    journal: '',
+    doi: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSave(formData);
+  };
+
+  return (
+    <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <h3 className="text-2xl font-bold mb-4">
+        {publication ? 'Edit Publication' : 'Add New Publication'}
+      </h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
+          <label className="block text-sm font-semibold mb-2">Authors</label>
+          <input
+            type="text"
+            value={formData.authors}
+            onChange={(e) => setFormData({ ...formData, authors: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold mb-2">Year</label>
+          <input
+            type="text"
+            value={formData.year}
+            onChange={(e) => setFormData({ ...formData, year: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold mb-2">Title</label>
+          <textarea
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            rows={3}
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold mb-2">Journal</label>
+          <input
+            type="text"
+            value={formData.journal}
+            onChange={(e) => setFormData({ ...formData, journal: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold mb-2">DOI/Link (optional)</label>
+          <input
+            type="url"
+            value={formData.doi}
+            onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="flex gap-3 justify-end">
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-6 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg font-semibold transition-colors"
+          >
+            <FiX className="inline mr-2" /> Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-6 py-2 bg-[#2A35CC] hover:bg-[#1f2a99] text-white rounded-lg font-semibold transition-colors"
+          >
+            <FiSave className="inline mr-2" /> Save
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}

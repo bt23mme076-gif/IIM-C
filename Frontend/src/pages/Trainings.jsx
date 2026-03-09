@@ -1,0 +1,219 @@
+import { motion } from 'framer-motion';
+import { FiExternalLink, FiCalendar, FiClock, FiMapPin, FiTarget } from 'react-icons/fi';
+import { useAuth } from '../context/useAuth';
+import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
+import EditableText from '../components/EditableText';
+
+export default function Trainings() {
+  const { isAdmin } = useAuth() || {};
+  const { data: pageData } = useFirestoreDoc('content', 'trainings', {
+    page_heading: 'Executive Training Programs',
+    page_subtitle: 'By Prof. Bodhibrata Nag',
+    page_description: 'Transform your leadership journey with world-class executive education programs from IIM Calcutta',
+  });
+
+  const programs = [
+    {
+      id: 'leap-emb',
+      title: 'LEAP-EMB',
+      fullTitle: 'Leadership Excellence and Accelerated Performance - Executive Management Batch',
+      description: 'A comprehensive leadership development program designed for senior executives to enhance their strategic thinking, decision-making capabilities, and leadership effectiveness.',
+      duration: '9 Months',
+      format: 'Hybrid (Online + Campus)',
+      location: 'IIM Calcutta',
+      applyLink: '#',
+      highlights: [
+        'Strategic Leadership & Decision Making',
+        'Business Strategy & Innovation',
+        'Financial Management for Executives',
+        'Leading Change & Transformation',
+        'Networking with Industry Leaders'
+      ],
+      color: 'from-[#1a1a1a] to-[#000000]'
+    },
+    {
+      id: 'heal',
+      title: 'HEAL',
+      fullTitle: 'Healthcare Executive Advancement & Leadership',
+      description: 'A specialized program for healthcare professionals to develop leadership skills, strategic thinking, and management expertise specific to the healthcare sector.',
+      duration: '6 Months',
+      format: 'Hybrid (Online + Campus)',
+      location: 'IIM Calcutta',
+      applyLink: '#',
+      highlights: [
+        'Healthcare Management & Policy',
+        'Strategic Planning in Healthcare',
+        'Quality & Patient Safety',
+        'Healthcare Analytics & Technology',
+        'Leadership in Healthcare Organizations'
+      ],
+      color: 'from-gray-700 to-gray-800'
+    },
+    {
+      id: 'climb',
+      title: 'CLIMB',
+      fullTitle: 'Contemporary Leadership & Innovative Management for Business',
+      description: 'An intensive program focusing on contemporary business challenges, innovative management practices, and developing future-ready leaders for dynamic business environments.',
+      duration: '12 Months',
+      format: 'Hybrid (Online + Campus)',
+      location: 'IIM Calcutta',
+      applyLink: '#',
+      highlights: [
+        'Contemporary Business Challenges',
+        'Innovation & Entrepreneurship',
+        'Digital Transformation',
+        'Sustainable Business Practices',
+        'Global Business Perspectives'
+      ],
+      color: 'from-[#1a1a1a] to-[#000000]'
+    }
+  ];
+
+  return (
+    <div className="bg-white">
+      {/* Header Section */}
+      <section className="bg-gradient-to-br from-[#f0f0f0] to-[#ffffff] py-20 px-6 lg:px-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-16">
+          <motion.div
+            initial={{ opacity: 0.85, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35 }}
+            className="text-center"
+          >
+            <div className="w-20 h-1 bg-[#333333] mb-8 rounded-full mx-auto"></div>
+            <h1 className="text-5xl lg:text-6xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+              <EditableText
+                collection="content"
+                docId="trainings"
+                field="page_heading"
+                defaultValue={pageData?.page_heading || 'Executive Training Programs'}
+                className="text-5xl lg:text-6xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+              />
+            </h1>
+            <p className="text-xl lg:text-2xl text-[#1a1a1a] font-['Inter'] max-w-3xl mx-auto">
+              <EditableText
+                collection="content"
+                docId="trainings"
+                field="page_subtitle"
+                defaultValue={pageData?.page_subtitle || 'By Prof. Bodhibrata Nag'}
+                className="text-xl lg:text-2xl text-[#1a1a1a] font-['Inter']"
+              />
+            </p>
+            <p className="text-lg text-gray-600 font-['Inter'] max-w-4xl mx-auto mt-6">
+              <EditableText
+                collection="content"
+                docId="trainings"
+                field="page_description"
+                defaultValue={pageData?.page_description || 'Transform your leadership journey with world-class executive education programs from IIM Calcutta'}
+                className="text-lg text-gray-600 font-['Inter']"
+                multiline
+              />
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Programs Section */}
+      <section className="py-20 px-6 lg:px-16 bg-[#f8f8f8]">
+        <div className="max-w-7xl mx-auto">
+          <div className="space-y-16">
+            {programs.map((program, index) => (
+              <motion.div
+                key={program.id}
+                initial={{ opacity: 0.85, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: index * 0.08 }}
+                className="bg-white rounded-2xl shadow-xl overflow-hidden border-2 border-gray-100 hover:shadow-2xl transition-shadow duration-300"
+              >
+                {/* Program Header */}
+                <div className={`bg-gradient-to-r ${program.color} p-8 text-white`}>
+                  <h2 className="text-4xl font-['Playfair_Display'] font-bold mb-2">
+                    {program.title}
+                  </h2>
+                  <p className="text-lg opacity-90 font-['Inter']">
+                    {program.fullTitle}
+                  </p>
+                </div>
+
+                {/* Program Content */}
+                <div className="p-8 lg:p-12">
+                  <div className="grid lg:grid-cols-2 gap-8 mb-8">
+                    {/* Left Column - Description */}
+                    <div>
+                      <p className="text-gray-700 text-lg leading-relaxed mb-6 font-['Inter']">
+                        {program.description}
+                      </p>
+
+                      {/* Program Details */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 text-gray-700">
+                          <FiClock className="text-[#333333] text-xl" />
+                          <span className="font-['Inter']"><strong>Duration:</strong> {program.duration}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-gray-700">
+                          <FiCalendar className="text-[#333333] text-xl" />
+                          <span className="font-['Inter']"><strong>Format:</strong> {program.format}</span>
+                        </div>
+                        <div className="flex items-center gap-3 text-gray-700">
+                          <FiMapPin className="text-[#333333] text-xl" />
+                          <span className="font-['Inter']"><strong>Location:</strong> {program.location}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Column - Highlights */}
+                    <div>
+                      <h3 className="text-2xl font-['Playfair_Display'] font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <FiTarget className="text-[#333333]" />
+                        Key Highlights
+                      </h3>
+                      <ul className="space-y-3">
+                        {program.highlights.map((highlight, idx) => (
+                          <li key={idx} className="flex items-start gap-3">
+                            <span className="text-[#333333] text-xl mt-1">•</span>
+                            <span className="text-gray-700 font-['Inter']">{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Apply Button */}
+                  <div className="flex justify-center pt-6 border-t-2 border-gray-100">
+                    <a
+                      href={program.applyLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#333333] to-[#222222] text-white font-['Inter'] font-semibold rounded-lg shadow-lg hover:shadow-xl hover:from-[#222222] hover:to-[#111111] transition-all duration-300 transform hover:scale-105"
+                    >
+                      Apply Now
+                      <FiExternalLink className="text-xl" />
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-br from-[#1a1a1a] to-[#000000] text-white">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-3xl lg:text-4xl font-['Playfair_Display'] font-bold mb-4">
+            Ready to Transform Your Leadership?
+          </h2>
+          <p className="text-lg font-['Inter'] mb-8 opacity-90">
+            Join thousands of executives who have enhanced their leadership capabilities through our programs
+          </p>
+          <a
+            href="#contact"
+            className="inline-block px-8 py-4 bg-white text-[#1a1a1a] font-['Inter'] font-semibold rounded-lg shadow-lg hover:shadow-xl hover:bg-gray-50 transition-all duration-300"
+          >
+            Get in Touch
+          </a>
+        </div>
+      </section>
+    </div>
+  );
+}
