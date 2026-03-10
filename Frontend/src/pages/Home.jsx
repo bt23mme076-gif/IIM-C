@@ -200,20 +200,72 @@ export default function Home() {
           <div className="absolute right-[10%] bottom-[12%] w-64 h-64 rounded-full bg-[#1E2A38]/[0.05] blur-3xl" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-14 sm:pt-20 lg:pt-24 pb-16 sm:pb-20">
-          <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-10 lg:gap-16 items-center">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-8 sm:pt-12 lg:pt-16 pb-12 sm:pb-16 lg:pb-20">
+          {/* Mobile: stacked (text → image), Desktop: side-by-side (image | text) */}
+          <div className="flex flex-col lg:grid lg:grid-cols-[0.85fr_1.15fr] gap-8 lg:gap-16 lg:items-center">
 
+            {/* Text — appears first on mobile */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="order-1 lg:order-2 text-center lg:text-left"
+            >
+              <EditableText
+                field="hero_greeting"
+                defaultValue={data.hero_greeting || 'PROFESSOR • STRATEGIST • ACADEMIC LEADER'}
+                className="block text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#b08b47] font-semibold mb-4 sm:mb-6"
+              />
+
+              <EditableText
+                field="hero_title"
+                defaultValue={data.hero_title || 'Prof. Bodhibrata Nag'}
+                className="block text-[2.8rem] sm:text-[4rem] lg:text-[6.6rem] leading-[0.88] tracking-[-0.04em] font-['Cormorant_Garamond','Playfair_Display'] font-semibold text-[#132033]"
+              />
+
+              <EditableText
+                field="hero_name"
+                defaultValue={data.hero_name || 'Professor of Operations Management, IIM Calcutta'}
+                className="block mt-4 sm:mt-6 text-[1.15rem] sm:text-[1.5rem] lg:text-[2.2rem] leading-snug font-['Cormorant_Garamond','Playfair_Display'] text-[#1E2A38]"
+              />
+
+              <EditableText
+                field="hero_description"
+                defaultValue={
+                  data.hero_description ||
+                  'Professor Bodhibrata Nag is a distinguished academic with extensive experience in operations management, transportation, energy systems, sustainable supply chains, and cybersecurity at IIM Calcutta.'
+                }
+                className="block mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#58616c] font-['Inter'] max-w-2xl mx-auto lg:mx-0"
+                multiline
+              />
+
+              <div className="mt-7 sm:mt-9 flex flex-col xs:flex-row flex-wrap justify-center lg:justify-start gap-3">
+                <Link to="/about" className="w-full xs:w-auto">
+                  <button className="w-full xs:w-auto bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] transition-colors">
+                    View Profile
+                  </button>
+                </Link>
+
+                <Link to="/research" className="w-full xs:w-auto">
+                  <button className="w-full xs:w-auto border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 transition-colors">
+                    Explore Research
+                  </button>
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Image — appears second on mobile, first column on desktop */}
             <motion.div
               initial={{ opacity: 0, scale: 0.94, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="flex justify-center lg:justify-start"
+              className="order-2 lg:order-1 flex justify-center lg:justify-start mt-8 lg:mt-0 pb-8 lg:pb-12"
             >
               <div className="relative">
                 <div className="absolute inset-0 rounded-full border border-[#d9cfbf] scale-[1.08]" />
                 <div className="absolute inset-0 rounded-full border border-[#e7dece] scale-[1.16]" />
 
-                <div className="w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] lg:w-[380px] lg:h-[380px] rounded-full overflow-hidden bg-[#e8decd] border-[10px] border-white shadow-[0_25px_70px_rgba(30,42,56,0.12)] relative z-10">
+                <div className="w-[220px] h-[220px] sm:w-[300px] sm:h-[300px] lg:w-[380px] lg:h-[380px] rounded-full overflow-hidden bg-[#e8decd] border-[8px] sm:border-[10px] border-white shadow-[0_20px_60px_rgba(30,42,56,0.12)] relative z-10">
                   <img
                     src={data.hero_image || '/prof-nag.jpg'}
                     alt="Prof. Bodhibrata Nag"
@@ -224,7 +276,7 @@ export default function Home() {
                   />
                 </div>
 
-                <div className="absolute -bottom-4 right-2 sm:right-6 bg-white/92 backdrop-blur-md border border-[#e2d8c8] rounded-2xl px-4 py-3 shadow-[0_15px_40px_rgba(30,42,56,0.08)] z-20">
+                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 lg:translate-x-0 lg:left-auto lg:right-0 bg-white/92 backdrop-blur-md border border-[#e2d8c8] rounded-2xl px-4 py-3 shadow-[0_15px_40px_rgba(30,42,56,0.08)] z-20 whitespace-nowrap">
                   <p className="text-[10px] uppercase tracking-[0.28em] text-[#b08b47] font-semibold mb-1">
                     IIM Calcutta
                   </p>
@@ -235,59 +287,11 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 24, y: 14 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-left"
-            >
-              <EditableText
-                field="hero_greeting"
-                defaultValue={data.hero_greeting || 'PROFESSOR • STRATEGIST • ACADEMIC LEADER'}
-                className="block text-[11px] sm:text-xs uppercase tracking-[0.34em] text-[#b08b47] font-semibold mb-6"
-              />
-
-              <EditableText
-                field="hero_title"
-                defaultValue={data.hero_title || 'Prof. Bodhibrata Nag'}
-                className="block text-[3.6rem] sm:text-[5rem] lg:text-[6.6rem] leading-[0.9] tracking-[-0.05em] font-['Cormorant_Garamond','Playfair_Display'] font-semibold text-[#132033] max-w-[820px]"
-              />
-
-              <EditableText
-                field="hero_name"
-                defaultValue={data.hero_name || 'Professor of Operations Management, IIM Calcutta'}
-                className="block mt-6 text-[1.5rem] sm:text-[1.9rem] lg:text-[2.2rem] leading-snug font-['Cormorant_Garamond','Playfair_Display'] text-[#1E2A38]"
-              />
-
-              <EditableText
-                field="hero_description"
-                defaultValue={
-                  data.hero_description ||
-                  'Professor Bodhibrata Nag is a distinguished academic with extensive experience in operations management, transportation, energy systems, sustainable supply chains, and cybersecurity at IIM Calcutta.'
-                }
-                className="block mt-6 text-base sm:text-lg leading-relaxed text-[#58616c] font-['Inter'] max-w-3xl"
-                multiline
-              />
-
-              <div className="mt-9 flex flex-wrap gap-3">
-                <Link to="/about">
-                  <button className="bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] transition-colors">
-                    View Profile
-                  </button>
-                </Link>
-
-                <Link to="/research">
-                  <button className="border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 transition-colors">
-                    Explore Research
-                  </button>
-                </Link>
-              </div>
-            </motion.div>
           </div>
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-14 sm:py-16 bg-white border-y border-[#e7dfd2]">
+      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-16 bg-white border-y border-[#e7dfd2]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -295,27 +299,27 @@ export default function Home() {
             viewport={viewportOptions}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp} className="flex items-end justify-between gap-4 flex-wrap mb-10">
+            <motion.div variants={fadeInUp} className="flex items-start sm:items-end justify-between gap-4 flex-wrap mb-8 sm:mb-10">
               <div>
                 <EditableText
                   field="blog_heading"
                   defaultValue={data.blog_heading}
-                  className="block text-3xl sm:text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-3"
+                  className="block text-2xl sm:text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-2"
                 />
-                <p className="text-sm sm:text-base text-[#5c6571] font-['Inter']">
+                <p className="text-sm text-[#5c6571] font-['Inter']">
                   Writing on management, systems, technology, and public institutions.
                 </p>
               </div>
 
               <Link
                 to="/blog"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E2A38] hover:text-[#b08b47] transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E2A38] hover:text-[#b08b47] transition-colors shrink-0"
               >
                 View All <FiArrowRight />
               </Link>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {recentBlogs.slice(0, 3).map((blog, index) => (
                 <motion.div
                   key={blog.id || index}
@@ -364,7 +368,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-14 sm:py-16 lg:py-20">
+      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-20">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -372,27 +376,27 @@ export default function Home() {
             viewport={viewportOptions}
             variants={staggerContainer}
           >
-            <motion.div variants={fadeInUp} className="flex items-end justify-between gap-4 flex-wrap mb-10">
+            <motion.div variants={fadeInUp} className="flex items-start sm:items-end justify-between gap-4 flex-wrap mb-8 sm:mb-10">
               <div>
                 <EditableText
                   field="books_heading"
                   defaultValue={data.books_heading}
-                  className="block text-3xl sm:text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-3"
+                  className="block text-2xl sm:text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-2"
                 />
-                <p className="text-sm sm:text-base text-[#5c6571] font-['Inter']">
+                <p className="text-sm text-[#5c6571] font-['Inter']">
                   Selected publications and foundational works.
                 </p>
               </div>
 
               <Link
                 to="/book"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E2A38] hover:text-[#b08b47] transition-colors"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-[#1E2A38] hover:text-[#b08b47] transition-colors shrink-0"
               >
                 View All <FiArrowRight />
               </Link>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {(homeBooksList.length > 0 ? homeBooksList.slice(0, 3) : staticBooksList).map((book, i) => {
                 const isStatic = !homeBooksList.length;
                 const image = isStatic ? data[book.imgf] || book.fb : book.coverUrl;
@@ -442,7 +446,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-14 sm:py-16 bg-[#1E2A38] text-white">
+      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-16 bg-[#1E2A38] text-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -542,7 +546,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-14 sm:py-16 lg:py-20 bg-white">
+      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
