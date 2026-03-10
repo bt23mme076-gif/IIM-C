@@ -2,7 +2,6 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { initializeAboutContent } from './initializeAboutContent.js';
 import { initializeResearchContent } from './initializeResearchContent.js';
-import { initializeTrainingsContent } from './initializeTrainingsContent.js';
 import { initializeBooksContent } from './initializeBooksContent.js';
 
 // Firebase configuration
@@ -50,12 +49,6 @@ async function initializeAllContent() {
     console.log(researchResult.success ? '✓ Success' : '✗ Failed:', researchResult.message || researchResult.error);
     console.log('');
     
-    // Initialize Trainings content
-    console.log('3. Trainings Page');
-    console.log('-----------------');
-    const trainingsResult = await initializeTrainingsContent();
-    console.log(trainingsResult.success ? '✓ Success' : '✗ Failed:', trainingsResult.message || trainingsResult.error);
-    console.log('');
     
     // Initialize Books content
     console.log('4. Books Page');

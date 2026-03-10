@@ -5,13 +5,16 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Courses from './pages/Courses';
-import Trainings from './pages/Trainings';
 import Research from './pages/Research';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import Blog from './pages/Blog';
 import BlogPost from './pages/BlogPost';
 import Books from './pages/book';
+import Consulting from './pages/Consulting';
+import Recognitions from './pages/Recognitions';
+import Opinions from './pages/Opinions';
+import Contact from './pages/Contact';
 
 
 function App() {
@@ -23,13 +26,16 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/trainings" element={<Trainings />} />
           <Route path="/research" element={<Research />} />
           <Route path="/admin" element={<AdminLogin />} />
            <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/book" element={<Books />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
+          <Route path="/consulting" element={<Consulting />} />
+          <Route path="/recognitions" element={<Recognitions />} />
+          <Route path="/opinions" element={<Opinions />} />
+          <Route path="/contact" element={<Contact />} />
         </Routes>
         <Footer />
       </Router>

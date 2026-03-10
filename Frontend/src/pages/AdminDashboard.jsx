@@ -237,7 +237,6 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState('home');
   const [homeContent, setHomeContent] = useState({});
   const [aboutContent, setAboutContent] = useState({});
-  const [trainingsContent, setTrainingsContent] = useState({});
   const [blogs, setBlogs] = useState([]);
   const [courses, setCourses] = useState([]);
   const [testimonials, setTestimonials] = useState([]);
@@ -357,22 +356,6 @@ export default function AdminDashboard() {
         setAboutContent(defaultAbout);
       }
 
-
-      // Fetch trainings content
-      const trainingsDoc = await getDoc(doc(db, 'content', 'trainings'));
-      if (trainingsDoc.exists()) {
-        setTrainingsContent(trainingsDoc.data());
-        console.log('Trainings content loaded');
-      } else {
-        console.log('Trainings content not found, initializing...');
-        const defaultTrainings = {
-          page_heading: "Executive Training Programs",
-          page_subtitle: "By Prof. Bodhibrata Nag",
-          page_description: "Transform your leadership journey with world-class executive education programs from IIM Calcutta",
-        };
-        await setDoc(doc(db, 'content', 'trainings'), defaultTrainings);
-        setTrainingsContent(defaultTrainings);
-      }
 
       // Fetch blogs
       const blogsSnapshot = await getDocs(collection(db, 'blogs'));
@@ -900,23 +883,7 @@ export default function AdminDashboard() {
               gap: '0.5rem'
             }}
           
-          >
-            <FiBriefcase /> <span>Trainings</span>
-          </button>
-          <button
-            className="admin-tab"
-            onClick={() => setActiveTab('newsletter')}
-            style={{
-              padding: '1rem 2rem',
-              border: 'none',
-              background: 'none',
-              borderBottom: activeTab === 'newsletter' ? '3px solid #1a1a1a' : 'none',
-              fontWeight: activeTab === 'newsletter' ? 600 : 400,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
+          
           >
             <FiDownload /> <span>Newsletter</span>
           </button>
@@ -1654,74 +1621,7 @@ export default function AdminDashboard() {
             </p>
           </div>
         )}
-
-        {/* Trainings Page Tab */}
-        {activeTab === 'trainings' && (
-          <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Edit Trainings Page Content</h2>
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Page Heading</label>
-                <input
-                  type="text"
-                  value={trainingsContent.page_heading || ''}
-                  onChange={(e) => setTrainingsContent({ ...trainingsContent, page_heading: e.target.value })}
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Page Subtitle</label>
-                <input
-                  type="text"
-                  value={trainingsContent.page_subtitle || ''}
-                  onChange={(e) => setTrainingsContent({ ...trainingsContent, page_subtitle: e.target.value })}
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Page Description</label>
-                <textarea
-                  value={trainingsContent.page_description || ''}
-                  onChange={(e) => setTrainingsContent({ ...trainingsContent, page_description: e.target.value })}
-                  rows={3}
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px' }}
-                />
-              </div>
-              <button
-                onClick={async () => {
-                  setSaving(true);
-                  try {
-                    await updateDoc(doc(db, 'content', 'trainings'), trainingsContent);
-                    setMessage({ text: 'Trainings page updated successfully!', type: 'success' });
-                    setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-                  } catch (error) {
-                    setMessage({ text: 'Error updating trainings page', type: 'error' });
-                    console.error(error);
-                  } finally {
-                    setSaving(false);
-                  }
-                }}
-                disabled={saving}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  backgroundColor: '#1a1a1a',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: saving ? 'not-allowed' : 'pointer',
-                  fontWeight: 600,
-                  opacity: saving ? 0.6 : 1
-                }}
-              >
-                {saving ? 'Saving...' : 'Save Trainings Content'}
-              </button>
-            </div>
-            <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.9rem' }}>
-              Training programs can be managed in Firestore. Full editing interface coming soon.
-            </p>
-          </div>
-        )}
-
+        
         {/* ═══════════════════════════════════════════════════════
             NEWSLETTER TAB
         ════════════════════════════════════════════════════════ */}

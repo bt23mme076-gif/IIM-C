@@ -186,14 +186,14 @@ export default function Research() {
             variants={fadeInUp}
             className="text-center"
           >
-            <div className="w-20 h-1 bg-[#333333] mb-8 rounded-full mx-auto"></div>
-            <h1 className="text-5xl lg:text-7xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+            <div className="w-20 h-1 bg-[#B9975B] mb-8 rounded-full mx-auto"></div>
+            <h1 className="text-5xl lg:text-7xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
               <EditableText
                 collection="content"
                 docId="research"
                 field="page_heading"
                 defaultValue={researchData?.page_heading || "Research"}
-                className="text-5xl lg:text-7xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                className="text-5xl lg:text-7xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]"
               />
             </h1>
             <p className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
@@ -218,7 +218,7 @@ export default function Research() {
               href="#" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#333333] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-md hover:shadow-lg"
             >
               <FiExternalLink /> Google Scholar Citations
             </a>
@@ -226,7 +226,7 @@ export default function Research() {
               href="https://www.researchgate.net/profile/YOUR_PROFILE" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[#333333] hover:bg-[#000000] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-lg hover:shadow-xl"
+              className="inline-flex items-center gap-2 bg-[#5B6472] hover:bg-[#1E2A38] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-md hover:shadow-lg"
             >
               <FiExternalLink /> ResearchGate Profile
             </a>
@@ -246,15 +246,15 @@ export default function Research() {
           >
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+                <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
                   Featured Peer-reviewed Publications
                 </h2>
-                <div className="w-24 h-1 bg-[#1a1a1a] rounded-full"></div>
+                <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
               </div>
               {isAdmin && (
                 <button
                   onClick={() => setShowAddPub(true)}
-                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#000000] text-white px-4 py-2 rounded-lg font-semibold transition-all"
+                  className="flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-4 py-2 rounded-lg font-semibold transition-all"
                 >
                   <FiPlus /> Add Publication
                 </button>
@@ -269,7 +269,7 @@ export default function Research() {
                 value={pubSearch}
                 onChange={e => setPubSearch(e.target.value)}
                 placeholder="Search by title, author, year, or journal…"
-                className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1a1a1a] text-sm"
+                className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg bg-white text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E2A38] text-sm"
               />
               {pubSearch && (
                 <button
@@ -288,7 +288,7 @@ export default function Research() {
           </motion.div>
 
           {showAddPub && isAdmin && (
-            <div className="mb-6 p-6 bg-white rounded-xl border-2 border-[#1a1a1a] shadow-lg">
+            <div className="mb-6 p-6 bg-white rounded-xl border-2 border-[#D9D6CF] shadow-lg">
               <PublicationForm
                 onSave={addPublication}
                 onCancel={() => setShowAddPub(false)}
@@ -304,13 +304,13 @@ export default function Research() {
                 whileInView="visible"
                 viewport={viewportOptions}
                 variants={fadeInUp}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1a1a1a] relative group"
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B] border border-[#D9D6CF] relative group"
               >
                 {isAdmin && (
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => setEditingPub(pub)}
-                      className="p-2 bg-[#1a1a1a] hover:bg-[#000000] text-white rounded-lg"
+                      className="p-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg"
                     >
                       <FiEdit2 size={16} />
                     </button>
@@ -323,7 +323,7 @@ export default function Research() {
                   </div>
                 )}
                 <p className="font-['Inter'] text-gray-700 mb-2">
-                  <span className="font-semibold text-[#1a1a1a]">{pub.authors}</span> ({pub.year}). {pub.title}
+                  <span className="font-semibold text-[#1E2A38]">{pub.authors}</span> ({pub.year}). {pub.title}
                 </p>
                 <p className="font-['Inter'] text-gray-600 italic mb-2">{pub.journal}</p>
                 {pub.doi && (
@@ -331,7 +331,7 @@ export default function Research() {
                     href={pub.doi} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-[#1a1a1a] hover:text-[#000000] font-['Inter'] text-sm inline-flex items-center gap-1"
+                    className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1"
                   >
                     <FiExternalLink size={14} /> View Publication
                   </a>
@@ -340,7 +340,7 @@ export default function Research() {
             ))}
 
             {editingPub && isAdmin && (
-              <div className="mt-6 p-6 bg-white rounded-xl border-2 border-[#1a1a1a] shadow-lg">
+              <div className="mt-6 p-6 bg-white rounded-xl border-2 border-[#D9D6CF] shadow-lg">
                 <PublicationForm
                   publication={editingPub}
                   onSave={updatePublication}
@@ -367,7 +367,7 @@ export default function Research() {
                 <div className="w-12 h-12 bg-[#555555] rounded-lg flex items-center justify-center">
                   <FiFileText className="text-white text-xl" />
                 </div>
-                <h2 className="text-3xl lg:text-4xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+                <h2 className="text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">
                   Cases
                 </h2>
               </div>
@@ -428,16 +428,16 @@ export default function Research() {
             variants={fadeInUp}
           >
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-[#1a1a1a] rounded-lg flex items-center justify-center">
+              <div className="w-12 h-12 bg-[#1E2A38] rounded-lg flex items-center justify-center">
                 <FiBookOpen className="text-white text-xl" />
               </div>
-              <h2 className="text-3xl lg:text-4xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+              <h2 className="text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">
                 Technical Notes
               </h2>
             </div>
             <ul className="space-y-3">
               {technicalNotes.map((note, index) => (
-                <li key={index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#1a1a1a] hover:bg-[#f0f0f0] p-2 transition-colors">
+                <li key={index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#B9975B] hover:bg-[#F7F4EE] p-2 transition-colors">
                   <div className="flex flex-col gap-1">
                     <span className="font-semibold">{note.title}</span>
                     <span className="text-sm text-gray-500">({note.code})</span>
@@ -446,7 +446,7 @@ export default function Research() {
                         href={note.link} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-[#1a1a1a] hover:text-[#000000] text-sm inline-flex items-center gap-1 mt-1"
+                        className="text-[#B9975B] hover:text-[#1E2A38] text-sm inline-flex items-center gap-1 mt-1"
                       >
                         <FiExternalLink size={12} /> View Note
                       </a>
@@ -471,15 +471,15 @@ export default function Research() {
           >
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+                <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
                   Book Chapters & Conference Proceedings
                 </h2>
-                <div className="w-24 h-1 bg-[#1a1a1a] rounded-full"></div>
+                <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
               </div>
               {isAdmin && (
                 <button
                   onClick={() => setShowAddChapter(true)}
-                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#000000] text-white px-4 py-2 rounded-lg font-semibold transition-all"
+                  className="flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-4 py-2 rounded-lg font-semibold transition-all"
                 >
                   <FiPlus /> Add Chapter
                 </button>
@@ -488,7 +488,7 @@ export default function Research() {
           </motion.div>
 
           {showAddChapter && isAdmin && (
-            <div className="mb-6 p-6 bg-white rounded-xl border-2 border-[#1a1a1a] shadow-lg">
+            <div className="mb-6 p-6 bg-white rounded-xl border-2 border-[#D9D6CF] shadow-lg">
               <BookChapterForm
                 onSave={addBookChapter}
                 onCancel={() => setShowAddChapter(false)}
@@ -504,7 +504,7 @@ export default function Research() {
                 whileInView="visible"
                 viewport={viewportOptions}
                 variants={fadeInUp}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1a1a1a] relative group"
+                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B] border border-[#D9D6CF] relative group"
               >
                 {isAdmin && (
                   <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -517,7 +517,7 @@ export default function Research() {
                   </div>
                 )}
                 <p className="font-['Inter'] text-gray-700 mb-2">
-                  <span className="font-semibold text-[#1a1a1a]">{chapter.authors}</span> ({chapter.year}). {chapter.title}
+                  <span className="font-semibold text-[#1E2A38]">{chapter.authors}</span> ({chapter.year}). {chapter.title}
                 </p>
                 <p className="font-['Inter'] text-gray-600 italic mb-2">{chapter.book}</p>
                 {chapter.doi && (
@@ -525,7 +525,7 @@ export default function Research() {
                     href={chapter.doi} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-[#1a1a1a] hover:text-[#000000] font-['Inter'] text-sm inline-flex items-center gap-1"
+                    className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1"
                   >
                     <FiExternalLink size={14} /> View Chapter
                   </a>
@@ -546,10 +546,10 @@ export default function Research() {
             variants={fadeInUp}
             className="mb-12"
           >
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
               Special Issues Edited
             </h2>
-            <div className="w-24 h-1 bg-[#333333] rounded-full"></div>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
@@ -560,9 +560,9 @@ export default function Research() {
                 whileInView="visible"
                 viewport={viewportOptions}
                 variants={fadeInUp}
-                className="bg-gradient-to-br from-[#ffffff] to-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#333333]"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B] border border-[#D9D6CF]"
               >
-                <h3 className="text-xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-2">
+                <h3 className="text-xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-2">
                   {issue.title}
                 </h3>
                 <p className="font-['Inter'] text-gray-600 mb-3">{issue.description}</p>
@@ -571,7 +571,7 @@ export default function Research() {
                     href={issue.link} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-[#333333] hover:text-[#222222] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
+                    className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
                   >
                     <FiExternalLink size={14} /> View Journal
                   </a>
@@ -583,7 +583,7 @@ export default function Research() {
       </section>
 
       {/* PhD Students */}
-      <section className="py-16 px-6 lg:px-16 bg-[#f0f0f0]">
+      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -593,14 +593,14 @@ export default function Research() {
             className="mb-12 text-center"
           >
             <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-14 h-14 bg-[#1a1a1a] rounded-full flex items-center justify-center">
+              <div className="w-14 h-14 bg-[#1E2A38] rounded-full flex items-center justify-center">
                 <FiUsers className="text-white text-2xl" />
               </div>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
               PhD Students Guided
             </h2>
-            <div className="w-24 h-1 bg-[#1a1a1a] rounded-full mx-auto"></div>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mx-auto"></div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-12">
@@ -612,13 +612,13 @@ export default function Research() {
               variants={fadeInUp}
               className="bg-white p-8 rounded-xl shadow-lg"
             >
-              <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+              <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
                 As TAC Chairperson
               </h3>
               <div className="space-y-4">
                 {phdStudents.chairperson.map((student, index) => (
-                  <div key={index} className="border-l-4 border-[#1a1a1a] pl-4 py-2 hover:bg-[#f0f0f0] transition-colors">
-                    <p className="font-['Inter'] font-semibold text-[#1a1a1a]">{student.name}</p>
+                  <div key={index} className="border-l-4 border-[#B9975B] pl-4 py-2 hover:bg-[#F7F4EE] transition-colors">
+                    <p className="font-['Inter'] font-semibold text-[#1E2A38]">{student.name}</p>
                     <p className="font-['Inter'] text-sm text-gray-600">{student.position}</p>
                   </div>
                 ))}
@@ -633,7 +633,7 @@ export default function Research() {
               variants={fadeInUp}
               className="bg-white p-8 rounded-xl shadow-lg"
             >
-              <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+              <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
                 As TAC Member
               </h3>
               <div className="space-y-3">
@@ -677,7 +677,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
           type="text"
           value={formData.authors}
           onChange={(e) => setFormData({ ...formData, authors: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a]"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38]"
           required
         />
       </div>
@@ -687,7 +687,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
           type="text"
           value={formData.year}
           onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a]"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38]"
           required
         />
       </div>
@@ -696,7 +696,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
         <textarea
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a]"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38]"
           rows={3}
           required
         />
@@ -707,7 +707,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
           type="text"
           value={formData.journal}
           onChange={(e) => setFormData({ ...formData, journal: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a]"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38]"
           required
         />
       </div>
@@ -717,7 +717,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
           type="url"
           value={formData.doi}
           onChange={(e) => setFormData({ ...formData, doi: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a]"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38]"
         />
       </div>
       <div className="flex gap-3 justify-end">
@@ -730,7 +730,7 @@ function PublicationForm({ publication, onSave, onCancel }) {
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-[#1a1a1a] hover:bg-[#000000] text-white rounded-lg font-semibold transition-colors"
+          className="px-6 py-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg font-semibold transition-colors"
         >
           <FiSave className="inline mr-2" /> Save
         </button>
@@ -819,7 +819,7 @@ function BookChapterForm({ onSave, onCancel }) {
         </button>
         <button
           type="submit"
-          className="px-4 py-2 bg-[#1a1a1a] hover:bg-[#000000] text-white rounded-lg text-sm font-semibold"
+          className="px-4 py-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg text-sm font-semibold"
         >
           Save Chapter
         </button>

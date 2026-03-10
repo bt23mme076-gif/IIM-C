@@ -6,7 +6,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1a1a1a] text-white pt-8 pb-6 md:pt-16 md:pb-12 px-6 lg:px-12 border-t border-white/5">
+    <footer className="bg-[#1E2A38] text-white pt-8 pb-6 md:pt-16 md:pb-12 px-6 lg:px-12 border-t border-[#B9975B]/20">
       <div className="max-w-7xl mx-auto">
         {/* Main Grid: Responsive 1 column on mobile, 3 on desktop */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-12">
@@ -39,7 +39,6 @@ export default function Footer() {
               <li><a href="/#home" className="text-base md:text-lg hover:underline opacity-80 hover:opacity-100 transition-all">Home</a></li>
               <li><Link to="/about" className="text-base md:text-lg hover:underline opacity-80 hover:opacity-100 transition-all">About</Link></li>
               <li><Link to="/courses" className="text-base md:text-lg hover:underline opacity-80 hover:opacity-100 transition-all">Courses</Link></li>
-              <li><Link to="/trainings" className="text-base md:text-lg hover:underline opacity-80 hover:opacity-100 transition-all">Trainings</Link></li>
             </ul>
             <ul className="space-y-2 text-center md:text-left">
               <li><Link to="/research" className="text-base md:text-lg hover:underline opacity-80 hover:opacity-100 transition-all">Research</Link></li>

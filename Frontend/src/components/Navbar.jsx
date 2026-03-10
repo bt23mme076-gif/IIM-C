@@ -9,11 +9,11 @@ import { FiLogOut, FiSettings, FiMenu, FiX, FiEdit2, FiCheck, FiMoreVertical } f
 const DEFAULT_NAV_LINKS = [
   { id: 'research', name: 'Research', path: '/research' },
   { id: 'books', name: 'Books', path: '/book' },
-  { id: 'consulting', name: 'Consulting', path: '/about' },
-  { id: 'recognitions', name: 'Recognitions', path: '/about' },
-  { id: 'opinions', name: 'Opinions', hash: '#blog' },
+  { id: 'consulting', name: 'Consulting', path: '/consulting' },
+  { id: 'recognitions', name: 'Recognitions', path: '/recognitions' },
+  { id: 'opinions', name: 'Opinions', path: '/opinions' },
   { id: 'courses', name: 'Courses', path: '/courses' },
-  { id: 'contact', name: 'Contact', hash: '#contact' },
+  { id: 'contact', name: 'Contact', path: '/contact' },
 ];
 
 export default function Navbar() {
@@ -230,11 +230,11 @@ export default function Navbar() {
         left: 0, 
         right: 0, 
         zIndex: 50, 
-        background: showDark ? 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 40%, #000000 100%)' : '#ffffff',
+        background: 'rgba(247, 244, 238, 0.97)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        borderBottom: showDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0, 0, 0, 0.08)',
-        boxShadow: showDark ? '0 2px 20px rgba(0,0,0,0.3)' : '0 2px 12px rgba(0,0,0,0.08)',
+        borderBottom: '1px solid #D9D6CF',
+        boxShadow: '0 2px 12px rgba(30, 42, 56, 0.06)',
         transition: 'background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease'
       }}>
         {/* Admin edit mode banner */}
@@ -277,7 +277,7 @@ export default function Navbar() {
               style={{
                 width: '4px',
                 height: windowWidth < 768 ? '36px' : '46px',
-                background: 'linear-gradient(to bottom, #1a1a1a, #000000)',
+                background: '#B9975B',
                 borderRadius: '2px',
                 flexShrink: 0,
                 cursor: 'pointer'
@@ -324,9 +324,9 @@ export default function Navbar() {
                     }}
                     style={{
                       fontSize: windowWidth < 480 ? '0.95rem' : windowWidth < 768 ? '1.1rem' : '1.65rem',
-                      fontFamily: '"Playfair Display", "Georgia", serif',
+                      fontFamily: '"Cormorant Garamond", "Playfair Display", "Georgia", serif',
                       fontWeight: 700,
-                      color: showDark ? '#ffffff' : '#1a1a1a',
+                      color: '#1E2A38',
                       letterSpacing: windowWidth < 480 ? '0' : '0.02em',
                       margin: 0, lineHeight: 1.2,
                       whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
@@ -335,7 +335,7 @@ export default function Navbar() {
                     }}
                   >
                     {professorName.startsWith('PROF. ')
-                      ? <><span style={{ fontSize: '0.57em', letterSpacing: '0.14em', color: showDark ? 'rgba(255,255,255,0.6)' : '#888888', fontFamily: '"Inter", sans-serif', fontWeight: 600 }}>PROF.</span>{' '}{professorName.slice(6)}</>
+                      ? <><span style={{ fontSize: '0.57em', letterSpacing: '0.14em', color: '#B9975B', fontFamily: '"Inter", sans-serif', fontWeight: 600 }}>PROF.</span>{' '}{professorName.slice(6)}</>
                       : professorName}
                   </h1>
                   {isAdmin && (
@@ -382,7 +382,7 @@ export default function Navbar() {
                     <p style={{
                       fontSize: windowWidth < 768 ? '0.65rem' : '0.7rem',
                       fontFamily: '"Inter", -apple-system, sans-serif',
-                      color: showDark ? 'rgba(255,255,255,0.45)' : '#888888',
+                      color: '#5B6472',
                       margin: 0,
                       letterSpacing: '0.12em',
                       textTransform: 'uppercase',
@@ -416,7 +416,7 @@ export default function Navbar() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: showDark ? '#ffffff' : '#1a1a1a',
+                color: '#1E2A38',
                 zIndex: 60,
                 marginLeft: '0.5rem',
                 transition: 'transform 0.2s ease, color 0.3s ease'
@@ -482,9 +482,7 @@ export default function Navbar() {
                           fontSize: '0.875rem', 
                           fontFamily: '"Inter", -apple-system, sans-serif', 
                           fontWeight: 500, 
-                          color: showDark
-                            ? (hoveredLink === link.name ? '#ffffff' : 'rgba(255,255,255,0.75)')
-                            : (hoveredLink === link.name ? '#1a1a1a' : '#555555'),
+                          color: hoveredLink === link.name ? '#B9975B' : '#4B5563',
                           background: 'none', 
                           border: 'none', 
                           cursor: 'pointer',
@@ -503,7 +501,7 @@ export default function Navbar() {
                             left: 0,
                             right: 0,
                             height: '2px',
-                            backgroundColor: showDark ? '#ffffff' : '#1a1a1a',
+                            backgroundColor: '#B9975B',
                             transition: 'all 0.2s ease'
                           }} />
                         )}
@@ -566,7 +564,7 @@ export default function Navbar() {
                     onClick={handleLogout}
                     style={{ 
                       padding: '0.7rem 1.6rem', 
-                      backgroundColor: '#1a1a1a', 
+                      backgroundColor: '#1E2A38', 
                       color: '#ffffff', 
                       fontWeight: 600,
                       fontSize: '0.8rem',
@@ -587,7 +585,7 @@ export default function Navbar() {
                       e.target.style.boxShadow = '0 4px 12px rgba(0,0,0,0.25)';
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#1a1a1a';
+                      e.target.style.backgroundColor = '#1E2A38';
                       e.target.style.transform = 'translateY(0)';
                       e.target.style.boxShadow = '0 2px 8px rgba(0,0,0,0.15)';
                     }}
@@ -604,24 +602,24 @@ export default function Navbar() {
                     onClick={(e) => { e.preventDefault(); scrollToSection('#newsletter'); }}
                     style={{ 
                       padding: '0.7rem 1.6rem', 
-                      backgroundColor: '#1a1a1a', 
+                      backgroundColor: '#1E2A38', 
                       color: '#ffffff', 
                       fontWeight: 700,
                       fontSize: '0.8rem',
                       borderRadius: '4px',
-                      border: '2px solid #1a1a1a',
+                      border: '2px solid #1E2A38',
                       cursor: 'pointer',
                       letterSpacing: '0.04em',
                       fontFamily: '"Inter", -apple-system, sans-serif',
                       transition: 'all 0.25s ease',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
+                      boxShadow: '0 2px 8px rgba(30,42,56,0.15)',
                       textDecoration: 'none',
                       display: 'inline-block'
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.backgroundColor = 'transparent';
-                      e.currentTarget.style.color = showDark ? '#ffffff' : '#1a1a1a';
-                      e.currentTarget.style.borderColor = showDark ? '#ffffff' : '#1a1a1a';
+                      e.currentTarget.style.color = '#1E2A38';
+                      e.currentTarget.style.borderColor = '#1E2A38';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.backgroundColor = '#1a1a1a';
@@ -810,7 +808,7 @@ export default function Navbar() {
                     onClick={() => { handleLogout(); setMobileMenuOpen(false); }}
                     style={{
                       padding: windowWidth < 480 ? '1rem' : '1.1rem',
-                      backgroundColor: '#1a1a1a',
+                      backgroundColor: '#1E2A38',
                       color: '#ffffff',
                       fontWeight: 600,
                       fontSize: windowWidth < 480 ? '0.9rem' : '0.95rem',
@@ -834,11 +832,11 @@ export default function Navbar() {
                     }}
                     onMouseUp={(e) => {
                       e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.backgroundColor = '#1a1a1a';
+                      e.currentTarget.style.backgroundColor = '#1E2A38';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'scale(1)';
-                      e.currentTarget.style.backgroundColor = '#1a1a1a';
+                      e.currentTarget.style.backgroundColor = '#1E2A38';
                     }}
                   >
                     <FiLogOut size={16} />
@@ -857,7 +855,7 @@ export default function Navbar() {
                   }}
                   style={{
                     padding: windowWidth < 480 ? '1rem' : '1.1rem',
-                    backgroundColor: '#1a1a1a',
+                    backgroundColor: '#1E2A38',
                     color: '#ffffff',
                     fontWeight: 600,
                     fontSize: windowWidth < 480 ? '0.9rem' : '0.95rem',
@@ -866,7 +864,7 @@ export default function Navbar() {
                     cursor: 'pointer',
                     letterSpacing: '0.04em',
                     fontFamily: '"Inter", -apple-system, sans-serif',
-                    boxShadow: '0 3px 12px rgba(0,0,0,0.12)',
+                    boxShadow: '0 3px 12px rgba(30,42,56,0.15)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -881,11 +879,11 @@ export default function Navbar() {
                   }}
                   onMouseUp={(e) => {
                     e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 3px 12px rgba(0,0,0,0.12)';
+                    e.currentTarget.style.boxShadow = '0 3px 12px rgba(30,42,56,0.15)';
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'scale(1)';
-                    e.currentTarget.style.boxShadow = '0 3px 12px rgba(0,0,0,0.12)';
+                    e.currentTarget.style.boxShadow = '0 3px 12px rgba(30,42,56,0.15)';
                   }}
                 >
                   JOIN NEWSLETTER
