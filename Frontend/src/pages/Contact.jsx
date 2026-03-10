@@ -33,7 +33,7 @@ export default function Contact() {
             <p className="text-xs font-['Inter'] font-semibold tracking-[0.25em] uppercase text-[#B9975B] mb-4">
               Prof. Bodhibrata Nag
             </p>
-            <h1 className="text-4xl sm:text-6xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-white mb-6">
+            <h1 className="text-4xl sm:text-6xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-6" style={{ color: 'white' }}>
               {data.pageTitle}
             </h1>
             <div className="w-20 h-1 bg-[#B9975B] rounded-full mb-6" />

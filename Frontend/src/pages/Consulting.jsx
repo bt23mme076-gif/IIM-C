@@ -34,7 +34,7 @@ export default function Consulting() {
             <p className="text-xs font-['Inter'] font-semibold tracking-[0.25em] uppercase text-gray-400 mb-4">
               Prof. Bodhibrata Nag
             </p>
-            <h1 className="text-4xl sm:text-6xl font-['Playfair_Display'] font-bold text-white mb-6">
+            <h1 className="text-4xl sm:text-6xl font-['Playfair_Display'] font-bold mb-6" style={{ color: 'white' }}>
               {data.pageTitle}
             </h1>
             <div className="w-20 h-1 bg-white rounded-full mb-6" />
