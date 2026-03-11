@@ -285,7 +285,7 @@ export default function Navbar() {
             />
 
             {/* Text section - plain div, no Link, so edit inputs work perfectly */}
-            <div style={{ overflow: 'hidden', minWidth: 0 }}>
+            <div style={{ minWidth: 0 }}>
               {/* Professor Name */}
               {isAdmin && editingField === 'name' ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -323,13 +323,13 @@ export default function Navbar() {
                       setMobileMenuOpen(false);
                     }}
                     style={{
-                      fontSize: windowWidth < 480 ? '0.95rem' : windowWidth < 768 ? '1.1rem' : '1.65rem',
+                      fontSize: windowWidth < 380 ? '0.68rem' : windowWidth < 480 ? '0.78rem' : windowWidth < 768 ? '1.1rem' : '1.65rem',
                       fontFamily: '"Cormorant Garamond", "Playfair Display", "Georgia", serif',
                       fontWeight: 700,
                       color: '#1E2A38',
                       letterSpacing: windowWidth < 480 ? '0' : '0.02em',
                       margin: 0, lineHeight: 1.2,
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
                       cursor: 'pointer',
                       transition: 'color 0.3s ease'
                     }}
