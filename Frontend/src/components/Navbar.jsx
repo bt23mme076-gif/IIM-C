@@ -269,7 +269,7 @@ export default function Navbar() {
           boxSizing: 'border-box'
         }}>
           {/* Brand Name */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flex: 1, minWidth: 0, overflow: 'hidden' }}>
 
             {/* Gold accent bar */}
             <div
@@ -285,7 +285,7 @@ export default function Navbar() {
             />
 
             {/* Text section - plain div, no Link, so edit inputs work perfectly */}
-            <div style={{ minWidth: 0 }}>
+            <div style={{ minWidth: 0, flex: '1 1 auto', overflow: 'hidden' }}>
               {/* Professor Name */}
               {isAdmin && editingField === 'name' ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -315,7 +315,29 @@ export default function Navbar() {
                   ><FiX size={12} /></button>
                 </div>
               ) : (
-                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: windowWidth < 768 ? '6px' : '10px',
+                    minWidth: 0,
+                    flex: '1 1 auto',
+                    maxWidth: windowWidth < 768 ? 'calc(100vw - 110px)' : '400px'
+                  }}
+                >
+                  <span
+                    style={{
+                      color: '#B9975B',
+                      fontWeight: 700,
+                      fontSize: windowWidth < 768 ? '0.72rem' : '0.95rem',
+                      letterSpacing: '0.12em',
+                      fontFamily: '"Inter", sans-serif',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0
+                    }}
+                  >
+                    PROF.
+                  </span>
                   <h1
                     onClick={() => {
                       navigate('/');
@@ -323,20 +345,36 @@ export default function Navbar() {
                       setMobileMenuOpen(false);
                     }}
                     style={{
-                      fontSize: windowWidth < 380 ? '0.68rem' : windowWidth < 480 ? '0.78rem' : windowWidth < 768 ? '1.1rem' : '1.65rem',
+                      margin: 0,
+                      minWidth: 0,
+                      flex: 1,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      fontSize: windowWidth < 480
+                        ? '0.9rem'
+                        : windowWidth < 768
+                        ? '1rem'
+                        : windowWidth < 1200
+                        ? '1.3rem'
+                        : '1.55rem',
                       fontFamily: '"Cormorant Garamond", "Playfair Display", "Georgia", serif',
                       fontWeight: 700,
                       color: '#1E2A38',
-                      letterSpacing: windowWidth < 480 ? '0' : '0.02em',
-                      margin: 0, lineHeight: 1.2,
-                      whiteSpace: 'nowrap',
+                      lineHeight: 1.05,
                       cursor: 'pointer',
                       transition: 'color 0.3s ease'
                     }}
+                    title={professorName}
                   >
-                    {professorName.startsWith('PROF. ')
-                      ? <><span style={{ fontSize: '0.57em', letterSpacing: '0.14em', color: '#B9975B', fontFamily: '"Inter", sans-serif', fontWeight: 600 }}>PROF.</span>{' '}{professorName.slice(6)}</>
-                      : professorName}
+                    {(() => {
+                      const lastName = professorName.startsWith('PROF. ') ? professorName.slice(6) : professorName;
+                      const parts = lastName.trim().split(' ');
+                      if (windowWidth < 420 && parts.length >= 2) {
+                        return parts[0][0] + '. ' + parts[parts.length - 1];
+                      }
+                      return lastName;
+                    })()}
                   </h1>
                   {isAdmin && (
                     <button
@@ -418,6 +456,7 @@ export default function Navbar() {
                 justifyContent: 'center',
                 color: '#1E2A38',
                 zIndex: 60,
+                flexShrink: 0,
                 marginLeft: '0.5rem',
                 transition: 'transform 0.2s ease, color 0.3s ease'
               }}

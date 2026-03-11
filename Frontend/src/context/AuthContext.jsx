@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Admin email - Professor's email for admin access
-  const ADMIN_EMAIL = 'admin@gmail.com';
+  const ADMIN_EMAIL = 'omiimc@gmail.com';
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {

@@ -176,33 +176,31 @@ export default function Research() {
   const displayCases = researchData?.cases || cases;
 
   return (
-    <div className="bg-white">
+    <div className="bg-[#F7F4EE]">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#f0f0f0] to-[#ffffff] py-20 px-6 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="text-center"
-          >
-            <div className="w-20 h-1 bg-[#B9975B] mb-8 rounded-full mx-auto"></div>
-            <h1 className="text-5xl lg:text-7xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
+      <section className="bg-[#1E2A38] py-20 px-4 sm:px-6 lg:px-16">
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+            <p className="text-xs font-['Inter'] font-semibold tracking-[0.25em] uppercase text-gray-400 mb-4">
+              Prof. Bodhibrata Nag
+            </p>
+            <h1 className="text-4xl sm:text-6xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-white mb-6">
               <EditableText
                 collection="content"
                 docId="research"
                 field="page_heading"
                 defaultValue={researchData?.page_heading || "Research"}
-                className="text-5xl lg:text-7xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]"
+                className="text-4xl sm:text-6xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-white"
               />
             </h1>
-            <p className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
+            <div className="w-20 h-1 bg-white rounded-full mb-6" />
+            <p className="text-base sm:text-lg font-['Inter'] text-gray-300 max-w-3xl leading-relaxed">
               <EditableText
                 collection="content"
                 docId="research"
                 field="page_description"
                 defaultValue={researchData?.page_description || "Advancing knowledge in leadership, organizational behavior, and human resource management"}
-                className="text-xl lg:text-2xl font-['Inter'] text-gray-600"
+                className="text-base sm:text-lg font-['Inter'] text-gray-300"
                 multiline
               />
             </p>
@@ -235,7 +233,7 @@ export default function Research() {
       </section>
 
       {/* Featured Publications */}
-      <section className="py-16 px-6 lg:px-16 bg-[#f8f8f8]">
+      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -364,7 +362,7 @@ export default function Research() {
           >
             <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#555555] rounded-lg flex items-center justify-center">
+                <div className="w-12 h-12 bg-[#B9975B] rounded-lg flex items-center justify-center">
                   <FiFileText className="text-white text-xl" />
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">
@@ -374,7 +372,7 @@ export default function Research() {
               {isAdmin && (
                 <button
                   onClick={() => setShowAddCase(true)}
-                  className="flex items-center gap-2 bg-[#555555] hover:bg-[#222222] text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all"
+                  className="flex items-center gap-2 bg-[#B9975B] hover:bg-[#1E2A38] text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all"
                 >
                   <FiPlus size={16} /> Add Case
                 </button>
@@ -392,7 +390,7 @@ export default function Research() {
 
             <ul className="space-y-3">
               {displayCases.map((caseItem, index) => (
-                <li key={caseItem.id || index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#555555] hover:bg-[#ffffff] p-2 transition-colors relative group">
+                  <li key={caseItem.id || index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#B9975B] hover:bg-[#F7F4EE] p-2 transition-colors relative group">
                   {isAdmin && (
                     <button
                       onClick={() => deleteCase(caseItem)}
@@ -409,7 +407,7 @@ export default function Research() {
                         href={caseItem.link} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="text-[#555555] hover:text-[#222222] text-sm inline-flex items-center gap-1 mt-1"
+                        className="text-[#B9975B] hover:text-[#1E2A38] text-sm inline-flex items-center gap-1 mt-1"
                       >
                         <FiExternalLink size={12} /> View Case
                       </a>
@@ -460,7 +458,7 @@ export default function Research() {
       </section>
 
       {/* Book Chapters */}
-      <section className="py-16 px-6 lg:px-16 bg-[#f8f8f8]">
+      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -638,7 +636,7 @@ export default function Research() {
               </h3>
               <div className="space-y-3">
                 {phdStudents.member.map((student, index) => (
-                  <div key={index} className="border-l-4 border-[#555555] pl-4 py-2 hover:bg-[#ffffff] transition-colors">
+                    <div key={index} className="border-l-4 border-[#B9975B] pl-4 py-2 hover:bg-[#F7F4EE] transition-colors">
                     <p className="font-['Inter'] text-gray-700">{student}</p>
                   </div>
                 ))}

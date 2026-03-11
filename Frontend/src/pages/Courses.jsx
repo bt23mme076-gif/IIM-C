@@ -125,7 +125,7 @@ export default function Courses() {
   };
 
   // Shared Course card mimicking the Research.jsx card styling
-  const CourseCard = ({ icon: Icon, title, description, link, linkText = "Access Course", badge, borderColor = "border-[#1a1a1a]", children }) => (
+  const CourseCard = ({ icon: Icon, title, description, link, linkText = "Access Course", badge, borderColor = "border-[#1E2A38]", children }) => (
     <motion.div
       initial="hidden"
       whileInView="visible"
@@ -134,16 +134,16 @@ export default function Courses() {
       className={`bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 ${borderColor} relative group`}
     >
       <div className="flex items-start gap-4 mb-4">
-        <div className={`p-3 rounded-xl ${borderColor === 'border-[#333333]' ? 'bg-[#ffffff]' : 'bg-[#f0f0f0]'}`}>
-          <Icon className={`w-6 h-6 ${borderColor === 'border-[#333333]' ? 'text-[#333333]' : 'text-[#1a1a1a]'}`} />
+        <div className={`p-3 rounded-xl ${borderColor === 'border-[#B9975B]' ? 'bg-[#F7F4EE]' : 'bg-[#eef1f5]'}`}>
+          <Icon className={`w-6 h-6 ${borderColor === 'border-[#B9975B]' ? 'text-[#B9975B]' : 'text-[#1E2A38]'}`} />
         </div>
         <div className="flex-1">
           {badge && (
-            <span className="inline-block px-3 py-1 bg-gray-100 text-xs font-['Inter'] font-semibold text-[#1a1a1a] rounded-full mb-2">
+            <span className="inline-block px-3 py-1 bg-gray-100 text-xs font-['Inter'] font-semibold text-[#1E2A38] rounded-full mb-2">
               {badge}
             </span>
           )}
-          <div className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-2">
+          <div className="text-2xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-2">
             {title}
           </div>
         </div>
@@ -157,7 +157,7 @@ export default function Courses() {
           href={link}
           target="_blank"
           rel="noopener noreferrer"
-          className={`inline-flex items-center gap-2 px-6 py-3 text-white font-['Inter'] font-semibold rounded-lg transition-all shadow-md hover:shadow-lg group ${borderColor === 'border-[#333333]' ? 'bg-[#555555] hover:bg-[#333333]' : 'bg-[#1a1a1a] hover:bg-[#000000]'}`}
+          className={`inline-flex items-center gap-2 px-6 py-3 text-white font-['Inter'] font-semibold rounded-lg transition-all shadow-md hover:shadow-lg group ${borderColor === 'border-[#B9975B]' ? 'bg-[#B9975B] hover:bg-[#1E2A38]' : 'bg-[#1E2A38] hover:bg-[#2d3f54]'}`}
         >
           {linkText}
           <FiExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -172,9 +172,9 @@ export default function Courses() {
       whileInView="visible"
       viewport={viewportOptions}
       variants={fadeInUp}
-      className="bg-gradient-to-br from-[#ffffff] to-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#333333]"
+      className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B]"
     >
-      <div className="text-xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-3">
+      <div className="text-xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-3">
         {title}
       </div>
       <div className="font-['Inter'] text-gray-600 mb-4">
@@ -185,7 +185,7 @@ export default function Courses() {
           href={driveLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#333333] hover:text-[#222222] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
+          className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
         >
           <FiExternalLink size={14} /> Download Materials
         </a>
@@ -194,33 +194,31 @@ export default function Courses() {
   );
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-[#F7F4EE] min-h-screen">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#f0f0f0] to-[#ffffff] py-20 px-6 lg:px-16">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={fadeInUp}
-            className="text-center"
-          >
-            <div className="w-20 h-1 bg-[#333333] mb-8 rounded-full mx-auto"></div>
-            <h1 className="text-5xl lg:text-7xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+      <section className="bg-[#1E2A38] py-20 px-4 sm:px-6 lg:px-16">
+        <div className="max-w-5xl mx-auto">
+          <motion.div initial="hidden" animate="visible" variants={fadeInUp}>
+            <p className="text-xs font-['Inter'] font-semibold tracking-[0.25em] uppercase text-gray-400 mb-4">
+              Prof. Bodhibrata Nag
+            </p>
+            <h1 className="text-4xl sm:text-6xl font-['Playfair_Display'] font-bold text-white mb-6">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="page_heading"
                 defaultValue={pageData?.page_heading || 'Courses'}
-                className="text-5xl lg:text-7xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                className="text-4xl sm:text-6xl font-['Playfair_Display'] font-bold text-white"
               />
             </h1>
-            <p className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
+            <div className="w-20 h-1 bg-white rounded-full mb-6" />
+            <p className="text-base sm:text-lg font-['Inter'] text-gray-300 max-w-3xl leading-relaxed">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="page_subtitle"
                 defaultValue={pageData?.page_subtitle || 'Welcome to my learning hub for students, researchers, and practitioners. Explore courses on life skills, leadership, and research methods.'}
-                className="text-xl lg:text-2xl font-['Inter'] text-gray-600"
+                className="text-base sm:text-lg font-['Inter'] text-gray-300"
                 multiline
               />
             </p>
@@ -229,7 +227,7 @@ export default function Courses() {
       </section>
 
       {/* Dynamic Courses Section with Admin Functionality */}
-      <section className="py-16 px-6 lg:px-16 bg-white">
+      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -240,21 +238,21 @@ export default function Courses() {
           >
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
                   <EditableText
                     collection="content"
                     docId="courses"
                     field="mgmt_heading"
                     defaultValue={pageData?.mgmt_heading || 'Management Courses'}
-                    className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                    className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
                   />
                 </h2>
-                <div className="w-24 h-1 bg-[#1a1a1a] rounded-full"></div>
+                <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
               </div>
               {isAdmin && (
                 <button
                   onClick={() => setShowAddCourse(true)}
-                  className="flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#000000] text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md"
+                  className="flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md"
                 >
                   <FiPlus /> Add Course
                 </button>
@@ -263,7 +261,7 @@ export default function Courses() {
           </motion.div>
 
           {showAddCourse && isAdmin && (
-            <div className="mb-8 p-6 bg-white rounded-xl border-2 border-[#1a1a1a] shadow-lg">
+            <div className="mb-8 p-6 bg-white rounded-xl border-2 border-[#1E2A38] shadow-lg">
               <CourseForm
                 onSave={addCourse}
                 onCancel={() => setShowAddCourse(false)}
@@ -290,7 +288,7 @@ export default function Courses() {
                     whileInView="visible"
                     viewport={viewportOptions}
                     variants={fadeInUp}
-                    className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1a1a1a] relative group flex flex-col"
+                    className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1E2A38] relative group flex flex-col"
                   >
                     {isAdmin && (
                       <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
@@ -299,15 +297,15 @@ export default function Courses() {
                           onClick={() => toggleShowOnHome(course)}
                           className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
                             (homeOverrides[course.id] ?? course.showOnHome)
-                              ? 'bg-[#1a1a1a] text-white shadow'
-                              : 'bg-gray-100 text-gray-600 hover:bg-[#f0f0f0] hover:text-[#1a1a1a]'
+                              ? 'bg-[#1E2A38] text-white shadow'
+                              : 'bg-gray-100 text-gray-600 hover:bg-[#F7F4EE] hover:text-[#1E2A38]'
                           }`}
                         >
                           🏠 {(homeOverrides[course.id] ?? course.showOnHome) ? 'On Home' : '+ Home'}
                         </button>
                         <button
                           onClick={() => setEditingCourse(course)}
-                          className="p-2 bg-[#1a1a1a] hover:bg-[#000000] text-white rounded-lg shadow"
+                          className="p-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg shadow"
                         >
                           <FiEdit2 size={16} />
                         </button>
@@ -320,7 +318,7 @@ export default function Courses() {
                       </div>
                     )}
                     
-                    <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-3 pr-16">
+                    <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-3 pr-16">
                       {course.title}
                     </h3>
                     <p className="text-gray-600 font-['Inter'] mb-6 flex-grow">
@@ -349,7 +347,7 @@ export default function Courses() {
                               }}
                             />
                             <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-12 h-12 bg-[#1a1a1a] bg-opacity-90 rounded-full flex items-center justify-center group-hover/video:scale-110 transition-transform shadow-lg">
+                              <div className="w-12 h-12 bg-[#1E2A38] bg-opacity-90 rounded-full flex items-center justify-center group-hover/video:scale-110 transition-transform shadow-lg">
                                 <FiPlay className="w-6 h-6 text-white ml-1" />
                               </div>
                             </div>
@@ -363,7 +361,7 @@ export default function Courses() {
                         href={course.courseLink || course.youtubeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#1a1a1a] hover:bg-[#000000] text-white font-['Inter'] font-semibold rounded-lg transition-all shadow-md mt-auto"
+                        className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#1E2A38] hover:bg-[#2d3f54] text-white font-['Inter'] font-semibold rounded-lg transition-all shadow-md mt-auto"
                       >
                         Explore Course
                         <FiExternalLink className="w-4 h-4" />
@@ -378,7 +376,7 @@ export default function Courses() {
           )}
 
           {editingCourse && isAdmin && (
-            <div className="mt-8 p-6 bg-white rounded-xl border-2 border-[#1a1a1a] shadow-lg relative z-20">
+            <div className="mt-8 p-6 bg-white rounded-xl border-2 border-[#1E2A38] shadow-lg relative z-20">
               <CourseForm
                 course={editingCourse}
                 onSave={updateCourse}
@@ -390,7 +388,7 @@ export default function Courses() {
       </section>
 
       {/* Featured Courses Section */}
-      <section className="py-16 px-6 lg:px-16 bg-[#f8f8f8]">
+      <section className="py-16 px-6 lg:px-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -399,16 +397,16 @@ export default function Courses() {
             variants={fadeInUp}
             className="mb-12"
           >
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="featured_heading"
                 defaultValue={pageData?.featured_heading || 'Featured Courses'}
-                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
               />
             </h2>
-            <div className="w-24 h-1 bg-[#333333] rounded-full mb-4"></div>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-4"></div>
             <p className="text-lg font-['Inter'] text-gray-600 max-w-2xl">
               <EditableText
                 collection="content"
@@ -429,19 +427,19 @@ export default function Courses() {
               link="#"
               linkText="Enroll on Coursera"
               badge="COURSERA"
-              borderColor="border-[#333333]"
+              borderColor="border-[#B9975B]"
             >
               <div className="mb-6 space-y-3">
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#333333]" />
+                  <FiBook className="w-4 h-4 text-[#B9975B]" />
                   <EditableText collection="content" docId="courses" field="happiness_b1" defaultValue={pageData?.happiness_b1 || 'Evidence from science'} />
                 </div>
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#333333]" />
+                  <FiBook className="w-4 h-4 text-[#B9975B]" />
                   <EditableText collection="content" docId="courses" field="happiness_b2" defaultValue={pageData?.happiness_b2 || 'Simple well-being techniques'} />
                 </div>
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#333333]" />
+                  <FiBook className="w-4 h-4 text-[#B9975B]" />
                   <EditableText collection="content" docId="courses" field="happiness_b3" defaultValue={pageData?.happiness_b3 || 'Ancient Indian wisdom'} />
                 </div>
               </div>
@@ -454,19 +452,19 @@ export default function Courses() {
               link="#"
               linkText="Enroll on Coursera"
               badge="COURSERA"
-              borderColor="border-[#1a1a1a]"
+              borderColor="border-[#1E2A38]"
             >
               <div className="mb-6 space-y-3">
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1a1a1a]" />
+                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
                   <EditableText collection="content" docId="courses" field="leadership_b1" defaultValue={pageData?.leadership_b1 || 'Lead across boundaries'} />
                 </div>
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1a1a1a]" />
+                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
                   <EditableText collection="content" docId="courses" field="leadership_b2" defaultValue={pageData?.leadership_b2 || 'Lead with or without authority'} />
                 </div>
                 <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1a1a1a]" />
+                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
                   <EditableText collection="content" docId="courses" field="leadership_b3" defaultValue={pageData?.leadership_b3 || 'Manage leadership stresses'} />
                 </div>
               </div>
@@ -476,7 +474,7 @@ export default function Courses() {
       </section>
 
       {/* Research Methods Section */}
-      <section className="py-16 px-6 lg:px-16 bg-white">
+      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div 
             initial="hidden"
@@ -485,16 +483,16 @@ export default function Courses() {
             variants={fadeInUp}
             className="mb-12"
           >
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-4">
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="research_heading"
                 defaultValue={pageData?.research_heading || 'Research Methods'}
-                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
               />
             </h2>
-            <div className="w-24 h-1 bg-[#1a1a1a] rounded-full mb-4"></div>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-4"></div>
             <p className="text-lg font-['Inter'] text-gray-600 max-w-2xl">
               <EditableText
                 collection="content"
@@ -514,13 +512,13 @@ export default function Courses() {
               whileInView="visible"
               viewport={viewportOptions}
               variants={fadeInUp}
-              className="bg-[#f8f8f8] p-8 rounded-xl shadow-md border-l-4 border-[#1a1a1a]"
+              className="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#1E2A38]"
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[#f0f0f0] rounded-xl">
-                  <FiTrendingUp className="w-6 h-6 text-[#1a1a1a]" />
+                <div className="p-3 bg-[#eef1f5] rounded-xl">
+                  <FiTrendingUp className="w-6 h-6 text-[#1E2A38]" />
                 </div>
-                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1E2A38]">
                   <EditableText
                     collection="content"
                     docId="courses"
@@ -542,7 +540,7 @@ export default function Courses() {
                 href="https://drive.google.com/drive/folders/1GTHqiJX1sEjSuVlhBmR_Z5DETrUwIHGd"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#1a1a1a] hover:bg-[#000000] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-md"
+                className="inline-flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-md"
               >
                 Access Course Materials
                 <FiExternalLink className="w-4 h-4" />
@@ -555,13 +553,13 @@ export default function Courses() {
               whileInView="visible"
               viewport={viewportOptions}
               variants={fadeInUp}
-              className="bg-[#f8f8f8] p-8 rounded-xl shadow-md border-l-4 border-[#333333]"
+              className="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#B9975B]"
             >
               <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[#ffffff] rounded-xl">
-                  <FiBarChart2 className="w-6 h-6 text-[#333333]" />
+                <div className="p-3 bg-[#F7F4EE] rounded-xl">
+                  <FiBarChart2 className="w-6 h-6 text-[#B9975B]" />
                 </div>
-                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1a1a1a]">
+                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1E2A38]">
                   <EditableText
                     collection="content"
                     docId="courses"
@@ -607,7 +605,7 @@ export default function Courses() {
       </section>
 
       {/* Call to Action */}
-      <section className="py-20 px-6 lg:px-16 bg-[#f0f0f0]">
+      <section className="py-20 px-6 lg:px-16 bg-[#1E2A38]">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div 
             initial="hidden"
@@ -615,22 +613,22 @@ export default function Courses() {
             viewport={viewportOptions}
             variants={fadeInUp}
           >
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a] mb-6">
+            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-white mb-6">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="cta_heading"
                 defaultValue={pageData?.cta_heading || 'Ready to Start Learning?'}
-                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1a1a1a]"
+                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-white"
               />
             </h2>
-            <p className="text-xl font-['Inter'] text-gray-700 mb-8">
+            <p className="text-xl font-['Inter'] text-gray-300 mb-8">
               <EditableText
                 collection="content"
                 docId="courses"
                 field="cta_subtitle"
                 defaultValue={pageData?.cta_subtitle || 'Explore our courses and begin your journey toward personal and professional excellence.'}
-                className="text-xl font-['Inter'] text-gray-700"
+                className="text-xl font-['Inter'] text-gray-300"
                 multiline
               />
             </p>
@@ -638,7 +636,7 @@ export default function Courses() {
               href="#"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-[#1a1a1a] hover:bg-[#000000] text-white font-['Inter'] font-bold rounded-lg transition-all shadow-xl hover:shadow-2xl text-lg"
+              className="inline-flex items-center gap-2 px-8 py-4 bg-[#B9975B] hover:bg-white hover:text-[#1E2A38] text-white font-['Inter'] font-bold rounded-lg transition-all shadow-xl hover:shadow-2xl text-lg"
             >
               <FiYoutube className="w-6 h-6" />
               Subscribe to YouTube Channel
@@ -676,7 +674,7 @@ function CourseForm({ course, onSave, onCancel }) {
           type="text"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a] outline-none transition-shadow"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38] outline-none transition-shadow"
           required
         />
       </div>
@@ -685,7 +683,7 @@ function CourseForm({ course, onSave, onCancel }) {
         <textarea
           value={formData.description}
           onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1a1a1a] outline-none transition-shadow"
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#1E2A38] outline-none transition-shadow"
           rows={4}
           required
         />
@@ -742,7 +740,7 @@ function CourseForm({ course, onSave, onCancel }) {
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-[#1a1a1a] hover:bg-[#000000] text-white rounded-lg font-semibold transition-colors shadow-md"
+          className="px-6 py-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg font-semibold transition-colors shadow-md"
         >
           <FiSave className="inline mr-2" /> Save Course
         </button>
