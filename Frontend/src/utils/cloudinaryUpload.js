@@ -1,64 +1,44 @@
-import axios from 'axios';
-
-// Cloudinary configuration
-const CLOUD_NAME = 'dsivwxtmp';
-const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-const UPLOAD_PRESET = 'iima_courses'; // Unsigned upload preset - create in Cloudinary dashboard
-
 /**
- * Upload image to Cloudinary
+ * Upload image to GitHub (via backend) and serve via jsDelivr
  * @param {File} file - Image file to upload
- * @param {string} type - Type of content (e.g., 'courses', 'blogs', 'testimonials', 'logos', 'home')
- * @returns {Promise<string>} - URL of uploaded image
+ * @param {string} type - Type of content (e.g., 'courses', 'blogs') -> maps to backend 'section'
+ * @returns {Promise<string>} - CDN URL of uploaded image
  */
-export const uploadToCloudinary = async (file, type = 'general') => {
+export const uploadToCloudinary = async (file, type = 'misc') => {
   // Validate file type
   if (!file.type.startsWith('image/')) {
     throw new Error('Only image files are allowed');
   }
 
-  // Validate file size (5MB limit)
-  const maxSize = 5 * 1024 * 1024; // 5MB
-  if (file.size > maxSize) {
-    throw new Error('Image size should be less than 5MB');
-  }
-
-  // Map type to subfolder
-  const folderMap = {
-    courses: 'iima-courses/courses',
-    blogs: 'iima-courses/blogs',
-    testimonials: 'iima-courses/testimonials',
-    logos: 'iima-courses/logos',
-    home: 'iima-courses/home',
-    books: 'iima-courses/books',
-    about: 'iima-courses/about',
-    general: 'iima-courses'
-  };
-
-  const folder = folderMap[type] || 'iima-courses';
-
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', UPLOAD_PRESET);
-  formData.append('folder', folder);
+  formData.append('image', file);
+  formData.append('section', type);
+
+  // Use relative path for proxy, or full URL for dev
+  // In production, backend and frontend might be on same domain or need configured URL
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
   try {
-    const response = await axios.post(CLOUDINARY_URL, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+    const response = await fetch(`${API_URL}/api/upload-image`, {
+      method: 'POST',
+      body: formData,
     });
 
-    // Return the secure URL of uploaded image
-    return response.data.secure_url;
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Upload failed');
+    }
+
+    return data.cdnUrl;
   } catch (error) {
-    console.error('Cloudinary upload error:', error.response?.data || error.message);
-    throw new Error('Failed to upload image. Please try again.');
+    console.error('Upload error:', error);
+    throw error;
   }
 };
 
 /**
- * Upload multiple images to Cloudinary
+ * Upload multiple images
  * @param {FileList} files - Multiple image files
  * @returns {Promise<string[]>} - Array of uploaded image URLs
  */

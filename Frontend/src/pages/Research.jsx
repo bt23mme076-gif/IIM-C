@@ -35,7 +35,219 @@ export default function Research() {
   const { data: researchData, loading } = useFirestoreDoc('content', 'research', {});
 
   // Publications will be added by admin
-  const featuredPublications = [];
+  const featuredPublications = [
+    {
+      id: 1,
+      title: 'Navigating the Ethereal: Ethical Frameworks in AI for Healthcare',
+      authors: 'Nag B.;Devnani M.;Pal R.',
+      type: 'Book Chapter',
+      journal: 'Advances in Artificial Intelligence for Healthcare Applications',
+      year: 2025,
+      pages: '72-85',
+      doi: '#'
+    },
+    {
+      id: 2,
+      title: 'The Evolution of Ethical Standards and Guidelines in AI',
+      authors: 'Nag B.',
+      type: 'Book Chapter',
+      journal: 'Responsible Implementations of Generative AI for Multidisciplinary Use',
+      year: 2024,
+      pages: '45-83',
+      doi: '#',
+      citations: 11
+    },
+    {
+      id: 3,
+      title: 'Navigating Ethical Dilemmas in Generative AI: Case Studies and Insights',
+      authors: 'Nag B.',
+      type: 'Book Chapter',
+      journal: 'Responsible Implementations of Generative AI for Multidisciplinary Use',
+      year: 2024,
+      pages: '189-221',
+      doi: '#',
+      citations: 33
+    },
+    {
+      id: 4,
+      title: 'Applications of Emerging Technologies and AI/ML Algorithms',
+      authors: 'Samir Maity, Bodhibrata Nag, and Sushovan Khatua',
+      type: 'book chapter',
+      journal: 'Leveraging Machine Learning of Indian Railways Public Procurement Data for Managerial Insights',
+      year: 2023,
+      pages: '69-77',
+      doi: '#'
+    },
+    {
+      id: 5,
+      title: '5 ways Indian medical administrations can boost hospital cyber-security',
+      authors: 'Ranjan Pal and Bodhibrata Nag',
+      type: 'article',
+      journal: 'Forbes India',
+      year: 2023,
+      doi: '#'
+    },
+    {
+      id: 6,
+      title: 'Towards Green Freight Transportation Using Train Design Optimization',
+      authors: 'Bodhibrata Nag, Samir Maity(Aalborg University), and Ayan Chatterjee(SPJIMR)',
+      type: 'journal',
+      journal: 'Global Business Review',
+      year: 2022,
+      doi: 'https://doi.org/10.1177/09721509221125560'
+    },
+    {
+      id: 7,
+      title: 'Will Catastrophic Cyber-Risk Aggregation Thrive in the IoT Age? An Economic Take on Managing Aggregate Heavy-Tailed Risks',
+      authors: 'Ranjan Pal(University of Michigan), John Crowcroft(University of Cambridge) and Bodhibrata Nag et.al',
+      type: 'journal',
+      journal: 'ACM Transactions on Management Information Systems, Volume 12, Issue 2',
+      year: 2021,
+      pages: '1–36',
+      doi: 'https://doi.org/10.1145/3446635'
+    },
+    {
+      id: 8,
+      title: 'Preference-Based Privacy Markets',
+      authors: 'Ranjan Pal(University of Michigan), John Crowcroft(University of Cambridge), Yong Li (Tsinghua University), Sasu Tarkoma (University of Helsinki) and Bodhibrata Nag et.al',
+      type: 'journal',
+      journal: 'IEEE Access (Volume 8)',
+      year: 2020,
+      doi: '10.1109/ACCESS.2020.3014882'
+    },
+    {
+      id: 9,
+      title: 'When Are Cyber Blackouts in Modern Service Networks Likely?: A Network Oblivious Theory on Cyber (Re)Insurance Feasibility',
+      authors: 'Ranjan Pal(University of Michigan), Konstantinos Psounis(University of Southern California), John Crowcroft(University of Cambridge), Pan Hui (University of Helsinki) and Bodhibrata Nag et.al',
+      type: 'journal',
+      journal: 'ACM Transactions on Management Information Systems, Vol. 11, No. 2, Article 5',
+      year: 2020,
+      doi: 'https://doi.org/10.1145/3386159'
+    },
+    {
+      id: 10,
+      title: 'On a few strategies for a sustainable turnaround of the Indian Railways',
+      authors: 'Bodhibrata Nag and Ashok Banerjee',
+      type: 'journal',
+      journal: 'Journal of Institute of Public Enterprise (2016) Volume 39, Issue 1 & 2',
+      year: 2016,
+      pages: '16-36',
+      doi: 'https://ssrn.com/abstract=2928581'
+    },
+    {
+      id: 11,
+      title: 'Combating Corruption in Indian Public Procurement- some exploratory case studies',
+      authors: 'Bodhibrata Nag',
+      type: 'journal',
+      journal: 'Journal of Institute of Public Enterprise (2015) Volume 38, Issue 1 & 2',
+      year: 2015,
+      pages: '1-34',
+      doi: 'https://ssrn.com/abstract=2928667'
+    },
+    {
+      id: 12,
+      title: 'A MIP model for scheduling India\'s General Elections and Police movement',
+      authors: 'Bodhibrata Nag',
+      type: 'journal',
+      journal: 'OPSEARCH(Springer) 51(4)',
+      year: 2014,
+      pages: '562–576',
+      doi: 'https://doi.org/10.1007/s12597-013-0160-3'
+    },
+    {
+      id: 13,
+      title: 'Public Procurement- case study of the Indian Railways',
+      authors: 'Bodhibrata Nag',
+      type: 'journal',
+      journal: 'Journal of Institute of Public Enterprise (2013) Volume 36, Issue 1 & 2',
+      year: 2013,
+      pages: '45-70',
+      doi: 'https://ssrn.com/abstract=2323257'
+    },
+    {
+      id: 14,
+      title: 'A Dynamic Programming Algorithm for Optimal Design of Tidal Power Plants',
+      authors: 'Bodhibrata Nag',
+      type: 'journal',
+      journal: 'Journal of The Institution of Engineers (India): Series B(Springer)(2013) Volume 94, Issue 1',
+      year: 2013,
+      pages: '43-51',
+      doi: 'https://doi.org/10.1007/s40031-013-0041-4'
+    },
+    {
+      id: 15,
+      title: 'Organizing National Elections in India to Elect the 543 Members of the Lok Sabha',
+      authors: 'Bodhibrata Nag and Katta G.Murty(University of Michigan)',
+      type: 'journal',
+      journal: 'Algorithmic Operations Research 7',
+      year: 2013,
+      pages: '55–70',
+      doi: 'http://journals.hil.unb.ca/index.php/AOR/article/view/20395'
+    },
+    {
+      id: 16,
+      title: 'Choosing the appropriate project management structure, project financing, land acquisition and contractual process for Indian railway mega-projects: a case study of the Dedicated Freight Corridor project',
+      authors: 'Bodhibrata Nag, Jeetendra Singh and Ved Mani Tiwari',
+      type: 'journal',
+      journal: 'Journal of Project, Program & Portfolio Management, 3',
+      year: 2012,
+      pages: '39-54',
+      doi: 'http://epress.lib.uts.edu.au/journals/index.php/pppm/article/view/2791/3487'
+    },
+    {
+      id: 17,
+      title: 'Diesel locomotive fueling problem (LFP) in railroad operations',
+      authors: 'Bodhibrata Nag and Katta G. Murty(University of Michigan)',
+      type: 'journal',
+      journal: '49 OPSEARCH(Springer)',
+      year: 2012,
+      pages: '315–333',
+      doi: 'https://doi.org/10.1007/s12597-012-0082-5'
+    }
+  ];
+
+  const researchProjects = [
+      {
+          id: 1,
+          title: 'Business Process Reengineering and Change Management for the Department of Health and Family Welfare, Govt. of West Bengal',
+          fundingAgency: 'Govt of West Bengal',
+          role: 'Co-Investigator',
+          amount: 5000000,
+          period: '2019 - 2021'
+      },
+      {
+          id: 2,
+          title: 'Designing a Central Public Sector Enterprises Scorecard Index',
+          fundingAgency: 'Comptroller & Auditor General of India',
+          role: 'Co-Investigator',
+          amount: 300000,
+          period: '2019 - 2020'
+      },
+      {
+          id: 3,
+          title: 'Rail capacity modeling for Indian Railways using GIS',
+          fundingAgency: 'World Bank and Deloitte',
+          role: 'Co-Investigator',
+          amount: 500000,
+          period: '2019 - 2020'
+      },
+      {
+          id: 4,
+          title: 'Formulation of Business and Marketing Plan for Dedicated Freight Corridors of Indian Railways',
+          fundingAgency: 'Ministry of Railways',
+          role: 'Co-Investigator',
+          amount: 5000000,
+          period: '2007 - 2009'
+      },
+      {
+          id: 5,
+          title: 'Independent Evaluation of Procurement and Supply Chain of National AIDS Control Program',
+          fundingAgency: 'Ministry of Health & Family Welfare, Government of India',
+          role: 'Co-Investigator',
+          amount: 1500000,
+          period: '2007 - 2009'
+      }
+  ]
 
   // Admin functions for managing publications
   const addPublication = async (newPub) => {
@@ -174,6 +386,31 @@ export default function Research() {
   }, [pubSearch, displayPublications]);
   const displayBookChapters = researchData?.book_chapters || bookChapters;
   const displayCases = researchData?.cases || cases;
+
+  const allPublications = useMemo(() => {
+    const firestorePubs = researchData?.featured_publications || [];
+    const hardcodedPubs = featuredPublications;
+    const combined = [...firestorePubs, ...hardcodedPubs];
+    const unique = Array.from(new Set(combined.map(p => p.id))).map(id => combined.find(p => p.id === id));
+    return unique.filter(p => p.title.toLowerCase().includes(pubSearch.toLowerCase()));
+  }, [researchData, pubSearch]);
+
+  const allProjects = useMemo(() => {
+    const firestoreProjects = researchData?.research_projects || [];
+    const hardcodedProjects = researchProjects;
+    const combined = [...firestoreProjects, ...hardcodedProjects];
+    return Array.from(new Set(combined.map(p => p.id))).map(id => combined.find(p => p.id === id));
+  }, [researchData]);
+
+  if (loading) {
+    return (
+      <div className="bg-[#F7F4EE]">
+        <div className="flex items-center justify-center h-screen">
+          <div className="text-4xl font-bold">Loading...</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-[#F7F4EE]">
@@ -457,82 +694,6 @@ export default function Research() {
         </div>
       </section>
 
-      {/* Book Chapters */}
-      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={fadeInUp}
-            className="mb-12"
-          >
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-                  Book Chapters & Conference Proceedings
-                </h2>
-                <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
-              </div>
-              {isAdmin && (
-                <button
-                  onClick={() => setShowAddChapter(true)}
-                  className="flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-4 py-2 rounded-lg font-semibold transition-all"
-                >
-                  <FiPlus /> Add Chapter
-                </button>
-              )}
-            </div>
-          </motion.div>
-
-          {showAddChapter && isAdmin && (
-            <div className="mb-6 p-6 bg-white rounded-xl border-2 border-[#D9D6CF] shadow-lg">
-              <BookChapterForm
-                onSave={addBookChapter}
-                onCancel={() => setShowAddChapter(false)}
-              />
-            </div>
-          )}
-
-          <div className="space-y-6">
-            {displayBookChapters.map((chapter, index) => (
-              <motion.div
-                key={chapter.id || index}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOptions}
-                variants={fadeInUp}
-                className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B] border border-[#D9D6CF] relative group"
-              >
-                {isAdmin && (
-                  <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                      onClick={() => deleteBookChapter(chapter)}
-                      className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg"
-                    >
-                      <FiTrash2 size={16} />
-                    </button>
-                  </div>
-                )}
-                <p className="font-['Inter'] text-gray-700 mb-2">
-                  <span className="font-semibold text-[#1E2A38]">{chapter.authors}</span> ({chapter.year}). {chapter.title}
-                </p>
-                <p className="font-['Inter'] text-gray-600 italic mb-2">{chapter.book}</p>
-                {chapter.doi && (
-                  <a 
-                    href={chapter.doi} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1"
-                  >
-                    <FiExternalLink size={14} /> View Chapter
-                  </a>
-                )}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Special Issues */}
       <section className="py-16 px-6 lg:px-16 bg-white">
@@ -645,6 +806,36 @@ export default function Research() {
           </div>
         </div>
       </section>
+
+      {/* Research Projects Section */}
+      <motion.section 
+        className="py-20 px-4 bg-white"
+        initial="hidden"
+        whileInView="visible"
+        viewport={viewportOptions}
+        variants={fadeInUp}
+      >
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-4xl font-bold text-[#1E2A38] mb-4">Research Projects</h2>
+          <div className="h-1 w-24 bg-[#D5A135] mb-12"></div>
+          
+          <div className="space-y-8">
+            {allProjects.map((project, index) => (
+              <motion.div 
+                key={project.id || index}
+                className="p-6 border rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 bg-gray-50"
+                variants={fadeInUp}
+              >
+                <h3 className="text-xl font-semibold text-[#1E2A38] mb-2">{project.title}</h3>
+                <p className="text-gray-600 mb-1"><span className="font-semibold">Funding Agency:</span> {project.fundingAgency}</p>
+                <p className="text-gray-600 mb-1"><span className="font-semibold">Role:</span> {project.role}</p>
+                <p className="text-gray-600 mb-1"><span className="font-semibold">Amount:</span> ₹{project.amount.toLocaleString('en-IN')}</p>
+                <p className="text-gray-500 text-sm"><span className="font-semibold">Period:</span> {project.period}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
     </div>
   );
 }

@@ -22,7 +22,7 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       // Check if the logged-in user is the admin
-      setIsAdmin(user?.email === ADMIN_EMAIL);
+      setIsAdmin(user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase());
       setLoading(false);
     });
 

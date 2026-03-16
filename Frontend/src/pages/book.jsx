@@ -101,7 +101,7 @@ if (typeof document !== 'undefined') {
 }
 
 /* ─── Hardcoded initial data ─────────────────────────── */
-const INITIAL_BOOKS = []
+const INITIAL_BOOKS = [];
 
 /* ─── Firebase helpers ───────────────────────────────── */
 const fetchBooks = async () => {
@@ -123,6 +123,8 @@ const sanitize = (book, coverUrl) => ({
   coverUrl: String(coverUrl || ''),
   amazonLink: String(book.amazonLink || ''),
   flipkartLink: String(book.flipkartLink || ''),
+  url: String(book.url || ''),
+  description: String(book.description || ''),
   reviews: (book.reviews || []).map(r => ({ text: String(r.text || ''), link: String(r.link || '') })),
   media: (book.media || []).map(m => ({ type: String(m.type || 'video'), text: String(m.text || ''), link: String(m.link || '') })),
   awards: (book.awards || []).map(a => ({ text: String(a.text || ''), link: String(a.link || '') })),
@@ -191,6 +193,8 @@ function BookEditModal({ book, onClose, onSave }) {
     year: book?.year || '',
     publisher: book?.publisher || '',
     coverUrl: book?.coverUrl || '',
+    url: book?.url || '',
+    description: book?.description || '',
     amazonLink: book?.amazonLink || '',
     flipkartLink: book?.flipkartLink || '',
     reviews: Array.isArray(book?.reviews) ? book.reviews : [],
@@ -260,6 +264,12 @@ function BookEditModal({ book, onClose, onSave }) {
               <div className="bk-field"><label>Amazon Link</label>
                 <input className="bk-inp" type="url" value={form.amazonLink} onChange={e => setForm({ ...form, amazonLink: e.target.value })} />
               </div>
+            <div className="bk-field"><label>Generic/DOI Link</label>
+              <input className="bk-inp" type="url" value={form.url} onChange={e => setForm({ ...form, url: e.target.value })} />
+            </div>
+            <div className="bk-field"><label>Description</label>
+              <textarea className="bk-inp" rows={4} value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} />
+            </div>
               <div className="bk-field"><label>Flipkart Link</label>
                 <input className="bk-inp" type="url" value={form.flipkartLink} onChange={e => setForm({ ...form, flipkartLink: e.target.value })} />
               </div>
@@ -332,7 +342,14 @@ export default function Books() {
   const load = async () => {
     try {
       const data = await fetchBooks();
-      setBooks(data.length ? sortByYearDesc(data) : sortByYearDesc(INITIAL_BOOKS));
+      // Combine databases: Use a Map to prioritize DB entries over initial ones by title
+      const bookMap = new Map();
+      INITIAL_BOOKS.forEach(b => bookMap.set(b.title, b));
+      data.forEach(b => bookMap.set(b.title, b));
+      
+      const allBooks = Array.from(bookMap.values());
+      const sorted = allBooks.sort((a, b) => parseInt(b.year) - parseInt(a.year));
+      setBooks(sorted);
     } catch {
       setBooks(sortByYearDesc(INITIAL_BOOKS));
     } finally {
@@ -470,6 +487,7 @@ export default function Books() {
                 <p className="bk-authors">{book.authors}</p>
                 <p className="bk-publisher">{book.publisher}</p>
                 <div className="bk-divider" />
+                {book.description && <p style={{ fontSize: '0.9rem', color: '#4b5563', lineHeight: 1.6, marginBottom: 24 }}>{book.description}</p>}
 
                 {book.awards?.length > 0 && book.awards.map((a, i) => (
                   <div key={i} className="bk-award">
@@ -508,6 +526,11 @@ export default function Books() {
                   </>
                 )}
 
+                  {book.url && (
+                    <a href={book.url} target="_blank" rel="noopener noreferrer" className="bk-btn-s">
+                      <FiBookOpen size={14} /> View Publication
+                    </a>
+                  )}
                 <div className="bk-btn-row">
                   {book.amazonLink && (
                     <a href={book.amazonLink} target="_blank" rel="noopener noreferrer" className="bk-btn-p">

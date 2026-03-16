@@ -7,11 +7,45 @@ import EditableText from '../components/EditableText';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
-const DEFAULT_AWARDS = [];
+const DEFAULT_AWARDS = [
+  'First Position in Triple Connection Global Educator Challenge, Inchainge, The Netherlands, 2023',
+  'The Union Ministry of Energy-Department of Power" Gold Medal for the best paper published on Power Development and Utilization, Institution of Engineers(India), 2014',
+  'Fulbright Senior Research Fellowship, United States Department of State -Bureau of Educational and Cultural Affairs, 2009',
+  'Elected Senior Member IEEE, IEEE, 2008',
+  'Elected Fellow and Chartered Engineer, Institution of Engineers(India), 2003',
+  "General Manager's Best Officer Award and Efficiency Medal, South Eastern Railway (Ministry of Railways), 2000",
+  'National Second Rank in Indian Engineering Services (Electrical) Examination, Union Public Service Commission, 1984',
+  'First Rank in Pre-University Science Examination, North Eastern Hill University, 1978',
+  'IIT Joint Entrance Exam All India Rank 231, IIT, 1978'
+];
 
-const DEFAULT_WORK_EXPERIENCE = [];
+const DEFAULT_WORK_EXPERIENCE = [
+  { period: '2021 - Present', role: 'Professor', organization: 'Indian Institute of Management, Calcutta', type: 'academic' },
+  { period: '2019 - 2021', role: 'Dean', organization: 'Indian Institute of Management, Calcutta', type: 'academic' },
+  { period: '2015 - 2019', role: 'Professor', organization: 'Indian Institute of Management Calcutta', type: 'academic' },
+  { period: '2006 - 2015', role: 'Associate Professor', organization: 'Indian Institute of Management Calcutta', type: 'academic' },
+  { period: '2005 - 2006', role: 'Director', organization: 'Research Design & Standards Organization, Ministry of Railways, Lucknow', type: 'professional' },
+  { period: '2003 - 2005', role: 'Professor', organization: 'Indian Railway Institute of Electrical Engineering, Ministry of Railways, Nasik', type: 'academic' },
+  { period: '1997 - 2003', role: 'Deputy Chief Electrical Engineer', organization: 'South Eastern Railway, Ministry of Railways, Kolkata', type: 'professional' },
+  { period: '1996 - 1997', role: 'Senior Divisional Engineer', organization: 'East Coast Railways, Ministry of Railways, Visakhaptnam', type: 'professional' },
+  { period: '1995 - 1996', role: 'Divisional Engineer', organization: 'East Coast Railway, Ministry of Railways, Visakhapatnam', type: 'professional' },
+  { period: '1991 - 1995', role: 'Assistant Divisional Engineer', organization: 'East Coast Railway, Ministry of Railways, Visakhapatnam', type: 'professional' },
+  { period: '1989 - 1991', role: 'Assistant Engineer', organization: 'Indian Railway Institute of Electrical Engineering, Ministry of Railways, Nasik', type: 'professional' },
+  { period: '1985 - 1989', role: 'Assistant Director', organization: 'Central Electricity Authority, Ministry of Power, New Delhi', type: 'professional' }
+];
 
-const DEFAULT_BOARD_POSITIONS = [];
+const DEFAULT_BOARD_POSITIONS = [
+  { title: 'Dean-Academic', period: '2019', active: false },
+  { title: 'Member of Board of Directors', period: '2019', active: false },
+  { title: 'Member, IIM Calcutta Board Committee on Regulations', period: '2019', active: false },
+  { title: 'Member, IIM Calcutta Board Committee for Building & Works', period: '2019', active: false },
+  { title: 'Chairperson, Fellow Program & Research Committee, IIM Calcutta', period: '2015', active: false },
+  { title: 'Member, IIM Calcutta Placement Committee', period: '2014', active: false },
+  { title: 'Member, IIM Calcutta Publications Committee', period: '2012', active: false },
+  { title: 'Chairperson, Students Activities Committee, IIM Calcutta', period: '2007', active: false },
+  { title: 'Institute Coordinator, PGPEX-VLM Committee, IIM Calcutta', period: '2007', active: false },
+  { title: 'Institute Coordinator, Visionary Leadership in Manufacturing Committee', period: '2007', active: false }
+];
 
 const DEFAULT_MEDIA = [];
 
@@ -46,12 +80,12 @@ export default function About() {
       mainHeading: "Prof. Bodhibrata Nag",
       subtitle: "Professor at IIM Calcutta.",
       description: "Researcher and Author.",
-      linkedinUrl: "https://www.linkedin.com/",
+      linkedinUrl: "https://facultylive.iimcal.ac.in/users/bnag",
     },
     journey: {
       heading: "About Prof. Bodhibrata Nag",
-      paragraph1: "Prof. Bodhibrata Nag is a Professor at the Indian Institute of Management Calcutta (IIMC).",
-      paragraph2: "",
+      paragraph1: "Prof. Bodhibrata Nag is a Professor in the Operations Management Group at the Indian Institute of Management Calcutta (IIMC). His areas of interest include Operations Research, Simulation, Data Analytics, Operations Management, Supply Chain Management, Logistics, Project Management, Quality Management, Procurement, Contracts and Arbitration.",
+      paragraph2: "He holds a Bachelor of Technology from the Indian Institute of Technology Madras and a Ph.D. from the Indian Institute of Management Calcutta.",
       paragraph3: ""
     },
     awards: DEFAULT_AWARDS,
@@ -224,13 +258,16 @@ export default function About() {
             </h2>
             <div className="w-24 h-1 bg-[#B9975B] rounded-full mx-auto"></div>
             <div className="space-y-6 text-left">
-              {['paragraph1', 'paragraph2', 'paragraph3'].map((field) => (
-                <p key={field} className="text-xl font-['Inter'] text-gray-700 leading-relaxed">
-                  <EditableText collection="content" docId="about" field={`journey.${field}`}
-                    defaultValue={aboutData?.journey?.[field] || ''}
-                    className="text-xl font-['Inter'] text-gray-700 leading-relaxed" multiline />
-                </p>
-              ))}
+              <p className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
+                <EditableText collection="content" docId="about" field="journey.paragraph1"
+                  defaultValue={aboutData?.journey?.paragraph1}
+                  className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed" multiline />
+              </p>
+              <p className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
+                <EditableText collection="content" docId="about" field="journey.paragraph2"
+                  defaultValue={aboutData?.journey?.paragraph2}
+                  className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed" multiline />
+              </p>
             </div>
           </motion.div>
         </div>

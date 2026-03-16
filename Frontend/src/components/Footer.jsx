@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FiLinkedin, FiTwitter, FiMail, FiYoutube, FiInstagram, FiFacebook } from 'react-icons/fi';
+import { FiLinkedin, FiTwitter, FiMail, FiYoutube, FiInstagram, FiFacebook, FiPhone, FiMapPin } from 'react-icons/fi';
 import { SiTiktok } from 'react-icons/si';
 
 export default function Footer() {
@@ -21,9 +21,17 @@ export default function Footer() {
             <div className="text-gray-400 text-sm md:text-base space-y-2">
               <p className="flex items-center justify-center md:justify-start gap-2">
                 <FiMail className="w-4 h-4" />
-                <a href="mailto:" className="hover:text-white transition-colors">
-                  IIM Calcutta
+                <a href="mailto:nag@iimcal.ac.in" className="hover:text-white transition-colors">
+                  nag@iimcal.ac.in
                 </a>
+              </p>
+              <p className="flex items-center justify-center md:justify-start gap-2">
+                <FiPhone className="w-4 h-4" />
+                <span>+91-33-2467-8300</span>
+              </p>
+              <p className="flex items-center justify-center md:justify-start gap-2">
+                <FiMapPin className="w-4 h-4" />
+                <span>IIM Calcutta, Joka, Kolkata 700104, India</span>
               </p>
               <p className="text-gray-500 text-sm md:text-base font-medium">Dept. of Operations Management</p>
             </div>

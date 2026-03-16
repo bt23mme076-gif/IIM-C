@@ -10,10 +10,9 @@ const DEFAULT_NAV_LINKS = [
   { id: 'research', name: 'Research', path: '/research' },
   { id: 'books', name: 'Books', path: '/book' },
   { id: 'consulting', name: 'Consulting', path: '/consulting' },
-  { id: 'recognitions', name: 'Recognitions', path: '/recognitions' },
   { id: 'opinions', name: 'Opinions', path: '/opinions' },
   { id: 'courses', name: 'Courses', path: '/courses' },
-  { id: 'contact', name: 'Contact', path: '/contact' },
+  { id: 'about', name: 'About Us', path: '/about' },
 ];
 
 export default function Navbar() {
@@ -268,104 +267,110 @@ export default function Navbar() {
           justifyContent: 'space-between',
           boxSizing: 'border-box'
         }}>
-          {/* Brand Name */}
+          {/* Brand Name - Premium Redesign */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem', flex: 1, minWidth: 0, overflow: 'hidden' }}>
 
-            {/* Gold accent bar */}
+            {/* Monogram Badge (replaces plain vertical bar) */}
             <div
               onClick={() => { navigate('/'); scrollToSection(null); setMobileMenuOpen(false); }}
               style={{
-                width: '4px',
-                height: windowWidth < 768 ? '36px' : '46px',
-                background: '#B9975B',
-                borderRadius: '2px',
+                width: windowWidth < 768 ? '38px' : '46px',
+                height: windowWidth < 768 ? '38px' : '46px',
+                background: 'linear-gradient(135deg, #C9A96E 0%, #B9975B 100%)',
+                borderRadius: '10px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 flexShrink: 0,
-                cursor: 'pointer'
+                boxShadow: '0 2px 10px rgba(185, 151, 91, 0.35)',
+                cursor: 'pointer',
+                transition: 'box-shadow 0.2s ease, transform 0.2s ease'
               }}
-            />
+              onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.06)'; e.currentTarget.style.boxShadow = '0 4px 16px rgba(185,151,91,0.45)'; }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 2px 10px rgba(185,151,91,0.35)'; }}
+            >
+              <span style={{
+                color: '#fff',
+                fontSize: windowWidth < 768 ? '0.9rem' : '1.05rem',
+                fontFamily: '"Cormorant Garamond", Georgia, serif',
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+                lineHeight: 1
+              }}>BN</span>
+            </div>
 
-            {/* Text section - plain div, no Link, so edit inputs work perfectly */}
+            {/* Text Section */}
             <div style={{ minWidth: 0, flex: '1 1 auto', overflow: 'hidden' }}>
+
+              {/* Combined label row: PROF. · IIM CALCUTTA */}
+              {windowWidth >= 480 && (
+                isAdmin && editingField === 'subtitle' ? (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '3px' }}>
+                    <input
+                      autoFocus value={editValue}
+                      onChange={e => setEditValue(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') commitEdit(); if (e.key === 'Escape') cancelEdit(); }}
+                      style={{ fontSize: '0.62rem', fontFamily: '"Inter", sans-serif', border: '2px solid #ffcc00', borderRadius: '4px', padding: '1px 4px', width: '150px', outline: 'none', letterSpacing: '0.1em' }}
+                    />
+                    <button onClick={commitEdit} style={{ background: '#ffcc00', border: 'none', borderRadius: '50%', width: 18, height: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><FiCheck size={10} /></button>
+                    <button onClick={cancelEdit} style={{ background: '#eee', border: 'none', borderRadius: '50%', width: 18, height: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><FiX size={10} /></button>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '5px', marginBottom: '3px' }}>
+                    <span style={{
+                      fontSize: windowWidth < 768 ? '0.58rem' : '0.62rem',
+                      fontFamily: '"Inter", sans-serif',
+                      fontWeight: 600,
+                      letterSpacing: '0.18em',
+                      color: '#B9975B',
+                      textTransform: 'uppercase',
+                      whiteSpace: 'nowrap'
+                    }}>
+                      PROF. <span style={{ color: '#C9B99A', margin: '0 2px' }}>·</span> {subtitle}
+                    </span>
+                    {isAdmin && (
+                      <button onClick={() => startEdit('subtitle', subtitle)} title="Edit subtitle"
+                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '1px', color: '#bbb', display: 'flex', flexShrink: 0 }}>
+                        <FiEdit2 size={9} />
+                      </button>
+                    )}
+                  </div>
+                )
+              )}
+
               {/* Professor Name */}
               {isAdmin && editingField === 'name' ? (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <input
-                    autoFocus
-                    value={editValue}
+                    autoFocus value={editValue}
                     onChange={e => setEditValue(e.target.value)}
                     onKeyDown={e => { if (e.key === 'Enter') commitEdit(); if (e.key === 'Escape') cancelEdit(); }}
-                    style={{
-                      fontSize: windowWidth < 768 ? '0.9rem' : '1.2rem',
-                      fontFamily: '"Playfair Display", Georgia, serif',
-                      fontWeight: 700,
-                      border: '2px solid #ffcc00',
-                      borderRadius: '4px',
-                      padding: '2px 6px',
-                      width: '180px',
-                      outline: 'none'
-                    }}
+                    style={{ fontSize: windowWidth < 768 ? '0.95rem' : '1.25rem', fontFamily: '"Cormorant Garamond", Georgia, serif', fontWeight: 700, border: '2px solid #ffcc00', borderRadius: '4px', padding: '2px 6px', width: '190px', outline: 'none' }}
                   />
-                  <button
-                    onClick={commitEdit}
-                    style={{ background: '#ffcc00', border: 'none', borderRadius: '50%', width: 22, height: 22, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-                  ><FiCheck size={12} /></button>
-                  <button
-                    onClick={cancelEdit}
-                    style={{ background: '#eee', border: 'none', borderRadius: '50%', width: 22, height: 22, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-                  ><FiX size={12} /></button>
+                  <button onClick={commitEdit} style={{ background: '#ffcc00', border: 'none', borderRadius: '50%', width: 22, height: 22, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><FiCheck size={12} /></button>
+                  <button onClick={cancelEdit} style={{ background: '#eee', border: 'none', borderRadius: '50%', width: 22, height: 22, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}><FiX size={12} /></button>
                 </div>
               ) : (
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: windowWidth < 768 ? '6px' : '10px',
-                    minWidth: 0,
-                    flex: '1 1 auto',
-                    maxWidth: windowWidth < 768 ? 'calc(100vw - 110px)' : '400px'
-                  }}
-                >
-                  <span
-                    style={{
-                      color: '#B9975B',
-                      fontWeight: 700,
-                      fontSize: windowWidth < 768 ? '0.72rem' : '0.95rem',
-                      letterSpacing: '0.12em',
-                      fontFamily: '"Inter", sans-serif',
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0
-                    }}
-                  >
-                    PROF.
-                  </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', minWidth: 0 }}>
                   <h1
-                    onClick={() => {
-                      navigate('/');
-                      scrollToSection(null);
-                      setMobileMenuOpen(false);
-                    }}
+                    onClick={() => { navigate('/'); scrollToSection(null); setMobileMenuOpen(false); }}
+                    title={professorName}
                     style={{
                       margin: 0,
-                      minWidth: 0,
-                      flex: 1,
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
-                      fontSize: windowWidth < 480
-                        ? '0.9rem'
-                        : windowWidth < 768
-                        ? '1rem'
-                        : windowWidth < 1200
-                        ? '1.3rem'
-                        : '1.55rem',
-                      fontFamily: '"Cormorant Garamond", "Playfair Display", "Georgia", serif',
+                      fontSize: windowWidth < 480 ? '0.95rem' : windowWidth < 768 ? '1.05rem' : windowWidth < 1200 ? '1.35rem' : '1.6rem',
+                      fontFamily: '"Cormorant Garamond", "Playfair Display", Georgia, serif',
                       fontWeight: 700,
                       color: '#1E2A38',
-                      lineHeight: 1.05,
+                      letterSpacing: '0.03em',
+                      lineHeight: 1.0,
                       cursor: 'pointer',
-                      transition: 'color 0.3s ease'
+                      transition: 'color 0.25s ease'
                     }}
-                    title={professorName}
+                    onMouseEnter={e => e.currentTarget.style.color = '#B9975B'}
+                    onMouseLeave={e => e.currentTarget.style.color = '#1E2A38'}
                   >
                     {(() => {
                       const lastName = professorName.startsWith('PROF. ') ? professorName.slice(6) : professorName;
@@ -377,67 +382,12 @@ export default function Navbar() {
                     })()}
                   </h1>
                   {isAdmin && (
-                    <button
-                      onClick={() => startEdit('name', professorName)}
-                      title="Edit name"
-                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px', color: '#aaa', display: 'flex', flexShrink: 0 }}
-                    ><FiEdit2 size={11} /></button>
+                    <button onClick={() => startEdit('name', professorName)} title="Edit name"
+                      style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '2px', color: '#aaa', display: 'flex', flexShrink: 0 }}>
+                      <FiEdit2 size={11} />
+                    </button>
                   )}
                 </div>
-              )}
-
-              {/* Subtitle */}
-              {windowWidth >= 480 && (
-                isAdmin && editingField === 'subtitle' ? (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '3px' }}>
-                    <input
-                      autoFocus
-                      value={editValue}
-                      onChange={e => setEditValue(e.target.value)}
-                      onKeyDown={e => { if (e.key === 'Enter') commitEdit(); if (e.key === 'Escape') cancelEdit(); }}
-                      style={{
-                        fontSize: '0.65rem',
-                        fontFamily: '"Inter", sans-serif',
-                        border: '2px solid #ffcc00',
-                        borderRadius: '4px',
-                        padding: '1px 4px',
-                        width: '140px',
-                        outline: 'none',
-                        letterSpacing: '0.1em'
-                      }}
-                    />
-                    <button
-                      onClick={commitEdit}
-                      style={{ background: '#ffcc00', border: 'none', borderRadius: '50%', width: 18, height: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-                    ><FiCheck size={10} /></button>
-                    <button
-                      onClick={cancelEdit}
-                      style={{ background: '#eee', border: 'none', borderRadius: '50%', width: 18, height: 18, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}
-                    ><FiX size={10} /></button>
-                  </div>
-                ) : (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginTop: '3px' }}>
-                    <p style={{
-                      fontSize: windowWidth < 768 ? '0.65rem' : '0.7rem',
-                      fontFamily: '"Inter", -apple-system, sans-serif',
-                      color: '#5B6472',
-                      margin: 0,
-                      letterSpacing: '0.12em',
-                      textTransform: 'uppercase',
-                      fontWeight: 500,
-                      transition: 'color 0.3s ease'
-                    }}>
-                      {subtitle}
-                    </p>
-                    {isAdmin && (
-                      <button
-                        onClick={() => startEdit('subtitle', subtitle)}
-                        title="Edit subtitle"
-                        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '1px', color: '#bbb', display: 'flex', flexShrink: 0 }}
-                      ><FiEdit2 size={9} /></button>
-                    )}
-                  </div>
-                )
               )}
             </div>
           </div>
@@ -475,7 +425,7 @@ export default function Navbar() {
           {/* Desktop Navigation - Hidden on Mobile */}
           {windowWidth >= 1024 && (
             <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
-              {navLinks.map((link, index) => (
+              {navLinks.filter(l => l.id !== 'contact' && l.name.toLowerCase() !== 'contact').map((link, index) => (
                 <div
                   key={link.id || link.name}
                   draggable={isAdmin}

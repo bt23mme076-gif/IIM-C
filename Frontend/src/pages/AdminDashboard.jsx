@@ -5,6 +5,9 @@ import { db } from '../firebase/config';
 import { doc, getDoc, updateDoc, setDoc, collection, addDoc, deleteDoc, getDocs, query, where } from 'firebase/firestore';
 import { FiSave, FiPlus, FiTrash2, FiEdit, FiX, FiBookOpen, FiYoutube, FiFileText, FiDownload, FiStar, FiImage, FiUpload, FiUsers, FiBriefcase, FiExternalLink, FiMail, FiSend, FiInbox, FiRefreshCw } from 'react-icons/fi';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
+import ResearchEditor from '../components/admin/ResearchEditor';
+import ConsultingEditor from '../components/admin/ConsultingEditor';
+import OpinionsEditor from '../components/admin/OpinionsEditor';
 
 // Add mobile responsive styles
 const mobileStyles = `
@@ -105,131 +108,9 @@ const mobileStyles = `
   }
 `;
 
-// Initial data for bulk import
-const INITIAL_TESTIMONIALS = [
-  {
-    quote: "I have to admit that I wasn't sure what would be involved with your course, but I consider myself very blessed to have been a part of it. The historical aspect of Mahabharata was fascinating by itself, and I enjoyed the way you incorporated the epic with current leadership practices. Thank you very much for this unique opportunity!",
-    author: "Colene Sassmann",
-    role: "Class Participant 2023, MBA course",
-    organization: "University of Northern Iowa",
-    order: 0,
-    published: true
-  },
-  {
-    quote: "Prof. Vishal, observing you from the sidelines, I learnt many things. Chief amongst them, your dhairya, humility and a steadfast bold vision. Your course and its reflections on the ego & self as a leader made a deep impression, reminded me of my MBA at Berkeley and our leadership principles. Specifically, 'Confidence Without Attitude'.",
-    author: "Rupal Nayar",
-    role: "Director of Industry & University Partnerships, APAC",
-    organization: "Coursera",
-    order: 1,
-    published: true
-  },
-  {
-    quote: "We thank you for conducting the session for the Principals of Delhi Public Schools. The session was rewarding and much appreciated by the participants of the programme.",
-    author: "Vanita Sehgal",
-    role: "Executive Director, HRDC",
-    organization: "DPSS",
-    order: 2,
-    published: true
-  },
-  {
-    quote: "Thank you for such wonderful mentor/coach/guide/teacher. I am really feeling happy to be your student. The way you put up the topic is so interesting, I am loving it.",
-    author: "Vijay Vyas",
-    role: "Group Head, HR",
-    organization: "Rushil Decor Limited",
-    order: 3,
-    published: true
-  },
-  {
-    quote: "From the theory sessions, to the exercises, to the PLPS, and to the final examination, your course design was great and above all this, your teaching style with the conviction in the subject was exemplary. Right from the word go, I found myself deeply attached to this course, and it was only because of your teaching. Many thanks Sir!",
-    author: "Akshay Jain",
-    role: "PGPX participant of 2018-19 batch",
-    organization: "IIM Calcutta",
-    order: 4,
-    published: true
-  },
-  {
-    quote: "Your classes were a real value addition in FDP course. Thank you for teaching us so patiently. Besides, Multivariate and R, I also learn't how to teach systematically to make students understand in a much better way. You made a complicated course quite easy for us.",
-    author: "Irfana Rashid",
-    role: "FDP 2017 Participant",
-    organization: "IIM Calcutta",
-    order: 5,
-    published: true
-  },
-  {
-    quote: "Just wanted to thank you for the lecture today. It was, probably, the most important lecture that I ever attended.",
-    author: "Kaustubh Korde",
-    role: "PGPX 2018 Participant",
-    organization: "IIM Calcutta",
-    order: 6,
-    published: true
-  },
-  {
-    quote: "I pay my humble gratitude to you for all that I learned from you while at IIM Calcutta. Your depth in the subject and classroom delivery is unparallel. I feel lucky to be a part of your classroom. Apart from your teaching, which is notwithstanding class apart, you are also a very humble human being which has to be reckoned with.",
-    author: "Abhigyan Bhattacharjee",
-    role: "FDP 2018 Participant",
-    organization: "IIM Calcutta",
-    order: 7,
-    published: true
-  },
-  {
-    quote: "In this December 2025 I joined the Leadership Skills course on Coursera, it has helped me a lot to channel my emotions as a 20 year old. After watching the lessons I have gained a lot of clarity and rationality. I really look forward to you as my Guru Dronacharya in the Kurukshetra of my life. Thank You Sir for giving directions to my dreams and aspirations.",
-    author: "Bhumika Patnaik",
-    role: "Leadership Skills course student",
-    organization: "",
-    order: 8,
-    published: true
-  },
-  {
-    quote: "It was a pleasure attending the classes that you taught. The amount of energy you bring into the class and also the smile that is always present while teaching makes the sessions special. Some of the statements that you said were like a reset button, an epiphany, that made many to reconsider their actions.",
-    author: "Nimish Lalwani",
-    role: "PGP (MBA) Student",
-    organization: "IIM Calcutta",
-    order: 9,
-    published: true
-  },
-  {
-    quote: "Today's session was one of the best session I have experienced since I have joined IIMC. There have been very few instances in my life where I have been overwhelmed by the emotions so much that they had permanently changed my perception of life in a positive sense. This was one of it. These are the moments, not the salary or networking, that make you feel happy and satisfied about the decision of coming to IIMC and motivates you to become a better version of yourself.",
-    author: "Harsh Dewra",
-    role: "PGP (MBA) Student",
-    organization: "IIMC",
-    order: 10,
-    published: true
-  },
-  {
-    quote: "Prof. Vishal is a true teacher because of traits like kind, humble, patient with knowledge at par...glad to be a part of such a well organized FDP.....",
-    author: "Dr. Rajanibala J. Shah",
-    role: "L J Institute of Management Studies",
-    organization: "",
-    order: 11,
-    published: true
-  },
-  {
-    quote: "My most sincere gratitude to Prof Bodhibrata Nag for sparing time and selflessly sharing his vast knowledge for the benefit of young faculty and researchers!",
-    author: "Kanika Khurana",
-    role: "University of Mumbai",
-    organization: "",
-    order: 12,
-    published: true
-  }
-];
+// Initial data deleted
 
-const INITIAL_TRAINING_PARTNERS = [
-  { name: "Ambuja Cements", logoUrl: "/Ambuja_Cements.svg.png", order: 0, published: true },
-  { name: "BPCL", logoUrl: "/bpcl.jpg", order: 1, published: true },
-  { name: "Defence Research and Development Organisation", logoUrl: "/Defence_Research_and_Development_Organisation.svg.png", order: 2, published: true },
-  { name: "Hindalco", logoUrl: "/Hindalco_Logo.svg.png", order: 3, published: true },
-  { name: "Hindustan Petroleum", logoUrl: "/Hindustan_Petroleum_Logo.svg", order: 4, published: true },
-  { name: "Honeywell", logoUrl: "/Honeywell_logo.svg.png", order: 5, published: true },
-  { name: "Indian Administrative Service", logoUrl: "/ias.jpg", order: 6, published: true },
-  { name: "Indian Police Service", logoUrl: "/Indian_police_service_logo.jpeg", order: 7, published: true },
-  { name: "Indian Revenue Service", logoUrl: "/Indian_Revenue_Service_Logo.png", order: 8, published: true },
-  { name: "ISRO", logoUrl: "/Indian_Space_Research_Organisation_Logo.svg.png", order: 9, published: true },
-  { name: "JLL", logoUrl: "/JLL_logo.svg.png", order: 10, published: true },
-  { name: "Larsen & Toubro", logoUrl: "/Larsen&Toubro_logo.svg.png", order: 11, published: true },
-  { name: "NHPC", logoUrl: "/NHPC_official_logo.svg.png", order: 12, published: true },
-  { name: "Novartis", logoUrl: "/Novartis-Logo.svg.png", order: 13, published: true },
-  { name: "Primarc", logoUrl: "/primarc.png", order: 14, published: true }
-];
+// Initial data deleted
 
 export default function AdminDashboard() {
   const { isAdmin, currentUser } = useAuth();
@@ -239,8 +120,6 @@ export default function AdminDashboard() {
   const [aboutContent, setAboutContent] = useState({});
   const [blogs, setBlogs] = useState([]);
   const [courses, setCourses] = useState([]);
-  const [testimonials, setTestimonials] = useState([]);
-  const [trainingLogos, setTrainingLogos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
@@ -374,24 +253,6 @@ export default function AdminDashboard() {
       }));
       setCourses(coursesData);
       console.log('Courses loaded:', coursesData.length);
-
-      // Fetch testimonials
-      const testimonialsSnapshot = await getDocs(collection(db, 'testimonials'));
-      const testimonialsData = testimonialsSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setTestimonials(testimonialsData);
-      console.log('Testimonials loaded:', testimonialsData.length);
-
-      // Fetch training logos
-      const logosSnapshot = await getDocs(collection(db, 'training_partners'));
-      const logosData = logosSnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      }));
-      setTrainingLogos(logosData);
-      console.log('Training logos loaded:', logosData.length);
 
       setLoading(false);
       console.log('All data loaded successfully');
@@ -582,142 +443,6 @@ export default function AdminDashboard() {
     }
   };
 
-  // Add new testimonial
-  const addTestimonial = async () => {
-    try {
-      const newTestimonial = {
-        quote: 'Enter testimonial quote here...',
-        author: 'Author Name',
-        role: 'Role/Position',
-        organization: 'Organization',
-        order: testimonials.length,
-        published: false
-      };
-      const docRef = await addDoc(collection(db, 'testimonials'), newTestimonial);
-      setTestimonials([...testimonials, { id: docRef.id, ...newTestimonial }]);
-      setMessage({ text: 'Testimonial added!', type: 'success' });
-    } catch (error) {
-      console.error('Error adding testimonial:', error);
-      setMessage({ text: 'Error adding testimonial', type: 'error' });
-    }
-  };
-
-  // Update testimonial
-  const updateTestimonial = async (testimonialId, updatedData) => {
-    try {
-      await updateDoc(doc(db, 'testimonials', testimonialId), updatedData);
-      setTestimonials(testimonials.map(t => t.id === testimonialId ? { ...t, ...updatedData } : t));
-      setMessage({ text: 'Testimonial updated successfully!', type: 'success' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    } catch (error) {
-      console.error('Error updating testimonial:', error);
-      setMessage({ text: 'Error updating testimonial', type: 'error' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    }
-  };
-
-  // Delete testimonial
-  const deleteTestimonial = async (testimonialId) => {
-    if (!confirm('Are you sure you want to delete this testimonial?')) return;
-    try {
-      await deleteDoc(doc(db, 'testimonials', testimonialId));
-      setTestimonials(testimonials.filter(t => t.id !== testimonialId));
-      setMessage({ text: 'Testimonial deleted successfully!', type: 'success' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    } catch (error) {
-      console.error('Error deleting testimonial:', error);
-      setMessage({ text: 'Error deleting testimonial', type: 'error' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    }
-  };
-
-  // Add new training logo
-  const addTrainingLogo = async () => {
-    try {
-      const newLogo = {
-        name: 'Company Name',
-        logoUrl: '', // Empty - admin will upload their own logo
-        order: trainingLogos.length,
-        published: false // Default to unpublished until logo is added
-      };
-      const docRef = await addDoc(collection(db, 'training_partners'), newLogo);
-      setTrainingLogos([...trainingLogos, { id: docRef.id, ...newLogo }]);
-      setMessage({ text: 'Training partner added! Please upload logo and update name.', type: 'success' });
-    } catch (error) {
-      console.error('Error adding training partner:', error);
-      setMessage({ text: 'Error adding training partner', type: 'error' });
-    }
-  };
-
-  // Update training logo
-  const updateTrainingLogo = async (logoId, updatedData) => {
-    try {
-      await updateDoc(doc(db, 'training_partners', logoId), updatedData);
-      setTrainingLogos(trainingLogos.map(logo => logo.id === logoId ? { ...logo, ...updatedData } : logo));
-      setMessage({ text: 'Training partner updated successfully!', type: 'success' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    } catch (error) {
-      console.error('Error updating training partner:', error);
-      setMessage({ text: 'Error updating training partner', type: 'error' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    }
-  };
-
-  // Delete training logo
-  const deleteTrainingLogo = async (logoId) => {
-    if (!confirm('Are you sure you want to delete this training partner?')) return;
-    try {
-      await deleteDoc(doc(db, 'training_partners', logoId));
-      setTrainingLogos(trainingLogos.filter(logo => logo.id !== logoId));
-      setMessage({ text: 'Training partner deleted successfully!', type: 'success' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    } catch (error) {
-      console.error('Error deleting training partner:', error);
-      setMessage({ text: 'Error deleting training partner', type: 'error' });
-      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-    }
-  };
-
-  // Bulk import testimonials
-  const importTestimonials = async () => {
-    if (!confirm(`This will add ${INITIAL_TESTIMONIALS.length} testimonials to your database. Continue?`)) return;
-    try {
-      setSaving(true);
-      let count = 0;
-      for (const testimonial of INITIAL_TESTIMONIALS) {
-        await addDoc(collection(db, 'testimonials'), testimonial);
-        count++;
-      }
-      setMessage({ text: `Successfully imported ${count} testimonials!`, type: 'success' });
-      await fetchAllData(); // Refresh data
-    } catch (error) {
-      console.error('Error importing testimonials:', error);
-      setMessage({ text: 'Error importing testimonials', type: 'error' });
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  // Bulk import training partners
-  const importTrainingPartners = async () => {
-    if (!confirm(`This will add ${INITIAL_TRAINING_PARTNERS.length} training partners to your database. Continue?`)) return;
-    try {
-      setSaving(true);
-      let count = 0;
-      for (const partner of INITIAL_TRAINING_PARTNERS) {
-        await addDoc(collection(db, 'training_partners'), partner);
-        count++;
-      }
-      setMessage({ text: `Successfully imported ${count} training partners!`, type: 'success' });
-      await fetchAllData(); // Refresh data
-    } catch (error) {
-      console.error('Error importing training partners:', error);
-      setMessage({ text: 'Error importing training partners', type: 'error' });
-    } finally {
-      setSaving(false);
-    }
-  };
-
   // Don't show anything if not admin
   if (!isAdmin && currentUser !== null) {
     return null;
@@ -744,10 +469,9 @@ export default function AdminDashboard() {
       <style>{mobileStyles}</style>
       <div style={{ minHeight: '100vh', backgroundColor: '#f5f5f5', paddingTop: '72px' }}>
         {/* Header */}
-        <div className="admin-header" style={{ backgroundColor: '#1a1a1a', color: 'white', padding: '2rem 0' }}>
+        <div className="admin-header" style={{ backgroundColor: '#1a1a1a', color: 'white', padding: '0.1rem 0' }}>
           <div className="admin-header-content" style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 2rem' }}>
-            <h1 style={{ fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Admin Dashboard</h1>
-            <p style={{ color: '#999' }}>Welcome, {currentUser?.email}</p>
+            <h1 style={{ fontSize: '5rem', fontWeight: 800, marginBottom: '0.1rem',color: 'white' }}>Admin Dashboard</h1>
           </div>
         </div>
 
@@ -817,57 +541,7 @@ export default function AdminDashboard() {
           >
             <FiYoutube /> <span>Courses</span>
           </button>
-          <button
-            className="admin-tab"
-            onClick={() => setActiveTab('testimonials')}
-            style={{
-              padding: '1rem 2rem',
-              border: 'none',
-              background: 'none',
-              borderBottom: activeTab === 'testimonials' ? '3px solid #1a1a1a' : 'none',
-              fontWeight: activeTab === 'testimonials' ? 600 : 400,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <FiStar /> <span>Testimonials</span>
-          </button>
-          <button
-            className="admin-tab"
-            onClick={() => setActiveTab('logos')}
-            style={{
-              padding: '1rem 2rem',
-              border: 'none',
-              background: 'none',
-              borderBottom: activeTab === 'logos' ? '3px solid #1a1a1a' : 'none',
-              fontWeight: activeTab === 'logos' ? 600 : 400,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <FiImage /> <span>Training Logos</span>
-          </button>
-          <button
-            className="admin-tab"
-            onClick={() => setActiveTab('about')}
-            style={{
-              padding: '1rem 2rem',
-              border: 'none',
-              background: 'none',
-              borderBottom: activeTab === 'about' ? '3px solid #1a1a1a' : 'none',
-              fontWeight: activeTab === 'about' ? 600 : 400,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            <FiUsers /> <span>About</span>
-          </button>
+          
           <button
             className="admin-tab"
             onClick={() => setActiveTab('research')}
@@ -882,10 +556,62 @@ export default function AdminDashboard() {
               alignItems: 'center',
               gap: '0.5rem'
             }}
-          
-          
           >
-            <FiDownload /> <span>Newsletter</span>
+            <FiFileText /> <span>Research</span>
+          </button>
+
+          <button
+            className="admin-tab"
+            onClick={() => setActiveTab('consulting')}
+            style={{
+              padding: '1rem 2rem',
+              border: 'none',
+              background: 'none',
+              borderBottom: activeTab === 'consulting' ? '3px solid #1a1a1a' : 'none',
+              fontWeight: activeTab === 'consulting' ? 600 : 400,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            <FiBriefcase /> <span>Consulting</span>
+          </button>
+
+          <button
+            className="admin-tab"
+            onClick={() => setActiveTab('opinions')}
+            style={{
+              padding: '1rem 2rem',
+              border: 'none',
+              background: 'none',
+              borderBottom: activeTab === 'opinions' ? '3px solid #1a1a1a' : 'none',
+              fontWeight: activeTab === 'opinions' ? 600 : 400,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            <FiEdit /> <span>Opinions</span>
+          </button>
+
+          <button
+            className="admin-tab"
+            onClick={() => setActiveTab('newsletter')}
+            style={{
+              padding: '1rem 2rem',
+              border: 'none',
+              background: 'none',
+              borderBottom: activeTab === 'newsletter' ? '3px solid #1a1a1a' : 'none',
+              fontWeight: activeTab === 'newsletter' ? 600 : 400,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
+            }}
+          >
+            <FiMail /> <span>Newsletter</span>
           </button>
           <button
             className="admin-tab"
@@ -1424,201 +1150,28 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Testimonials Tab */}
-        {activeTab === 'testimonials' && (
-          <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <div className="admin-button-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>Manage Testimonials</h2>
-              <div className="admin-button-group" style={{ display: 'flex', gap: '1rem' }}>
-                {testimonials.length === 0 && (
-                  <button
-                    onClick={importTestimonials}
-                    disabled={saving}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      backgroundColor: '#10b981',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: saving ? 'not-allowed' : 'pointer',
-                      opacity: saving ? 0.6 : 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontWeight: 600
-                    }}
-                  >
-                    <FiDownload /> {saving ? 'Importing...' : 'Import Initial Data (13 items)'}
-                  </button>
-                )}
-                <button
-                  onClick={addTestimonial}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: '#1a1a1a',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                >
-                  <FiPlus /> Add Testimonial
-                </button>
-              </div>
-            </div>
 
-            {testimonials.length === 0 && (
-              <div style={{ padding: '2rem', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#166534', marginBottom: '0.5rem' }}>
-                  No testimonials yet!
-                </h3>
-                <p style={{ color: '#15803d', marginBottom: '1rem' }}>
-                  Click "Import Initial Data" to add all 13 testimonials at once, or add them manually one by one.
-                </p>
-              </div>
-            )}
 
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
-              {testimonials.sort((a, b) => a.order - b.order).map(testimonial => (
-                <TestimonialEditor
-                  key={testimonial.id}
-                  testimonial={testimonial}
-                  onUpdate={(data) => updateTestimonial(testimonial.id, data)}
-                  onDelete={() => deleteTestimonial(testimonial.id)}
-                />
-              ))}
-            </div>
+
+
+        {/* Research Tab */}
+        {activeTab === 'research' && (
+          <div className="admin-card admin-content-section">
+             <ResearchEditor />
           </div>
         )}
 
-        {/* Training Logos Tab */}
-        {activeTab === 'logos' && (
-          <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <div className="admin-button-group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '0.5rem' }}>Manage Training Partners</h2>
-              <div className="admin-button-group" style={{ display: 'flex', gap: '1rem' }}>
-                {trainingLogos.length === 0 && (
-                  <button
-                    onClick={importTrainingPartners}
-                    disabled={saving}
-                    style={{
-                      padding: '0.75rem 1.5rem',
-                      backgroundColor: '#10b981',
-                      color: 'white',
-                      border: 'none',
-                      borderRadius: '4px',
-                      cursor: saving ? 'not-allowed' : 'pointer',
-                      opacity: saving ? 0.6 : 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      fontWeight: 600
-                    }}
-                  >
-                    <FiDownload /> {saving ? 'Importing...' : 'Import Initial Data (15 logos)'}
-                  </button>
-                )}
-                <button
-                  onClick={addTrainingLogo}
-                  style={{
-                    padding: '0.75rem 1.5rem',
-                    backgroundColor: '#1a1a1a',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                >
-                  <FiPlus /> Add Training Partner
-                </button>
-              </div>
-            </div>
-
-            {trainingLogos.length === 0 && (
-              <div style={{ padding: '2rem', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', marginBottom: '1.5rem', textAlign: 'center' }}>
-                  <h3 style={{ fontSize: '1.2rem', fontWeight: 600, color: '#166534', marginBottom: '0.5rem' }}>
-                  No training partners yet!
-                </h3>
-                <p style={{ color: '#15803d', marginBottom: '1rem' }}>
-                  Click "Import Initial Data" to add all 15 company logos at once, or add them manually one by one.
-                </p>
-              </div>
-            )}
-
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
-              {trainingLogos.sort((a, b) => a.order - b.order).map(logo => (
-                <TrainingLogoEditor
-                  key={logo.id}
-                  logo={logo}
-                  onUpdate={(data) => updateTrainingLogo(logo.id, data)}
-                  onDelete={() => deleteTrainingLogo(logo.id)}
-                />
-              ))}
-            </div>
+        {/* Consulting Tab */}
+        {activeTab === 'consulting' && (
+          <div className="admin-card admin-content-section">
+             <ConsultingEditor />
           </div>
         )}
 
-        {/* About Page Tab */}
-        {activeTab === 'about' && (
-          <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-            <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>Edit About Page Content</h2>
-            <div style={{ display: 'grid', gap: '1.5rem' }}>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Hero Heading</label>
-                <input
-                  type="text"
-                  value={aboutContent.hero_heading || ''}
-                  onChange={(e) => setAboutContent({ ...aboutContent, hero_heading: e.target.value })}
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px' }}
-                />
-              </div>
-              <div>
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Bio Heading</label>
-                <input
-                  type="text"
-                  value={aboutContent.bio_heading || ''}
-                  onChange={(e) => setAboutContent({ ...aboutContent, bio_heading: e.target.value })}
-                  style={{ width: '100%', padding: '0.75rem', border: '1px solid #ddd', borderRadius: '4px' }}
-                />
-              </div>
-              <button
-                onClick={async () => {
-                  setSaving(true);
-                  try {
-                    await updateDoc(doc(db, 'content', 'about'), aboutContent);
-                    setMessage({ text: 'About page updated successfully!', type: 'success' });
-                    setTimeout(() => setMessage({ text: '', type: '' }), 3000);
-                  } catch (error) {
-                    setMessage({ text: 'Error updating about page', type: 'error' });
-                    console.error(error);
-                  } finally {
-                    setSaving(false);
-                  }
-                }}
-                disabled={saving}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  backgroundColor: '#1a1a1a',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  cursor: saving ? 'not-allowed' : 'pointer',
-                  fontWeight: 600,
-                  opacity: saving ? 0.6 : 1
-                }}
-              >
-                {saving ? 'Saving...' : 'Save About Content'}
-              </button>
-            </div>
-            <p style={{ marginTop: '1rem', color: '#666', fontSize: '0.9rem' }}>
-              More detailed editing options coming soon. For now, you can edit the data directly in Firestore.
-            </p>
+        {/* Opinions Tab */}
+        {activeTab === 'opinions' && (
+          <div className="admin-card admin-content-section">
+             <OpinionsEditor />
           </div>
         )}
         
@@ -1626,26 +1179,7 @@ export default function AdminDashboard() {
             NEWSLETTER TAB
         ════════════════════════════════════════════════════════ */}
         {activeTab === 'newsletter' && (
-          <div>
-            {/* Compose & Send */}
-            <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '2rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                <div style={{ width: 40, height: 40, background: '#1a1a1a', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}><FiMail /></div>
-                <div>
-                  <h2 style={{ fontSize: '1.4rem', fontWeight: 700, margin: 0 }}>Send Newsletter</h2>
-                  <p style={{ margin: 0, color: '#666', fontSize: '0.85rem' }}>Compose and broadcast a message to all active subscribers</p>
-                </div>
-              </div>
-
-              {newsletterSent && newsletterResult && (
-                <div style={{ background: '#d1fae5', border: '1px solid #6ee7b7', borderRadius: '6px', padding: '1rem', marginBottom: '1.5rem', color: '#065f46', fontWeight: 500 }}>
-                  ✅ Newsletter sent to <strong>{newsletterResult.sent}</strong> subscriber(s)!
-                  {newsletterResult.failed > 0 && (
-                    <span style={{ color: '#b45309', marginLeft: '0.75rem' }}>⚠️ {newsletterResult.failed} delivery failed.</span>
-                  )}
-                </div>
-              )}
-
+          <div className="admin-card admin-content-section" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
               <div style={{ display: 'grid', gap: '1.25rem' }}>
                 <div>
                   <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>Subject *</label>
@@ -1749,7 +1283,6 @@ export default function AdminDashboard() {
                   <span style={{ color: '#888', fontSize: '0.85rem' }}>Sends via Gmail through the backend server to all <strong>{subscribers.filter(s => s.status !== 'unsubscribed').length}</strong> active subscriber(s).</span>
                 </div>
               </div>
-            </div>
 
             {/* Past Campaigns */}
             <div className="admin-card" style={{ backgroundColor: 'white', padding: '2rem', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', marginBottom: '2rem' }}>
@@ -2395,532 +1928,5 @@ function CourseEditor({ course, onUpdate, onDelete }) {
   );
 }
 
-// Testimonial Editor Component
-function TestimonialEditor({ testimonial, onUpdate, onDelete }) {
-  const [editing, setEditing] = useState(false);
-  const [editedTestimonial, setEditedTestimonial] = useState(testimonial);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState('');
 
-  // Sync local state with prop changes
-  useEffect(() => {
-    setEditedTestimonial(testimonial);
-  }, [testimonial]);
-
-  const handleSave = () => {
-    onUpdate(editedTestimonial);
-    setEditing(false);
-  };
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    try {
-      setUploading(true);
-      setUploadProgress('Uploading photo...');
-      
-      const imageUrl = await uploadToCloudinary(file, 'testimonials');
-      
-      setEditedTestimonial({ ...editedTestimonial, photoUrl: imageUrl });
-      setUploadProgress('Photo uploaded successfully! ✓');
-      
-      setTimeout(() => setUploadProgress(''), 3000);
-    } catch (error) {
-      console.error('Upload error:', error);
-      setUploadProgress('Upload failed: ' + error.message);
-      setTimeout(() => setUploadProgress(''), 5000);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <div className="admin-card" style={{ border: '1px solid #e5e5e5', borderRadius: '8px', padding: '1.5rem' }}>
-      {editing ? (
-        <div style={{ display: 'grid', gap: '1rem' }}>
-          <textarea
-            value={editedTestimonial.quote}
-            onChange={(e) => setEditedTestimonial({ ...editedTestimonial, quote: e.target.value })}
-            rows={4}
-            style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', fontSize: '1rem' }}
-            placeholder="Testimonial quote..."
-          />
-          <input
-            type="text"
-            value={editedTestimonial.author}
-            onChange={(e) => setEditedTestimonial({ ...editedTestimonial, author: e.target.value })}
-            style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px' }}
-            placeholder="Author Name"
-          />
-          <input
-            type="text"
-            value={editedTestimonial.role}
-            onChange={(e) => setEditedTestimonial({ ...editedTestimonial, role: e.target.value })}
-            style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px' }}
-            placeholder="Role/Position"
-          />
-          <input
-            type="text"
-            value={editedTestimonial.organization || ''}
-            onChange={(e) => setEditedTestimonial({ ...editedTestimonial, organization: e.target.value })}
-            style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px' }}
-            placeholder="Organization (optional)"
-          />
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
-              <FiImage style={{ display: 'inline', marginRight: '0.5rem' }} />
-              Author Photo (Optional)
-            </label>
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-              <label
-                style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: uploading ? '#9ca3af' : '#1a1a1a',
-                  color: 'white',
-                  borderRadius: '4px',
-                  cursor: uploading ? 'not-allowed' : 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                <FiUpload />
-                {uploading ? 'Uploading...' : 'Upload Photo'}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={uploading}
-                  style={{ display: 'none' }}
-                />
-              </label>
-              {uploadProgress && (
-                <span style={{ 
-                  padding: '0.5rem', 
-                  color: uploadProgress.includes('failed') ? '#ef4444' : '#10b981',
-                  fontSize: '0.9rem'
-                }}>
-                  {uploadProgress}
-                </span>
-              )}
-            </div>
-            {editedTestimonial.photoUrl && (
-              <div style={{ marginTop: '1rem' }}>
-                <img 
-                  src={editedTestimonial.photoUrl} 
-                  alt="Author photo"
-                  style={{ width: '100px', height: '100px', borderRadius: '50%', objectFit: 'cover', border: '3px solid #e5e5e5' }}
-                  onError={(e) => e.target.style.display = 'none'}
-                />
-                <button
-                  onClick={() => setEditedTestimonial({ ...editedTestimonial, photoUrl: '' })}
-                  style={{ 
-                    marginTop: '0.5rem',
-                    padding: '0.25rem 0.5rem',
-                    backgroundColor: '#ef4444',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '0.875rem',
-                    display: 'block'
-                  }}
-                >
-                  Remove Photo
-                </button>
-              </div>
-            )}
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Display Order</label>
-            <input
-              type="number"
-              value={editedTestimonial.order}
-              onChange={(e) => setEditedTestimonial({ ...editedTestimonial, order: parseInt(e.target.value) || 0 })}
-              style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', width: '150px' }}
-            />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <input
-                type="checkbox"
-                checked={editedTestimonial.published}
-                onChange={(e) => setEditedTestimonial({ ...editedTestimonial, published: e.target.checked })}
-              />
-              Published
-            </label>
-          </div>
-          <div className="admin-editor-actions" style={{ display: 'flex', gap: '1rem' }}>
-            <button
-              onClick={handleSave}
-              style={{ padding: '0.5rem 1rem', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <FiSave /> Save
-            </button>
-            <button
-              onClick={() => setEditing(false)}
-              style={{ padding: '0.5rem 1rem', backgroundColor: '#6b7280', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <FiX /> Cancel
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="admin-form-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '1rem' }}>
-            <div className="logo-info-wrapper" style={{ display: 'flex', alignItems: 'start', gap: '1rem', flex: 1 }}>
-              <div className="logo-preview-container" style={{ 
-                minWidth: '180px', 
-                width: '180px',
-                height: '100px', 
-                backgroundColor: '#ffffff', 
-                border: '2px solid #e5e5e5',
-                borderRadius: '8px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                padding: '1rem',
-                flexShrink: 0,
-                position: 'relative'
-              }}>
-                {logo.logoUrl ? (
-                  <img 
-                    src={logo.logoUrl} 
-                    alt={logo.name}
-                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                    onError={(e) => e.target.style.display = 'none'}
-                  />
-                ) : (
-                  <div style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    color: '#999',
-                    fontSize: '0.75rem'
-                  }}>
-                    <FiImage size={24} color="#ccc" />
-                    <span style={{ marginTop: '0.5rem' }}>No Logo</span>
-                  </div>
-                )}
-              </div>
-              <div className="logo-card-content" style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{logo.name}</h3>
-                <p className="logo-url-text" style={{ 
-                  fontSize: '0.75rem', 
-                  color: '#999', 
-                  marginBottom: '0.75rem',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>{logo.logoUrl}</p>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <span style={{ 
-                    display: 'inline-block', 
-                    padding: '0.25rem 0.75rem', 
-                    backgroundColor: logo.published ? '#10b981' : '#6b7280',
-                    color: 'white',
-                    borderRadius: '999px',
-                    fontSize: '0.75rem'
-                  }}>
-                    {logo.published ? 'Published' : 'Draft'}
-                  </span>
-                  <span style={{ fontSize: '0.85rem', color: '#999' }}>Order: {logo.order}</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-              <button
-                onClick={() => setEditing(true)}
-                style={{ padding: '0.5rem', backgroundColor: '#1a1a1a', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                <FiEdit />
-              </button>
-              <button
-                onClick={onDelete}
-                style={{ padding: '0.5rem', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                <FiTrash2 />
-              </button>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
-// Training Logo Editor Component
-function TrainingLogoEditor({ logo, onUpdate, onDelete }) {
-  const [editing, setEditing] = useState(false);
-  const [editedLogo, setEditedLogo] = useState(logo);
-  const [uploading, setUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState('');
-
-  // Sync local state with prop changes
-  useEffect(() => {
-    setEditedLogo(logo);
-  }, [logo]);
-
-  const handleSave = () => {
-    onUpdate(editedLogo);
-    setEditing(false);
-  };
-
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    try {
-      setUploading(true);
-      setUploadProgress('Uploading logo...');
-      
-      const imageUrl = await uploadToCloudinary(file, 'logos');
-      
-      setEditedLogo({ ...editedLogo, logoUrl: imageUrl });
-      setUploadProgress('Logo uploaded successfully! ✓');
-      
-      setTimeout(() => setUploadProgress(''), 3000);
-    } catch (error) {
-      console.error('Upload error:', error);
-      setUploadProgress('Upload failed: ' + error.message);
-      setTimeout(() => setUploadProgress(''), 5000);
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  return (
-    <div className="admin-card" style={{ 
-      border: '1px solid #e5e5e5', 
-      borderRadius: '8px', 
-      padding: '1.5rem',
-      backgroundColor: '#fff',
-      transition: 'box-shadow 0.2s',
-      boxShadow: '0 1px 2px rgba(0,0,0,0.05)'
-    }}>
-      {editing ? (
-        <div style={{ display: 'grid', gap: '1rem' }}>
-          <input
-            type="text"
-            value={editedLogo.name}
-            onChange={(e) => setEditedLogo({ ...editedLogo, name: e.target.value })}
-            style={{ fontSize: '1rem', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px' }}
-            placeholder="Company/Organization Name"
-          />
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>
-              <FiImage style={{ display: 'inline', marginRight: '0.5rem' }} />
-              Company Logo
-            </label>
-            <div style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-              <label
-                style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: uploading ? '#9ca3af' : '#1a1a1a',
-                  color: 'white',
-                  borderRadius: '4px',
-                  cursor: uploading ? 'not-allowed' : 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.5rem'
-                }}
-              >
-                <FiUpload />
-                {uploading ? 'Uploading...' : 'Upload Logo'}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  disabled={uploading}
-                  style={{ display: 'none' }}
-                />
-              </label>
-              {uploadProgress && (
-                <span style={{ 
-                  padding: '0.5rem', 
-                  color: uploadProgress.includes('failed') ? '#ef4444' : '#10b981',
-                  fontSize: '0.9rem'
-                }}>
-                  {uploadProgress}
-                </span>
-              )}
-            </div>
-            <input
-              type="text"
-              value={editedLogo.logoUrl}
-              onChange={(e) => setEditedLogo({ ...editedLogo, logoUrl: e.target.value })}
-              style={{ width: '100%', padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', marginTop: '0.5rem' }}
-              placeholder="Or paste logo URL"
-            />
-            {editedLogo.logoUrl ? (
-              <div style={{ marginTop: '1rem' }}>
-                <div style={{ padding: '1rem', backgroundColor: '#f9fafb', borderRadius: '8px', display: 'flex', justifyContent: 'center', minHeight: '120px', alignItems: 'center' }}>
-                  <img 
-                    src={editedLogo.logoUrl} 
-                    alt={editedLogo.name}
-                    style={{ maxWidth: '250px', maxHeight: '100px', objectFit: 'contain' }}
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                      e.target.nextSibling.style.display = 'block';
-                    }}
-                  />
-                  <p style={{ display: 'none', color: '#ef4444', fontSize: '0.85rem' }}>Logo failed to load. Check the URL.</p>
-                </div>
-                <button
-                  onClick={() => setEditedLogo({ ...editedLogo, logoUrl: '' })}
-                  style={{ 
-                    marginTop: '0.5rem',
-                    padding: '0.25rem 0.5rem',
-                    backgroundColor: '#ef4444',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '0.875rem'
-                  }}
-                >
-                  Remove Logo
-                </button>
-              </div>
-            ) : (
-              <div style={{ 
-                marginTop: '1rem', 
-                padding: '2rem', 
-                backgroundColor: '#f9fafb', 
-                borderRadius: '8px', 
-                border: '2px dashed #d1d5db',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '0.5rem'
-              }}>
-                <FiImage size={40} color="#9ca3af" />
-                <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: 0 }}>No logo uploaded yet</p>
-                <p style={{ color: '#9ca3af', fontSize: '0.8rem', margin: 0 }}>Upload an image or paste a URL above</p>
-              </div>
-            )}
-          </div>
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 500 }}>Display Order</label>
-            <input
-              type="number"
-              value={editedLogo.order}
-              onChange={(e) => setEditedLogo({ ...editedLogo, order: parseInt(e.target.value) || 0 })}
-              style={{ padding: '0.5rem', border: '1px solid #ddd', borderRadius: '4px', width: '150px' }}
-            />
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <input
-                type="checkbox"
-                checked={editedLogo.published}
-                onChange={(e) => setEditedLogo({ ...editedLogo, published: e.target.checked })}
-              />
-              Published
-            </label>
-          </div>
-          <div className="admin-editor-actions" style={{ display: 'flex', gap: '1rem' }}>
-            <button
-              onClick={handleSave}
-              style={{ padding: '0.5rem 1rem', backgroundColor: '#10b981', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <FiSave /> Save
-            </button>
-            <button
-              onClick={() => setEditing(false)}
-              style={{ padding: '0.5rem 1rem', backgroundColor: '#6b7280', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}
-            >
-              <FiX /> Cancel
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <div className="admin-form-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', gap: '1rem' }}>
-            <div className="logo-info-wrapper" style={{ display: 'flex', alignItems: 'start', gap: '1rem', flex: 1 }}>
-              <div className="logo-preview-container" style={{ 
-                minWidth: '180px', 
-                width: '180px',
-                height: '100px', 
-                backgroundColor: '#ffffff', 
-                border: '2px solid #e5e5e5',
-                borderRadius: '8px', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                padding: '1rem',
-                flexShrink: 0,
-                position: 'relative'
-              }}>
-                {logo.logoUrl ? (
-                  <img 
-                    src={logo.logoUrl} 
-                    alt={logo.name}
-                    style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
-                    onError={(e) => e.target.style.display = 'none'}
-                  />
-                ) : (
-                  <div style={{ 
-                    display: 'flex', 
-                    flexDirection: 'column', 
-                    alignItems: 'center', 
-                    justifyContent: 'center',
-                    textAlign: 'center',
-                    color: '#999',
-                    fontSize: '0.75rem'
-                  }}>
-                    <FiImage size={24} color="#ccc" />
-                    <span style={{ marginTop: '0.5rem' }}>No Logo</span>
-                  </div>
-                )}
-              </div>
-              <div className="logo-card-content" style={{ flex: 1, minWidth: 0 }}>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: 600, marginBottom: '0.5rem' }}>{logo.name}</h3>
-                <p className="logo-url-text" style={{ 
-                  fontSize: '0.75rem', 
-                  color: '#999', 
-                  marginBottom: '0.75rem',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                }}>{logo.logoUrl}</p>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <span style={{ 
-                    display: 'inline-block', 
-                    padding: '0.25rem 0.75rem', 
-                    backgroundColor: logo.published ? '#10b981' : '#6b7280',
-                    color: 'white',
-                    borderRadius: '999px',
-                    fontSize: '0.75rem'
-                  }}>
-                    {logo.published ? 'Published' : 'Draft'}
-                  </span>
-                  <span style={{ fontSize: '0.85rem', color: '#999' }}>Order: {logo.order}</span>
-                </div>
-              </div>
-            </div>
-            <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-              <button
-                onClick={() => setEditing(true)}
-                style={{ padding: '0.5rem', backgroundColor: '#1a1a1a', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                <FiEdit />
-              </button>
-              <button
-                onClick={onDelete}
-                style={{ padding: '0.5rem', backgroundColor: '#ef4444', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
-              >
-                <FiTrash2 />
-              </button>
-            </div>
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
 

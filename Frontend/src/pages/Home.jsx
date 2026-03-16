@@ -30,6 +30,8 @@ export default function Home() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState({ message: '', type: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // For book description expand/collapse
+  const [expandedBooks, setExpandedBooks] = useState([false, false, false]);
 
   const formatDate = (dateVal) => {
     if (!dateVal) return '';
@@ -200,7 +202,7 @@ export default function Home() {
           <div className="absolute right-[10%] bottom-[12%] w-64 h-64 rounded-full bg-[#1E2A38]/[0.05] blur-3xl" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-8 sm:pt-12 lg:pt-16 pb-12 sm:pb-16 lg:pb-20">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-4 sm:pt-8 lg:pt-12 pb-12 sm:pb-16 lg:pb-20">
           {/* Mobile: stacked (text → image), Desktop: side-by-side (image | text) */}
           <div className="flex flex-col lg:grid lg:grid-cols-[0.85fr_1.15fr] gap-8 lg:gap-16 lg:items-center">
 
@@ -239,15 +241,15 @@ export default function Home() {
                 multiline
               />
 
-              <div className="mt-7 sm:mt-9 flex flex-col xs:flex-row flex-wrap justify-center lg:justify-start gap-3">
-                <Link to="/about" className="w-full xs:w-auto">
-                  <button className="w-full xs:w-auto bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] transition-colors">
+              <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 max-w-lg mx-auto lg:mx-0">
+                <Link to="/about" className="flex-1 min-w-[140px]">
+                  <button className="w-full bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] transition-colors">
                     View Profile
                   </button>
                 </Link>
 
-                <Link to="/research" className="w-full xs:w-auto">
-                  <button className="w-full xs:w-auto border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 transition-colors">
+                <Link to="/research" className="flex-1 min-w-[140px]">
+                  <button className="w-full border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 transition-colors">
                     Explore Research
                   </button>
                 </Link>
@@ -291,7 +293,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-16 bg-white border-y border-[#e7dfd2]">
+      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-8 bg-white border-y border-[#e7dfd2]">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -368,7 +370,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-20">
+      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-10">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -404,6 +406,23 @@ export default function Home() {
                 const desc = isStatic ? data[book.df] : book.description || book.subtitle || '';
                 const link = isStatic ? data[book.linkf] || '/book' : book.amazonLink || '/book';
 
+                const showMore = expandedBooks[i];
+                // CSS for two-line clamp
+                const clampClass = !showMore
+                  ? 'line-clamp-2 overflow-hidden text-ellipsis'
+                  : '';
+
+                // Check if description needs clamping
+                const shouldClamp = desc && desc.split(' ').length > 10; // crude check for length
+
+                const handleToggle = () => {
+                  setExpandedBooks((prev) => {
+                    const updated = [...prev];
+                    updated[i] = !updated[i];
+                    return updated;
+                  });
+                };
+
                 return (
                   <motion.div
                     key={isStatic ? i : book.id}
@@ -426,8 +445,23 @@ export default function Home() {
                       {title}
                     </h3>
 
-                    <p className="text-sm sm:text-base text-[#55606d] leading-relaxed font-['Inter'] mb-5">
+                    <p className={`text-sm sm:text-base text-[#55606d] leading-relaxed font-['Inter'] mb-5 ${clampClass}`} style={!showMore ? {
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    } : {}}>
                       {desc}
+                      {shouldClamp && (
+                        <button
+                          type="button"
+                          className="ml-2 text-[#b08b47] hover:underline text-xs font-semibold focus:outline-none"
+                          onClick={handleToggle}
+                        >
+                          {showMore ? 'Show less' : 'Show more'}
+                        </button>
+                      )}
                     </p>
 
                     <a
@@ -446,7 +480,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-16 bg-[#1E2A38] text-white">
+      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-8 bg-[#1E2A38] text-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -546,7 +580,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-4 sm:px-6 lg:px-16 py-12 sm:py-14 lg:py-20 bg-white">
+      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-10 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"

@@ -1,9 +1,10 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const admin = require('firebase-admin');
 const nodemailer = require('nodemailer');
-require('dotenv').config();
+const uploadImageRouter = require('./routes/uploadImage');
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -32,6 +33,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/api', uploadImageRouter);
 
 // YouTube API endpoint
 app.get('/api/youtube/videos', async (req, res) => {
