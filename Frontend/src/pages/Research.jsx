@@ -361,6 +361,113 @@ export default function Research() {
 
   const phdStudents = { chairperson: [], member: [] };
 
+  const recentPhdScholars = [
+    {
+      name: 'Ayan Chatterjee',
+      affiliation: 'Operations & Supply Chain Management Department, SP Jain Institute of Management & Research, Mumbai',
+      thesis: 'BDT-MCDM Synergy in Improving the Attractiveness of a Business School'
+    },
+    {
+      name: 'Somu Gorai',
+      affiliation: 'OM Group, IIM Calcutta',
+      thesis: 'Essays on the modeling of Integrated Production & Procurement, Distribution and Routing of Perishable Products'
+    },
+    {
+      name: 'Utsav Pandey',
+      affiliation: 'OM Group, IIM Calcutta',
+      thesis: 'A study of environmental efficiency in a multi-level production system using Data Envelopment Analysis'
+    },
+    {
+      name: 'Vallurupalli Vamsi',
+      affiliation: 'MIS Group, IIM Calcutta',
+      thesis: 'Understanding Influencers and Influential Content in Electronic Word of Mouth Communication: An Analytics Approach'
+    },
+    {
+      name: 'Abhishek Shinde',
+      affiliation: 'OM Group, IIM Calcutta',
+      thesis: 'Stochastic Inventory Decisions Under Ambiguity: An Experimental Study'
+    },
+    {
+      name: 'Sourav Saha',
+      affiliation: 'MIS Group, IIM Calcutta',
+      thesis: 'Heuristically guided Recommender Systems in Social Media using a Cloud Computing Platform and application to Computational Advertising'
+    },
+    {
+      name: 'Sourav Basu',
+      affiliation: 'OM Group, IIM Calcutta',
+      thesis: 'On optimal location of inter-modal terminals'
+    },
+    {
+      name: 'Rahul Thakurta',
+      affiliation: 'MIS Group, IIM Calcutta',
+      thesis: 'A Study on the Dynamics of Software Requirement Volatility, and Strategies for its Management'
+    }
+  ];
+
+  const recentDissertations = [
+    {
+      institution: 'Indian Maritime University',
+      thesis: 'A critical evaluation of Multimodal Freight Transportation in India – A case study based approach'
+    },
+    {
+      institution: 'IIM Bangalore',
+      thesis: 'Improving the Solvability of Combinatorial Optimization Problems'
+    },
+    {
+      institution: 'IIT Bombay',
+      thesis: 'Routing and Scheduling of Trains in a Railway Network'
+    },
+    {
+      institution: 'IIT Madras',
+      thesis: 'Coordinating raw material discounts in a Global supply chain for deteriorating items under price dependent demand'
+    },
+    {
+      institution: 'IIT Madras',
+      thesis: 'Capacity Reservation and Multi-Period Order Lot Sizing Under Dynamic Demand Conditions for Supplier Selection'
+    },
+    {
+      institution: 'IIT Madras',
+      thesis: 'Modeling Capacitated Lot-Sizing Problem with Setup Carryover and Setup Splitting'
+    },
+    {
+      institution: 'NIT Agartala',
+      thesis: 'Study on forward and reverse green supply chain management in different environment'
+    },
+    {
+      institution: 'IIM Calcutta',
+      thesis: 'Efficiency Measurement of Higher Education Sector in India: Evaluation with DEA'
+    },
+    {
+      institution: 'IIM Bangalore',
+      thesis: 'Workforce planning for professional service projects: a branch-and-cut approach'
+    },
+    {
+      institution: 'IIM Calcutta',
+      thesis: 'DEA models & methods for efficiency improvement under constant sum of inputs/outputs'
+    }
+  ];
+
+  const corporatePrograms = [
+    'Joint Program Director for Management Development Program on Advanced Supply Chain Management',
+    'Joint Program Director for Management Development Program on Project Management for Officers of Directorate General of Lighthouses and Lightships (Ministry of Ports, Shipping & Waterways)',
+    'Joint Program Director for Executive General Management Program for Executives of Accenture',
+    'Joint Program Director for Management Development Program on Financial Decision Making for West Bengal Revenue Service & West Bengal Audit & Accounts Service Officers',
+    'Joint Program Director for Management Development Program on Lean Management',
+    'Joint Program Director for Management Development Program on Quality Analytics',
+    'Joint Program Director for Management Development Program on Theory of Constraints & Lean Management',
+    'Joint Program Director for Executive General Management Program for Executives of AstraZeneca',
+    'Program Director for Advanced Project Management for Scientists of Defence Research and Development Organization (Ministry of Defence)',
+    'Joint Program Director for Executive General Management Program for Executives of Nestle',
+    'Joint Program Director for General Management Program for Executives of Delhi Metro Rail Corporation',
+    'Program Director for Ministry of Heavy Industries & Public Enterprises (Department of Public Enterprises) sponsored training program on Project Management for Senior Executives of State Level Public Enterprises',
+    'Joint Program Director for NIIT Imperia Executive Program in Advanced Supply Chain Management',
+    'Program Director for Project Management Institute and Ministry of Statistics and Program Implementation sponsored Project Management Across Borders for Central Public Sector Enterprise Officers',
+    'Joint Program Director for Management Development Program in Project Management',
+    'Joint Program Director for Railway Board sponsored Executive General Management Program for Indian Railway Service Probationer Officers',
+    'Joint Program Director for Department for North Eastern Region sponsored Management Development Program on Customer Orientation in Public Services',
+    'Joint Program Director for Pradhan Mantri Gram Sadak Yojana (PMGSY) sponsored Management Development Program for Executives on Maintenance Management'
+  ];
+
   const bookChapters = [];
 
   const specialIssues = [];
@@ -444,7 +551,6 @@ export default function Research() {
           </motion.div>
         </div>
       </section>
-
       {/* Quick Links */}
       <section className="py-12 px-6 lg:px-16 bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto">
@@ -587,115 +693,7 @@ export default function Research() {
         </div>
       </section>
 
-      {/* Cases and Technical Notes */}
-      <section className="py-16 px-6 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
-          {/* Cases */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={fadeInUp}
-          >
-            <div className="flex items-center justify-between flex-wrap gap-3 mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-[#B9975B] rounded-lg flex items-center justify-center">
-                  <FiFileText className="text-white text-xl" />
-                </div>
-                <h2 className="text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">
-                  Cases
-                </h2>
-              </div>
-              {isAdmin && (
-                <button
-                  onClick={() => setShowAddCase(true)}
-                  className="flex items-center gap-2 bg-[#B9975B] hover:bg-[#1E2A38] text-white px-3 py-1.5 rounded-lg text-sm font-semibold transition-all"
-                >
-                  <FiPlus size={16} /> Add Case
-                </button>
-              )}
-            </div>
-
-            {showAddCase && isAdmin && (
-              <div className="mb-4 p-4 bg-white rounded-lg border-2 border-[#555555]">
-                <CaseForm
-                  onSave={addCase}
-                  onCancel={() => setShowAddCase(false)}
-                />
-              </div>
-            )}
-
-            <ul className="space-y-3">
-              {displayCases.map((caseItem, index) => (
-                  <li key={caseItem.id || index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#B9975B] hover:bg-[#F7F4EE] p-2 transition-colors relative group">
-                  {isAdmin && (
-                    <button
-                      onClick={() => deleteCase(caseItem)}
-                      className="absolute top-2 right-2 p-1.5 bg-red-500 hover:bg-red-600 text-white rounded opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <FiTrash2 size={14} />
-                    </button>
-                  )}
-                  <div className="flex flex-col gap-1">
-                    <span className="font-semibold">{caseItem.title}</span>
-                    <span className="text-sm text-gray-500">({caseItem.code})</span>
-                    {caseItem.link && (
-                      <a 
-                        href={caseItem.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-[#B9975B] hover:text-[#1E2A38] text-sm inline-flex items-center gap-1 mt-1"
-                      >
-                        <FiExternalLink size={12} /> View Case
-                      </a>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
-          {/* Technical Notes */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={fadeInUp}
-          >
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-[#1E2A38] rounded-lg flex items-center justify-center">
-                <FiBookOpen className="text-white text-xl" />
-              </div>
-              <h2 className="text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">
-                Technical Notes
-              </h2>
-            </div>
-            <ul className="space-y-3">
-              {technicalNotes.map((note, index) => (
-                <li key={index} className="font-['Inter'] text-gray-700 pl-4 border-l-2 border-[#B9975B] hover:bg-[#F7F4EE] p-2 transition-colors">
-                  <div className="flex flex-col gap-1">
-                    <span className="font-semibold">{note.title}</span>
-                    <span className="text-sm text-gray-500">({note.code})</span>
-                    {note.link && (
-                      <a 
-                        href={note.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-[#B9975B] hover:text-[#1E2A38] text-sm inline-flex items-center gap-1 mt-1"
-                      >
-                        <FiExternalLink size={12} /> View Note
-                      </a>
-                    )}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        </div>
-      </section>
-
-
-      {/* Special Issues */}
+        {/* Recent PhD Scholars Guided */}
       <section className="py-16 px-6 lg:px-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -703,45 +701,42 @@ export default function Research() {
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInUp}
-            className="mb-12"
+            className="mb-8 text-center"
           >
             <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-              Special Issues Edited
+              Recent PhD Scholars Guided
             </h2>
-            <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mx-auto mb-6"></div>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {specialIssues.map((issue, index) => (
+            {recentPhdScholars.map((s, idx) => (
               <motion.div
-                key={index}
+                key={idx}
                 initial="hidden"
                 whileInView="visible"
                 viewport={viewportOptions}
                 variants={fadeInUp}
-                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#B9975B] border border-[#D9D6CF]"
+                className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1E2A38]"
               >
-                <h3 className="text-xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-2">
-                  {issue.title}
-                </h3>
-                <p className="font-['Inter'] text-gray-600 mb-3">{issue.description}</p>
-                {issue.link !== "#" && (
-                  <a 
-                    href={issue.link} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-[#B9975B] hover:text-[#1E2A38] font-['Inter'] text-sm inline-flex items-center gap-1 font-semibold"
-                  >
-                    <FiExternalLink size={14} /> View Journal
-                  </a>
-                )}
+                <div className="flex items-start gap-3 mb-3">
+                  <div className="w-10 h-10 bg-[#1E2A38] rounded-full flex items-center justify-center">
+                    <FiUsers className="text-white" />
+                  </div>
+                  <div>
+                    <div className="text-lg font-semibold text-[#1E2A38]">{s.name}</div>
+                    <div className="text-sm text-gray-600">{s.affiliation}</div>
+                  </div>
+                </div>
+                <div className="text-sm text-gray-700 italic"><span className="font-semibold">Thesis:</span> {s.thesis}</div>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PhD Students */}
+      {/* Research Projects Section */}
+      {/* Recent PhD Dissertations Examined */}
       <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -749,65 +744,41 @@ export default function Research() {
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInUp}
-            className="mb-12 text-center"
+            className="mb-8"
           >
-            <div className="flex items-center justify-center gap-3 mb-4">
-              <div className="w-14 h-14 bg-[#1E2A38] rounded-full flex items-center justify-center">
-                <FiUsers className="text-white text-2xl" />
-              </div>
-            </div>
-            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-              PhD Students Guided
-            </h2>
-            <div className="w-24 h-1 bg-[#B9975B] rounded-full mx-auto"></div>
+            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">Recent PhD Dissertations Examined</h2>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-6"></div>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            {/* TAC Chairperson */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOptions}
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-xl shadow-lg"
-            >
-              <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
-                As TAC Chairperson
-              </h3>
-              <div className="space-y-4">
-                {phdStudents.chairperson.map((student, index) => (
-                  <div key={index} className="border-l-4 border-[#B9975B] pl-4 py-2 hover:bg-[#F7F4EE] transition-colors">
-                    <p className="font-['Inter'] font-semibold text-[#1E2A38]">{student.name}</p>
-                    <p className="font-['Inter'] text-sm text-gray-600">{student.position}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* TAC Member */}
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOptions}
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-xl shadow-lg"
-            >
-              <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-6">
-                As TAC Member
-              </h3>
-              <div className="space-y-3">
-                {phdStudents.member.map((student, index) => (
-                    <div key={index} className="border-l-4 border-[#B9975B] pl-4 py-2 hover:bg-[#F7F4EE] transition-colors">
-                    <p className="font-['Inter'] text-gray-700">{student}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {recentDissertations.map((d, i) => (
+              <motion.div key={i} initial="hidden" whileInView="visible" viewport={viewportOptions} variants={fadeInUp} className="bg-white p-6 rounded-xl shadow-md border-l-4 border-[#B9975B]">
+                <div className="text-lg font-semibold text-[#1E2A38] mb-1">{d.institution}</div>
+                <div className="text-sm text-gray-700 italic">{d.thesis}</div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Research Projects Section */}
+      {/* Recent Corporate Training Programs Directed at IIM Calcutta */}
+      <section className="py-16 px-6 lg:px-16 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewportOptions} variants={fadeInUp} className="mb-8">
+            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38] mb-4">Recent Corporate Training Programs Directed at IIM Calcutta</h2>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-6"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <ol className="list-decimal list-inside space-y-2 text-gray-700">
+              {corporatePrograms.map((p, i) => (
+                <li key={i} className="text-sm">{p}</li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+
       <motion.section 
         className="py-20 px-4 bg-white"
         initial="hidden"

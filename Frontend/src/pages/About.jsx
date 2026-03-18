@@ -49,6 +49,26 @@ const DEFAULT_BOARD_POSITIONS = [
 
 const DEFAULT_MEDIA = [];
 
+const DEFAULT_OTHER_ACTIVITIES = [
+  'Certified Independent Director, World Council of Directors & Indian Institute of Corporate Affairs(Ministry of Corporate Affairs, Government of India) empanelled Independent Director (Registration No  IDDB-DI-202408-063840)',
+  'Member, Advisory Board, IFPPM (Institute for Practical Project Management), Canada',
+  "Paper setter for Union Public Service Commission's Civil Service Examination",
+  "Paper setter for IIM’s Common Admission Test(CAT)",
+  'Member, United States of America & India Educational Foundation (USIEF) Fulbright Senior Research Fellowship Screening Committee',
+  'Member, Faculty Selection Committee, IIIT-Bangalore',
+  'Member, Faculty Selection Committee, Indian Statistical Institute',
+  'Member, Faculty Selection Board, BITS Pilani',
+  'Member, Faculty Selection Board, Rajiv Gandhi Institute of Petroleum Technology',
+  'Member, Logistics Committee, Confederation of Indian Industries(Eastern Region)',
+  'Research grants reviewer for Ministry of Science & Technology, Government of India',
+  'Served as a judge of the QS (Quacquarelli Symonds, London) Reimagine Education Awards 2024, 2025',
+  'Member of Board of Trustees of The Future Foundation School (Sri Aurobindo Institute of Culture), Kolkata.',
+  'Member of Academic Council, Bharathidesan Institute of Management, Tiruchirappalli',
+  "External Expert of Amity University's Academic and Administrative Development Centre Advisory Committee",
+  'Member, 11th Plan Working Group on Logistics, Planning Commission, Government of India 2006-07',
+  'Course Director, Indian Railway Service of Electrical Engineers Probationer Officers, IRIEEN, 2003-05',
+  'Functioned as Sole & Joint Arbitrator for Indian Railway contractual disputes, 1997-2003'
+];
 export default function About() {
   const { isAdmin } = useAuth();
 
@@ -92,6 +112,7 @@ export default function About() {
     workExperience: DEFAULT_WORK_EXPERIENCE,
     boardPositions: DEFAULT_BOARD_POSITIONS,
     mediaOutlets: DEFAULT_MEDIA,
+    otherActivities: DEFAULT_OTHER_ACTIVITIES,
   };
 
   const { data: aboutData, loading } = useFirestoreDoc('content', 'about', defaultAboutData);
@@ -183,6 +204,17 @@ export default function About() {
     { icon: <FiBookOpen />, title: "Author", desc: "Publications coming soon." }
   ];
 
+  const INVITED_TALKS_RECENT = [
+    'Smart Chains: Leveraging AI in Supply Chain Management — Xavier Business School MBA Induction Program (2025)',
+    'Artificial Intelligence for Healthcare — KPC Medical College & Hospital (2025)',
+    'AI and Analytics in Supply Chain Optimization — ICDTBESDVB 2025, IIT(ISM) Dhanbad (2025)',
+    'Building the backbone of Bharat: Infrastructure as the catalyst for National progress — Army Institute of Management (2025) — https://youtu.be/Vq_iYkz32So',
+    'Harnessing Artificial Intelligence for Effective Management — ICFAI Business School (2025)',
+    'Industry Magnates Premier Podcast: FaceTime with Leaders — https://www.youtube.com/watch?v=OfBfJJrk9KU (2025)'
+  ];
+
+  const INVITED_TALKS_EARLIER_SUMMARY = 'Selected earlier invited talks include presentations at IIT Roorkee, IIT Kharagpur, University of Michigan (Ann Arbor), Variable Energy Cyclotron Centre, IIM Rohtak, IIT Bombay, IBM Project Management forum, and various national seminars (2006–2024).';
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -214,7 +246,7 @@ export default function About() {
                 className="text-5xl lg:text-7xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]"
               />
             </h1>
-            <p className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
+            <div className="text-xl lg:text-2xl font-['Inter'] text-gray-600 max-w-3xl mx-auto">
               <EditableText
                 collection="content"
                 docId="about"
@@ -223,7 +255,7 @@ export default function About() {
                 className="text-xl lg:text-2xl font-['Inter'] text-gray-600"
                 multiline
               />
-            </p>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -258,16 +290,16 @@ export default function About() {
             </h2>
             <div className="w-24 h-1 bg-[#B9975B] rounded-full mx-auto"></div>
             <div className="space-y-6 text-left">
-              <p className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
+              <div className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
                 <EditableText collection="content" docId="about" field="journey.paragraph1"
                   defaultValue={aboutData?.journey?.paragraph1}
                   className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed" multiline />
-              </p>
-              <p className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
+              </div>
+              <div className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed">
                 <EditableText collection="content" docId="about" field="journey.paragraph2"
                   defaultValue={aboutData?.journey?.paragraph2}
                   className="text-lg lg:text-xl font-['Inter'] text-gray-700 leading-relaxed" multiline />
-              </p>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -650,7 +682,40 @@ export default function About() {
             <p className="text-lg font-['Inter'] text-gray-700 mt-8 leading-relaxed">
               Academic publications in <span className="font-semibold">Academy of Management Journal</span>, <span className="font-semibold">Human Resource Management</span>, <span className="font-semibold">Personnel Review</span>, and more.
             </p>
+
+            {/* Invited Talks (summarized) */}
+            <div className="mt-8">
+              <h4 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">Invited Talks</h4>
+              <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-4"></div>
+              <p className="text-md font-['Inter'] text-gray-700 mb-4">Selected recent and notable invited talks (concise):</p>
+              <div className="flex flex-col gap-3">
+                {INVITED_TALKS_RECENT.map((t, i) => (
+                  <span key={i} className="bg-white px-4 py-2 rounded-full text-sm font-['Inter'] font-semibold text-[#1E2A38] shadow-md border border-[#1E2A38]/30 inline-flex items-center gap-1.5 break-words whitespace-normal">
+                    {t}
+                  </span>
+                ))}
+              </div>
+              <p className="text-sm text-gray-600 mt-4 break-words whitespace-normal">{INVITED_TALKS_EARLIER_SUMMARY}</p>
+            </div>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Other Activities */}
+      <section className="py-16 px-6 lg:px-20 bg-[#F7F4EE]">
+        <div className="max-w-6xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewportOptions} variants={fadeInUp} className="mb-8">
+            <h2 className="text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#1E2A38]">Other Activities</h2>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-6"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {(aboutData?.otherActivities || DEFAULT_OTHER_ACTIVITIES).map((act, i) => (
+              <div key={i} className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-[#1E2A38] text-sm text-gray-700">
+                {act}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>

@@ -113,6 +113,13 @@ const mobileStyles = `
 // Initial data deleted
 
 export default function AdminDashboard() {
+  // Inject mobile styles for responsive admin dashboard
+  useEffect(() => {
+    const styleTag = document.createElement('style');
+    styleTag.innerHTML = mobileStyles;
+    document.head.appendChild(styleTag);
+    return () => { document.head.removeChild(styleTag); };
+  }, []);
   const { isAdmin, currentUser } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('home');

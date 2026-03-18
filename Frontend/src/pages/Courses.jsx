@@ -193,6 +193,36 @@ export default function Courses() {
     </motion.div>
   );
 
+  // Static list of courses taught at IIM Calcutta
+  const iimCourses = [
+    'Operations Research Modeling',
+    'Quality Management & Six Sigma',
+    'Project Management',
+    'Operations Management',
+    'Supply Chain Management',
+    'Sustainable Supply Chain Analytics',
+    'Lean Management',
+    'Management of Technology',
+    'Advanced Graph Theory',
+    'Simulation',
+    'Business Applications of Game Theory',
+    'Business Risk Management',
+    'Public Systems Management',
+    'Entrepreneurship for NGOs',
+    'Managerial Problem Solving',
+    'Business Mathematics',
+    'Data Communication and networking',
+    'Database Management Systems',
+    'Visual Basic & VBA Programming',
+    'Contracts Management & Arbitration',
+    'Transport Economics',
+    'Urban Transport',
+    'Transport Forecasting',
+    'Logistics Management',
+    'Procurement & Sourcing Management',
+    'Construction Management'
+  ];
+
   return (
     <div className="bg-[#F7F4EE] min-h-screen">
       {/* Hero Section */}
@@ -226,168 +256,9 @@ export default function Courses() {
         </div>
       </section>
 
-      {/* Dynamic Courses Section with Admin Functionality */}
-      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={fadeInUp}
-            className="mb-12"
-          >
-            <div className="flex items-center justify-between flex-wrap gap-4">
-              <div>
-                <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-                  <EditableText
-                    collection="content"
-                    docId="courses"
-                    field="mgmt_heading"
-                    defaultValue={pageData?.mgmt_heading || 'Management Courses'}
-                    className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
-                  />
-                </h2>
-                <div className="w-24 h-1 bg-[#B9975B] rounded-full"></div>
-              </div>
-              {isAdmin && (
-                <button
-                  onClick={() => setShowAddCourse(true)}
-                  className="flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-4 py-2 rounded-lg font-semibold transition-all shadow-md"
-                >
-                  <FiPlus /> Add Course
-                </button>
-              )}
-            </div>
-          </motion.div>
+      
 
-          {showAddCourse && isAdmin && (
-            <div className="mb-8 p-6 bg-white rounded-xl border-2 border-[#1E2A38] shadow-lg">
-              <CourseForm
-                onSave={addCourse}
-                onCancel={() => setShowAddCourse(false)}
-              />
-            </div>
-          )}
-
-          {coursesLoading ? (
-             <div className="text-center py-12">
-               <div className="w-12 h-12 border-4 border-[#1a1a1a] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-               <p className="text-lg font-['Inter'] text-gray-600">Loading courses...</p>
-             </div>
-          ) : courses && courses.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {courses.map((course, index) => {
-                const videoId = course.youtubeUrl ? extractVideoId(course.youtubeUrl) : null;
-                const thumbnailUrl = course.thumbnail || 
-                  (videoId ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg` : null);
-                
-                return (
-                  <motion.div
-                    key={course.id}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={viewportOptions}
-                    variants={fadeInUp}
-                    className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow border-l-4 border-[#1E2A38] relative group flex flex-col"
-                  >
-                    {isAdmin && (
-                      <div className="absolute top-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
-                        <button
-                          title={homeOverrides[course.id] ?? course.showOnHome ? 'Remove from Home page' : 'Show on Home page'}
-                          onClick={() => toggleShowOnHome(course)}
-                          className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-xs font-semibold transition-all whitespace-nowrap ${
-                            (homeOverrides[course.id] ?? course.showOnHome)
-                              ? 'bg-[#1E2A38] text-white shadow'
-                              : 'bg-gray-100 text-gray-600 hover:bg-[#F7F4EE] hover:text-[#1E2A38]'
-                          }`}
-                        >
-                          🏠 {(homeOverrides[course.id] ?? course.showOnHome) ? 'On Home' : '+ Home'}
-                        </button>
-                        <button
-                          onClick={() => setEditingCourse(course)}
-                          className="p-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white rounded-lg shadow"
-                        >
-                          <FiEdit2 size={16} />
-                        </button>
-                        <button
-                          onClick={() => deleteCourse(course.id)}
-                          className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg shadow"
-                        >
-                          <FiTrash2 size={16} />
-                        </button>
-                      </div>
-                    )}
-                    
-                    <h3 className="text-2xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-3 pr-16">
-                      {course.title}
-                    </h3>
-                    <p className="text-gray-600 font-['Inter'] mb-6 flex-grow">
-                      {course.description}
-                    </p>
-                    
-                    {thumbnailUrl && (
-                      <div className="mb-6">
-                        <a 
-                          href={course.youtubeUrl || '#'} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="block relative group/video"
-                        >
-                          <div className="aspect-video w-full bg-gray-100 rounded-lg overflow-hidden shadow-md">
-                            <img 
-                              src={thumbnailUrl}
-                              alt={course.title}
-                              className="w-full h-full object-cover group-hover/video:opacity-90 transition-opacity"
-                              onError={(e) => {
-                                if (videoId && !course.thumbnail) {
-                                  e.target.src = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
-                                } else {
-                                  e.target.src = 'https://placehold.co/640x360/1a1a1a/ffffff?text=Course+Image';
-                                }
-                              }}
-                            />
-                            <div className="absolute inset-0 flex items-center justify-center">
-                              <div className="w-12 h-12 bg-[#1E2A38] bg-opacity-90 rounded-full flex items-center justify-center group-hover/video:scale-110 transition-transform shadow-lg">
-                                <FiPlay className="w-6 h-6 text-white ml-1" />
-                              </div>
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    )}
-                    
-                    {(course.courseLink || course.youtubeUrl) && (
-                      <a
-                        href={course.courseLink || course.youtubeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full px-4 py-3 bg-[#1E2A38] hover:bg-[#2d3f54] text-white font-['Inter'] font-semibold rounded-lg transition-all shadow-md mt-auto"
-                      >
-                        Explore Course
-                        <FiExternalLink className="w-4 h-4" />
-                      </a>
-                    )}
-                  </motion.div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-gray-500 font-['Inter']">No management courses available at the moment.</p>
-          )}
-
-          {editingCourse && isAdmin && (
-            <div className="mt-8 p-6 bg-white rounded-xl border-2 border-[#1E2A38] shadow-lg relative z-20">
-              <CourseForm
-                course={editingCourse}
-                onSave={updateCourse}
-                onCancel={() => setEditingCourse(null)}
-              />
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Featured Courses Section */}
+      {/* Courses Taught at IIM Calcutta (replaces Featured Courses) */}
       <section className="py-16 px-6 lg:px-16 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -395,214 +266,29 @@ export default function Courses() {
             whileInView="visible"
             viewport={viewportOptions}
             variants={fadeInUp}
-            className="mb-12"
+            className="mb-8"
           >
             <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-              <EditableText
-                collection="content"
-                docId="courses"
-                field="featured_heading"
-                defaultValue={pageData?.featured_heading || 'Featured Courses'}
-                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
-              />
+              Courses Taught at IIM Calcutta
             </h2>
-            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-4"></div>
-            <p className="text-lg font-['Inter'] text-gray-600 max-w-2xl">
-              <EditableText
-                collection="content"
-                docId="courses"
-                field="featured_subtitle"
-                defaultValue={pageData?.featured_subtitle || 'Comprehensive online courses combining science, practice, and ancient wisdom'}
-                className="text-lg font-['Inter'] text-gray-600"
-                multiline
-              />
-            </p>
+            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-6"></div>
           </motion.div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            <CourseCard
-              icon={FiBook}
-              title={<EditableText collection="content" docId="courses" field="happiness_title" defaultValue={pageData?.happiness_title || 'HAPPINESS: Science, Practice and Ancient Indian Wisdom'} />}
-              description={<EditableText collection="content" docId="courses" field="happiness_desc" defaultValue={pageData?.happiness_desc || 'Explore how to become a happy being—successful and at peace. This unique course combines evidence from science, practical well-being techniques, and lessons from Indian wisdom storehouses: the Upanishads, the Gita, and the Yoga Sutras.'} multiline />}
-              link="#"
-              linkText="Enroll on Coursera"
-              badge="COURSERA"
-              borderColor="border-[#B9975B]"
-            >
-              <div className="mb-6 space-y-3">
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#B9975B]" />
-                  <EditableText collection="content" docId="courses" field="happiness_b1" defaultValue={pageData?.happiness_b1 || 'Evidence from science'} />
-                </div>
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#B9975B]" />
-                  <EditableText collection="content" docId="courses" field="happiness_b2" defaultValue={pageData?.happiness_b2 || 'Simple well-being techniques'} />
-                </div>
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiBook className="w-4 h-4 text-[#B9975B]" />
-                  <EditableText collection="content" docId="courses" field="happiness_b3" defaultValue={pageData?.happiness_b3 || 'Ancient Indian wisdom'} />
-                </div>
-              </div>
-            </CourseCard>
-
-            <CourseCard
-              icon={FiUsers}
-              title={<EditableText collection="content" docId="courses" field="leadership_title" defaultValue={pageData?.leadership_title || 'Leadership Skills'} />}
-              description={<EditableText collection="content" docId="courses" field="leadership_desc" defaultValue={pageData?.leadership_desc || 'A beginner course for professionals from diverse backgrounds. Strengthen your capacity to lead across boundaries, with or without authority, and manage the inevitable stresses and challenges of leading a team. Drawing from business, philosophy, sports, and psychology.'} multiline />}
-              link="#"
-              linkText="Enroll on Coursera"
-              badge="COURSERA"
-              borderColor="border-[#1E2A38]"
-            >
-              <div className="mb-6 space-y-3">
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
-                  <EditableText collection="content" docId="courses" field="leadership_b1" defaultValue={pageData?.leadership_b1 || 'Lead across boundaries'} />
-                </div>
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
-                  <EditableText collection="content" docId="courses" field="leadership_b2" defaultValue={pageData?.leadership_b2 || 'Lead with or without authority'} />
-                </div>
-                <div className="flex items-center gap-2 text-sm font-['Inter'] text-gray-700">
-                  <FiUsers className="w-4 h-4 text-[#1E2A38]" />
-                  <EditableText collection="content" docId="courses" field="leadership_b3" defaultValue={pageData?.leadership_b3 || 'Manage leadership stresses'} />
-                </div>
-              </div>
-            </CourseCard>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {iimCourses.map((title, idx) => (
+              <CourseCard
+                key={title}
+                icon={FiBook}
+                title={title}
+                description={<div className="text-sm text-gray-600">Taught at IIM Calcutta</div>}
+                borderColor={idx % 2 === 0 ? 'border-[#1E2A38]' : 'border-[#B9975B]'}
+              />
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Research Methods Section */}
-      <section className="py-16 px-6 lg:px-16 bg-[#F7F4EE]">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={viewportOptions}
-            variants={fadeInUp}
-            className="mb-12"
-          >
-            <h2 className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38] mb-4">
-              <EditableText
-                collection="content"
-                docId="courses"
-                field="research_heading"
-                defaultValue={pageData?.research_heading || 'Research Methods'}
-                className="text-4xl lg:text-5xl font-['Playfair_Display'] font-bold text-[#1E2A38]"
-              />
-            </h2>
-            <div className="w-24 h-1 bg-[#B9975B] rounded-full mb-4"></div>
-            <p className="text-lg font-['Inter'] text-gray-600 max-w-2xl">
-              <EditableText
-                collection="content"
-                docId="courses"
-                field="research_subtitle"
-                defaultValue={pageData?.research_subtitle || 'Comprehensive lecture series on advanced research methodologies for scholars and practitioners'}
-                className="text-lg font-['Inter'] text-gray-600"
-                multiline
-              />
-            </p>
-          </motion.div>
-
-          <div className="space-y-12">
-            {/* Multilevel Modeling */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOptions}
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#1E2A38]"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[#eef1f5] rounded-xl">
-                  <FiTrendingUp className="w-6 h-6 text-[#1E2A38]" />
-                </div>
-                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1E2A38]">
-                  <EditableText
-                    collection="content"
-                    docId="courses"
-                    field="multilevel_title"
-                    defaultValue={pageData?.multilevel_title || 'Multilevel Modeling'}
-                  />
-                </h3>
-              </div>
-              <p className="text-gray-700 font-['Inter'] leading-relaxed mb-6">
-                <EditableText
-                  collection="content"
-                  docId="courses"
-                  field="multilevel_desc"
-                  defaultValue={pageData?.multilevel_desc || 'Multilevel models (also known as hierarchical linear models, linear mixed-effect model, mixed models, nested data models, or random-effects models) are statistical models of parameters that vary at more than one level. These models are particularly appropriate for research designs where data for participants are organized at more than one level (e.g., employees nested under team leaders).'}
-                  multiline
-                />
-              </p>
-              <a
-                href="https://drive.google.com/drive/folders/1GTHqiJX1sEjSuVlhBmR_Z5DETrUwIHGd"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[#1E2A38] hover:bg-[#2d3f54] text-white px-6 py-3 rounded-lg font-['Inter'] font-semibold transition-all shadow-md"
-              >
-                Access Course Materials
-                <FiExternalLink className="w-4 h-4" />
-              </a>
-            </motion.div>
-
-            {/* Covariance-Based SEM */}
-            <motion.div 
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOptions}
-              variants={fadeInUp}
-              className="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#B9975B]"
-            >
-              <div className="flex items-center gap-4 mb-4">
-                <div className="p-3 bg-[#F7F4EE] rounded-xl">
-                  <FiBarChart2 className="w-6 h-6 text-[#B9975B]" />
-                </div>
-                <h3 className="text-3xl font-['Playfair_Display'] font-bold text-[#1E2A38]">
-                  <EditableText
-                    collection="content"
-                    docId="courses"
-                    field="sem_title"
-                    defaultValue={pageData?.sem_title || 'Covariance-Based SEM'}
-                  />
-                </h3>
-              </div>
-              <p className="text-gray-700 font-['Inter'] leading-relaxed mb-4">
-                <EditableText
-                  collection="content"
-                  docId="courses"
-                  field="sem_desc"
-                  defaultValue={pageData?.sem_desc || 'Structural Equation Modeling (SEM) is a statistical methodology widely used in social sciences research. SEM allows researchers to test complex models with multiple pathways, model latent variables with multiple indicators, investigate mediation and moderation systematically, and adjust for measurement error in predictor variables. This series provides a general introduction to CB-SEM using AMOS software.'}
-                  multiline
-                />
-              </p>
-              <p className="text-gray-500 font-['Inter'] text-sm italic">
-                Note: Material link to be updated
-              </p>
-            </motion.div>
-
-            {/* Grid of Research Topics */}
-            <div className="grid md:grid-cols-2 gap-6">
-              <ResearchLecture
-                title={<EditableText collection="content" docId="courses" field="psychometrics_title" defaultValue={pageData?.psychometrics_title || 'Psychometrics'} />}
-                description={<EditableText collection="content" docId="courses" field="psychometrics_desc" defaultValue={pageData?.psychometrics_desc || 'Introduction to central concepts of measurement covering test construction, item analysis, reliability, validity, and measurement error. Includes hands-on sessions with SPSS and AMOS.'} multiline />}
-                driveLink="https://drive.google.com/drive/folders/"
-              />
-              <ResearchLecture
-                title={<EditableText collection="content" docId="courses" field="conditional_title" defaultValue={pageData?.conditional_title || 'Conditional Process Analysis'} />}
-                description={<EditableText collection="content" docId="courses" field="conditional_desc" defaultValue={pageData?.conditional_desc || 'A comprehensive three-video series explaining mediation, moderation, and conditional process analysis with practical dataset examples.'} multiline />}
-                driveLink="https://drive.google.com/file/d/1Ih2WCnyC64mESIKByOIOYAmkCioAGiTO/view?usp=sharing"
-              />
-              <ResearchLecture
-                title={<EditableText collection="content" docId="courses" field="manuscript_title" defaultValue={pageData?.manuscript_title || 'Manuscript Writing & Publishing'} />}
-                description={<EditableText collection="content" docId="courses" field="manuscript_desc" defaultValue={pageData?.manuscript_desc || 'A 16-session series covering elements of manuscript writing and strategies for high-quality academic publishing. Includes instruction files and supplementary readings.'} multiline />}
-                driveLink="https://drive.google.com/drive/folders/"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       {/* Call to Action */}
       <section className="py-20 px-6 lg:px-16 bg-[#1E2A38]">
