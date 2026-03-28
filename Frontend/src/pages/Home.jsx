@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 import EditableText from '../components/EditableText';
 import { FiArrowRight, FiCalendar, FiCheck } from 'react-icons/fi';
 import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
@@ -195,6 +196,13 @@ export default function Home() {
 
   return (
     <div className="bg-[#f5f1e8] text-[#1E2A38] overflow-hidden">
+      <SEO
+        title={`${data?.hero_title || 'Prof. Bodhibrata Nag'} - IIM Calcutta`}
+        description={data?.hero_description}
+        url={`https://www.profnag.com/`}
+        image={data?.hero_image || '/SkillsedgeNew3.jpg'}
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }]}
+      />
       <section className="relative overflow-hidden bg-[#f6f1e8]">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute left-1/2 top-[-10%] -translate-x-1/2 w-[1100px] h-[1100px] rounded-full border border-[#ddd3c3]/40" />

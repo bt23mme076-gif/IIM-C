@@ -5,6 +5,7 @@ import { useFirestoreCollection } from '../hooks/useFirestoreCollection';
 import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
 import { useAuth } from '../context/useAuth';
 import EditableText from '../components/EditableText';
+import SEO from '../components/SEO';
 import { FiCalendar, FiArrowRight, FiTag, FiSearch, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
 /* ─── Font + CSS injection ───────────────────────────── */
@@ -131,6 +132,12 @@ export default function Blog() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO
+        title={`${pageData?.page_heading || 'Blog'} - Prof. Bodhibrata Nag`}
+        description={pageData?.page_subtitle || 'Thoughts on leadership, strategy, and management.'}
+        url={`https://www.profnag.com/blog`}
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Blog', item: 'https://www.profnag.com/blog' }]}
+      />
 
       {/* PAGE HEADER */}
       <div className="border-b-2 border-black">

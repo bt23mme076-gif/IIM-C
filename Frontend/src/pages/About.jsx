@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useAuth } from '../context/useAuth';
 import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
 import EditableText from '../components/EditableText';
+import SEO from '../components/SEO';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -222,9 +223,22 @@ export default function About() {
       </div>
     );
   }
+  
+  // Page-level SEO
+  const seoTitle = `${aboutData?.header?.title || 'About'} - Prof. Bodhibrata Nag`;
+  const seoDesc = aboutData?.journey?.paragraph1 || 'Profile of Prof. Bodhibrata Nag, IIM Calcutta.';
 
   return (
     <div className="bg-[#F7F4EE]">
+      <SEO
+        title={seoTitle}
+        description={seoDesc}
+        url={`https://www.profnag.com/about`}
+        breadcrumbs={[
+          { name: 'Home', item: 'https://www.profnag.com/' },
+          { name: 'About', item: 'https://www.profnag.com/about' }
+        ]}
+      />
       {/* Admin save indicator */}
       {isAdmin && saving && (
         <div className="fixed top-20 right-4 z-50 bg-[#1E2A38] text-white px-4 py-2 rounded-lg text-sm font-['Inter'] shadow-lg animate-pulse">

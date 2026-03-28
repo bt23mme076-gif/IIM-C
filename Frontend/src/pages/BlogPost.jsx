@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { db } from '../firebase/config';
+import SEO from '../components/SEO';
 import {
   doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, serverTimestamp
 } from 'firebase/firestore';
@@ -223,6 +224,17 @@ export default function BlogPost() {
 
   return (
     <div className="bp-root">
+      <SEO
+        title={blog.title}
+        description={blog.excerpt}
+        url={`https://www.profnag.com/blog/${blog.slug || blog.id}`}
+        image={blog.imageUrl}
+        breadcrumbs={[
+          { name: 'Home', item: 'https://www.profnag.com/' },
+          { name: 'Blog', item: 'https://www.profnag.com/blog' },
+          { name: blog.title, item: `https://www.profnag.com/blog/${blog.slug || blog.id}` }
+        ]}
+      />
       {/* ── Header ── */}
       <div className="bp-header">
         <div className="bp-header-inner">
