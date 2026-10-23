@@ -6,6 +6,7 @@ import { useAuth } from '../context/useAuth';
 import EditableText from '../components/EditableText';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import SEO from '../components/SEO';
 
 export default function Research() {
   const { isAdmin } = useAuth() || {};
@@ -521,6 +522,12 @@ export default function Research() {
 
   return (
     <div className="bg-[#F7F4EE]">
+      <SEO
+        title="Research - Prof. Bodhibrata Nag, IIM Calcutta"
+        description="Research by Prof. Bodhibrata Nag (IIM Calcutta) on operations research, railway timetabling, energy and transportation systems, sustainable supply chains, cyber risk and AI: journal papers, book chapters and cases."
+        url="https://www.profnag.com/research"
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Research', item: 'https://www.profnag.com/research' }]}
+      />
       {/* Hero Section */}
       <section className="bg-[#1E2A38] py-20 px-4 sm:px-6 lg:px-16">
         <div className="max-w-5xl mx-auto">

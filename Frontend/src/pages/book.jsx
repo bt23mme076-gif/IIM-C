@@ -7,6 +7,7 @@ import EditableText from '../components/EditableText';
 import { collection, addDoc, updateDoc, deleteDoc, doc, query, where, getDocs, setDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { uploadToCloudinary } from '../utils/cloudinaryUpload';
+import SEO from '../components/SEO';
 
 /* ─── Font + CSS injection ───────────────────────────── */
 if (typeof document !== 'undefined') {
@@ -387,6 +388,12 @@ export default function Books() {
 
   return (
     <div className="bk-root">
+      <SEO
+        title="Books - Prof. Bodhibrata Nag | Introduction to Operations Research"
+        description="Books by Prof. Bodhibrata Nag: Introduction to Operations Research (Special Indian Editions, with Hillier, Lieberman and Basu), Business Applications of Operations Research, and Optimal Design of Timetables for Large Railways."
+        url="https://www.profnag.com/book"
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Books', item: 'https://www.profnag.com/book' }]}
+      />
       {showAdd && <BookEditModal book={null} onClose={() => setShowAdd(false)} onSave={handleAdd} />}
       {editingBook && <BookEditModal book={editingBook} onClose={() => setEditingBook(null)} onSave={handleUpdate} />}
 

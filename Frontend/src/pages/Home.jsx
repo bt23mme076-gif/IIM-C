@@ -1,13 +1,14 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import EditableText from '../components/EditableText';
-import { FiArrowRight, FiCalendar, FiCheck } from 'react-icons/fi';
+import { FiArrowRight, FiCalendar, FiCheck, FiChevronDown, FiTruck, FiZap, FiShield, FiLayers } from 'react-icons/fi';
 import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
 import { useFirestoreCollection } from '../hooks/useFirestoreCollection';
 import { subscribeToNewsletter } from '../utils/newsletter';
 import { where, orderBy, limit } from 'firebase/firestore';
+import { featuredBlogs } from '../data/featuredBlogs';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 28 },
@@ -25,6 +26,29 @@ const staggerContainer = {
   }
 };
 
+const cardHover = {
+  rest: { y: 0, boxShadow: '0 0 0 rgba(30,42,56,0)' },
+  hover: { y: -6, boxShadow: '0 22px 50px rgba(30,42,56,0.12)', transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const imageHover = {
+  rest: { scale: 1 },
+  hover: { scale: 1.06, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
+};
+
+const heroStats = [
+  { value: '21+', label: 'Years in railways & power' },
+  { value: '18+', label: 'Years at IIM Calcutta' },
+  { value: '3', label: 'Books in operations research' }
+];
+
+const researchAreas = [
+  { icon: FiTruck, title: 'Transportation & Railways', desc: 'Timetable design, freight train optimisation and railway project management.' },
+  { icon: FiZap, title: 'Energy Systems', desc: 'Planning of power and tidal systems, electrification and green ports.' },
+  { icon: FiLayers, title: 'Supply Chains & Logistics', desc: 'Simulation and optimisation for sustainable, resilient supply chains.' },
+  { icon: FiShield, title: 'Cybersecurity & AI Risk', desc: 'Cyber-risk economics, cyber insurance and responsible AI.' }
+];
+
 const viewportOptions = { once: true, margin: '0px 0px -70px 0px', amount: 0.15 };
 
 export default function Home() {
@@ -33,6 +57,8 @@ export default function Home() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   // For book description expand/collapse
   const [expandedBooks, setExpandedBooks] = useState([false, false, false]);
+  const { scrollYProgress } = useScroll();
+  const progressX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
 
   const formatDate = (dateVal) => {
     if (!dateVal) return '';
@@ -131,37 +157,7 @@ export default function Home() {
   }
 
   const homeBlogs = (blogs || []).filter((b) => b.showOnHome);
-  const recentBlogs =
-    homeBlogs.length > 0
-      ? homeBlogs
-      : (blogs || []).length > 0
-      ? blogs
-      : [
-          {
-            id: 'b1',
-            title: data.blog1_title,
-            excerpt: data.blog1_excerpt,
-            imageUrl: data.blog1_image,
-            date: '2026-02-01',
-            slug: 'blog-1'
-          },
-          {
-            id: 'b2',
-            title: data.blog2_title,
-            excerpt: data.blog2_excerpt,
-            imageUrl: data.blog2_image,
-            date: '2026-01-20',
-            slug: 'blog-2'
-          },
-          {
-            id: 'b3',
-            title: data.blog3_title,
-            excerpt: data.blog3_excerpt,
-            imageUrl: data.blog3_image,
-            date: '2026-01-05',
-            slug: 'blog-3'
-          }
-        ];
+  const recentBlogs = [...homeBlogs, ...featuredBlogs].slice(0, 3);
 
   const homeBooksList = (booksData || []).filter((b) => b.showOnHome);
 
@@ -196,50 +192,75 @@ export default function Home() {
 
   return (
     <div className="bg-[#f5f1e8] text-[#1E2A38] overflow-hidden">
+      <motion.div
+        aria-hidden="true"
+        style={{ scaleX: progressX }}
+        className="fixed top-0 left-0 right-0 h-[3px] bg-[#b08b47] origin-left z-[60]"
+      />
       <SEO
-        title={`${data?.hero_title || 'Prof. Bodhibrata Nag'} - IIM Calcutta`}
-        description={data?.hero_description}
+        title="Prof. Bodhibrata Nag - Professor of Operations Management, IIM Calcutta"
+        description="Official website of Prof. Bodhibrata Nag, Professor of Operations Management at IIM Calcutta: research on operations research, railways, energy, sustainable supply chains and cybersecurity, plus books, courses and articles."
         url={`https://www.profnag.com/`}
-        image={data?.hero_image || '/SkillsedgeNew3.jpg'}
+        type="profile"
+        image={data?.hero_image}
         breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }]}
       />
-      <section className="relative overflow-hidden bg-[#f6f1e8]">
+      <section className="relative overflow-hidden bg-[#f6f1e8] min-h-[calc(100svh-80px)] flex items-center">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute left-1/2 top-[-10%] -translate-x-1/2 w-[1100px] h-[1100px] rounded-full border border-[#ddd3c3]/40" />
-          <div className="absolute left-[8%] top-[20%] w-52 h-52 rounded-full bg-[#c6a76a]/10 blur-3xl" />
-          <div className="absolute right-[10%] bottom-[12%] w-64 h-64 rounded-full bg-[#1E2A38]/[0.05] blur-3xl" />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 120, repeat: Infinity, ease: 'linear' }}
+            className="absolute left-1/2 top-[-10%] -translate-x-1/2 w-[1100px] h-[1100px] rounded-full border border-dashed border-[#ddd3c3]/60"
+          />
+          <motion.div
+            animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
+            transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute left-[8%] top-[20%] w-52 h-52 rounded-full bg-[#c6a76a]/15 blur-3xl"
+          />
+          <motion.div
+            animate={{ x: [0, -40, 0], y: [0, 25, 0] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute right-[10%] bottom-[12%] w-64 h-64 rounded-full bg-[#1E2A38]/[0.07] blur-3xl"
+          />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 pt-4 sm:pt-8 lg:pt-12 pb-12 sm:pb-16 lg:pb-20">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 py-10 sm:py-14 lg:py-12">
           {/* Mobile: stacked (text → image), Desktop: side-by-side (image | text) */}
           <div className="flex flex-col lg:grid lg:grid-cols-[0.85fr_1.15fr] gap-8 lg:gap-16 lg:items-center">
 
             {/* Text — appears first on mobile */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              initial="hidden"
+              animate="visible"
+              variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.12, delayChildren: 0.1 } } }}
               className="order-1 lg:order-2 text-center lg:text-left"
             >
-              <EditableText
+              <motion.div variants={fadeInUp}>
+                <EditableText
                 field="hero_greeting"
                 defaultValue={data.hero_greeting || 'PROFESSOR • STRATEGIST • ACADEMIC LEADER'}
                 className="block text-[10px] sm:text-[11px] uppercase tracking-[0.3em] text-[#b08b47] font-semibold mb-4 sm:mb-6"
               />
+              </motion.div>
 
-              <EditableText
+              <motion.div variants={fadeInUp}>
+                <EditableText
                 field="hero_title"
                 defaultValue={data.hero_title || 'Prof. Bodhibrata Nag'}
                 className="block text-[2.8rem] sm:text-[4rem] lg:text-[6.6rem] leading-[0.88] tracking-[-0.04em] font-['Cormorant_Garamond','Playfair_Display'] font-semibold text-[#132033]"
               />
+              </motion.div>
 
-              <EditableText
+              <motion.div variants={fadeInUp}>
+                <EditableText
                 field="hero_name"
                 defaultValue={data.hero_name || 'Professor of Operations Management, IIM Calcutta'}
                 className="block mt-4 sm:mt-6 text-[1.15rem] sm:text-[1.5rem] lg:text-[2.2rem] leading-snug font-['Cormorant_Garamond','Playfair_Display'] text-[#1E2A38]"
               />
+              </motion.div>
 
-              <EditableText
+              <motion.div variants={fadeInUp}>
+                <EditableText
                 field="hero_description"
                 defaultValue={
                   data.hero_description ||
@@ -248,20 +269,31 @@ export default function Home() {
                 className="block mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg leading-relaxed text-[#58616c] font-['Inter'] max-w-2xl mx-auto lg:mx-0"
                 multiline
               />
+              </motion.div>
 
-              <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 max-w-lg mx-auto lg:mx-0">
+              <motion.div variants={fadeInUp} className="mt-7 sm:mt-9 flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 max-w-lg mx-auto lg:mx-0">
                 <Link to="/about" className="flex-1 min-w-[140px]">
-                  <button className="w-full bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] transition-colors">
+                  <button className="w-full bg-[#1E2A38] text-white px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-[#2d4055] hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
                     View Profile
                   </button>
                 </Link>
 
                 <Link to="/research" className="flex-1 min-w-[140px]">
-                  <button className="w-full border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 transition-colors">
+                  <button className="w-full border border-[#d7cebf] text-[#1E2A38] px-7 py-3.5 rounded-md text-sm font-semibold hover:bg-white/60 hover:-translate-y-0.5 transition-all duration-300">
                     Explore Research
                   </button>
                 </Link>
-              </div>
+              </motion.div>
+
+              <motion.dl variants={fadeInUp} className="mt-8 sm:mt-10 grid grid-cols-3 gap-3 sm:gap-6 max-w-lg mx-auto lg:mx-0 border-t border-[#ddd3c3] pt-6">
+                {heroStats.map((stat) => (
+                  <div key={stat.label}>
+                    <dt className="sr-only">{stat.label}</dt>
+                    <dd className="text-2xl sm:text-3xl lg:text-4xl font-['Cormorant_Garamond','Playfair_Display'] font-bold text-[#132033]">{stat.value}</dd>
+                    <dd className="mt-1 text-[10px] sm:text-xs uppercase tracking-[0.14em] text-[#7a8390] leading-snug">{stat.label}</dd>
+                  </div>
+                ))}
+              </motion.dl>
             </motion.div>
 
             {/* Image — appears second on mobile, first column on desktop */}
@@ -271,7 +303,11 @@ export default function Home() {
               transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
               className="order-2 lg:order-1 flex justify-center lg:justify-start mt-8 lg:mt-0 pb-8 lg:pb-12"
             >
-              <div className="relative">
+              <motion.div
+                className="relative"
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+              >
                 <div className="absolute inset-0 rounded-full border border-[#d9cfbf] scale-[1.08]" />
                 <div className="absolute inset-0 rounded-full border border-[#e7dece] scale-[1.16]" />
 
@@ -294,15 +330,59 @@ export default function Home() {
                     Operations Management
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
 
           </div>
         </div>
+
+        <motion.a
+          href="#research-areas"
+          aria-label="Scroll to research areas"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 8, 0] }}
+          transition={{ opacity: { delay: 1.2, duration: 0.6 }, y: { duration: 2, repeat: Infinity, ease: 'easeInOut' } }}
+          className="hidden lg:flex absolute bottom-3 left-1/2 -translate-x-1/2 z-20 w-9 h-9 rounded-full border border-[#d7cebf] items-center justify-center text-[#7a8390] hover:text-[#1E2A38] hover:bg-white/60"
+        >
+          <FiChevronDown size={18} />
+        </motion.a>
       </section>
 
-      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-8 bg-white border-y border-[#e7dfd2]">
+      <section id="research-areas" className="px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20 bg-[#f6f1e8] scroll-mt-20">
         <div className="max-w-7xl mx-auto">
+          <motion.div initial="hidden" whileInView="visible" viewport={viewportOptions} variants={staggerContainer}>
+            <motion.div variants={fadeInUp} className="mb-8 sm:mb-10 max-w-2xl">
+              <p className="text-[11px] uppercase tracking-[0.3em] text-[#b08b47] font-semibold mb-3">Research Focus</p>
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-['Cormorant_Garamond','Playfair_Display'] font-bold leading-tight">
+                Analytics for the systems that keep a nation moving
+              </h2>
+            </motion.div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+              {researchAreas.map(({ icon: Icon, title, desc }) => (
+                <motion.div key={title} variants={fadeInUp}>
+                  <motion.div
+                    initial="rest"
+                    whileHover="hover"
+                    animate="rest"
+                    variants={cardHover}
+                    className="h-full bg-white rounded-[20px] p-6 border border-[#e7dfd2] group"
+                  >
+                    <div className="w-11 h-11 rounded-full bg-[#1E2A38] text-[#d5b477] flex items-center justify-center mb-5 transition-transform duration-700 group-hover:rotate-[360deg]">
+                      <Icon size={18} />
+                    </div>
+                    <h3 className="text-xl font-['Cormorant_Garamond','Playfair_Display'] font-bold mb-2">{title}</h3>
+                    <p className="text-sm text-[#55606d] leading-relaxed font-['Inter']">{desc}</p>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="px-4 sm:px-6 lg:px-8 py-14 sm:py-16 bg-white border-y border-[#e7dfd2] lg:min-h-[calc(100svh-80px)] flex items-center">
+        <div className="w-full max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -331,13 +411,17 @@ export default function Home() {
 
             <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
               {recentBlogs.slice(0, 3).map((blog, index) => (
+                <motion.div key={blog.id || index} variants={fadeInUp}>
                 <motion.div
-                  key={blog.id || index}
-                  variants={fadeInUp}
-                  className="bg-[#f5f1e8] rounded-[24px] overflow-hidden"
+                  initial="rest"
+                  whileHover="hover"
+                  animate="rest"
+                  variants={cardHover}
+                  className="h-full flex flex-col bg-[#f5f1e8] rounded-[24px] overflow-hidden"
                 >
-                  <div className="aspect-[4/3] bg-[#e7dfd2] overflow-hidden">
-                    <img
+                  <div className="aspect-[16/10] bg-[#e7dfd2] overflow-hidden">
+                    <motion.img
+                      variants={imageHover}
                       src={blog.imageUrl}
                       alt={blog.title}
                       className="w-full h-full object-cover"
@@ -348,7 +432,7 @@ export default function Home() {
                     />
                   </div>
 
-                  <div className="p-6">
+                  <div className="p-6 flex flex-col flex-1">
                     {blog.date ? (
                       <div className="flex items-center gap-2 text-[#7a8390] text-xs uppercase tracking-[0.18em] mb-3">
                         <FiCalendar size={12} />
@@ -356,21 +440,22 @@ export default function Home() {
                       </div>
                     ) : null}
 
-                    <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold leading-snug mb-3">
+                    <h3 className="text-xl lg:text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold leading-snug mb-3 line-clamp-2">
                       {blog.title}
                     </h3>
 
-                    <p className="text-sm sm:text-base text-[#55606d] leading-relaxed font-['Inter'] mb-5">
+                    <p className="text-sm text-[#55606d] leading-relaxed font-['Inter'] mb-5 line-clamp-3">
                       {blog.excerpt}
                     </p>
 
                     <Link
                       to={blog.slug ? `/blog/${blog.slug}` : '/blog'}
-                      className="inline-flex items-center gap-2 text-sm font-semibold hover:text-[#b08b47] transition-colors"
+                      className="mt-auto inline-flex items-center gap-2 text-sm font-semibold hover:text-[#b08b47] transition-colors group/link"
                     >
-                      Read Article <FiArrowRight />
+                      Read Article <FiArrowRight className="transition-transform duration-300 group-hover/link:translate-x-1" />
                     </Link>
                   </div>
+                </motion.div>
                 </motion.div>
               ))}
             </div>
@@ -378,8 +463,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-10">
-        <div className="max-w-7xl mx-auto">
+      <section className="px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
+        <div className="w-full max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -432,16 +517,20 @@ export default function Home() {
                 };
 
                 return (
+                  <motion.div key={isStatic ? i : book.id} variants={fadeInUp}>
                   <motion.div
-                    key={isStatic ? i : book.id}
-                    variants={fadeInUp}
-                    className="bg-white rounded-[24px] p-5 sm:p-6"
+                    initial="rest"
+                    whileHover="hover"
+                    animate="rest"
+                    variants={cardHover}
+                    className="h-full flex flex-col bg-white rounded-[24px] p-5 sm:p-6"
                   >
-                    <div className="aspect-[3/4] rounded-[20px] overflow-hidden bg-[#e6ddd0] mb-5">
-                      <img
+                    <div className="h-64 sm:h-72 rounded-[20px] overflow-hidden bg-[#efe8dc] mb-5 flex items-center justify-center p-4">
+                      <motion.img
+                        variants={imageHover}
                         src={image}
                         alt={title || 'Book cover'}
-                        className="w-full h-full object-cover"
+                        className="h-full w-auto max-w-full object-contain rounded-md drop-shadow-[0_12px_24px_rgba(30,42,56,0.18)]"
                         onError={(e) => {
                           e.target.src =
                             'https://placehold.co/600x800/e6e0d5/1E2A38';
@@ -449,7 +538,7 @@ export default function Home() {
                       />
                     </div>
 
-                    <h3 className="text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold leading-snug mb-3">
+                    <h3 className="text-xl lg:text-2xl font-['Cormorant_Garamond','Playfair_Display'] font-bold leading-snug mb-3 line-clamp-2">
                       {title}
                     </h3>
 
@@ -476,10 +565,11 @@ export default function Home() {
                       href={link}
                       target={link?.startsWith('http') ? '_blank' : '_self'}
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm font-semibold hover:text-[#b08b47] transition-colors"
+                      className="mt-auto inline-flex items-center gap-2 text-sm font-semibold hover:text-[#b08b47] transition-colors group/link"
                     >
-                      View Book <FiArrowRight />
+                      View Book <FiArrowRight className="transition-transform duration-300 group-hover/link:translate-x-1" />
                     </a>
+                  </motion.div>
                   </motion.div>
                 );
               })}
@@ -488,7 +578,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-8 bg-[#1E2A38] text-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20 bg-[#1E2A38] text-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"
@@ -588,7 +678,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="px-2 sm:px-4 lg:px-8 py-6 sm:py-7 lg:py-10 bg-white">
+      <section className="px-4 sm:px-6 lg:px-8 py-14 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial="hidden"

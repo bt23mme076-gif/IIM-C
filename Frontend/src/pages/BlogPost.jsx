@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { db } from '../firebase/config';
 import SEO from '../components/SEO';
+import { getFeaturedBlogBySlug } from '../data/featuredBlogs';
 import {
   doc, getDoc, collection, query, where, orderBy, getDocs, addDoc, serverTimestamp
 } from 'firebase/firestore';
@@ -110,6 +111,12 @@ export default function BlogPost() {
   useEffect(() => {
     const fetchBlog = async () => {
       setLoading(true);
+      const featured = getFeaturedBlogBySlug(slug);
+      if (featured) {
+        setBlog(featured);
+        setLoading(false);
+        return;
+      }
       try {
         // Try by slug field first
         const q = query(
@@ -225,10 +232,26 @@ export default function BlogPost() {
   return (
     <div className="bp-root">
       <SEO
-        title={blog.title}
+        title={`${blog.title} | Prof. Bodhibrata Nag`}
         description={blog.excerpt}
         url={`https://www.profnag.com/blog/${blog.slug || blog.id}`}
         image={blog.imageUrl}
+        type="article"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          headline: blog.title,
+          description: blog.excerpt,
+          image: blog.imageUrl ? [blog.imageUrl] : undefined,
+          datePublished: blog.date?.toDate ? blog.date.toDate().toISOString() : blog.date,
+          articleSection: blog.category,
+          mainEntityOfPage: `https://www.profnag.com/blog/${blog.slug || blog.id}`,
+          about: { '@id': 'https://www.profnag.com/#person' },
+          author: blog.isStatic
+            ? { '@type': 'Organization', name: 'Prof. Bodhibrata Nag website', url: 'https://www.profnag.com/' }
+            : { '@type': 'Person', name: blog.author || 'Bodhibrata Nag', url: 'https://www.profnag.com/about' },
+          publisher: { '@type': 'Person', '@id': 'https://www.profnag.com/#person', name: 'Bodhibrata Nag' }
+        }}
         breadcrumbs={[
           { name: 'Home', item: 'https://www.profnag.com/' },
           { name: 'Blog', item: 'https://www.profnag.com/blog' },

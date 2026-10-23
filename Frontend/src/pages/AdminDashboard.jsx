@@ -8,6 +8,7 @@ import { uploadToCloudinary } from '../utils/cloudinaryUpload';
 import ResearchEditor from '../components/admin/ResearchEditor';
 import ConsultingEditor from '../components/admin/ConsultingEditor';
 import OpinionsEditor from '../components/admin/OpinionsEditor';
+import SEO from '../components/SEO';
 
 // Add mobile responsive styles
 const mobileStyles = `
@@ -1736,6 +1737,7 @@ function CourseEditor({ course, onUpdate, onDelete }) {
 
   return (
     <div className="admin-card" style={{ border: '1px solid #e5e5e5', borderRadius: '8px', padding: '1.5rem' }}>
+      <SEO title="Admin - Prof. Bodhibrata Nag" noindex />
       {editing ? (
         <div style={{ display: 'grid', gap: '1rem' }}>
           <input

@@ -6,6 +6,7 @@ import { useFirestoreDoc } from '../hooks/useFirestoreDoc';
 import { useAuth } from '../context/useAuth';
 import EditableText from '../components/EditableText';
 import SEO from '../components/SEO';
+import { featuredBlogs } from '../data/featuredBlogs';
 import { FiCalendar, FiArrowRight, FiTag, FiSearch, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
 /* ─── Font + CSS injection ───────────────────────────── */
@@ -115,7 +116,8 @@ export default function Blog() {
   // ✅ Real-time listener - no refresh key needed!
   const { data: blogsRaw, loading: blogsLoading } = useFirestoreCollection('blogs', [], true);
 
-  const blogs = (blogsRaw || []).filter(b => b.published);
+  const blogs = [...(blogsRaw || []).filter(b => b.published), ...featuredBlogs]
+    .sort((a, b) => new Date(b.date?.toDate ? b.date.toDate() : b.date) - new Date(a.date?.toDate ? a.date.toDate() : a.date));
 
   // ── Filters ───────────────────────────────────────────────────────────────
   const filtered = blogs.filter(b => {
@@ -133,8 +135,8 @@ export default function Blog() {
   return (
     <div className="min-h-screen bg-white">
       <SEO
-        title={`${pageData?.page_heading || 'Blog'} - Prof. Bodhibrata Nag`}
-        description={pageData?.page_subtitle || 'Thoughts on leadership, strategy, and management.'}
+        title={`${pageData?.page_heading || 'Blog'} - Prof. Bodhibrata Nag, IIM Calcutta`}
+        description="Articles by and about the research of Prof. Bodhibrata Nag of IIM Calcutta: railway timetabling, election logistics, green freight, supply chains, operations research and cyber risk."
         url={`https://www.profnag.com/blog`}
         breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Blog', item: 'https://www.profnag.com/blog' }]}
       />
@@ -215,7 +217,7 @@ export default function Blog() {
                     style={{ fontSize: 'clamp(1.35rem, 2.5vw, 1.9rem)' }}
                   >
                     <span className="text-gray-300 mr-2">{index + 1}.</span>
-                    {isAdmin ? (
+                    {isAdmin && !blog.isStatic ? (
                       <EditableText
                         collection="blogs"
                         docId={blog.id}
@@ -242,7 +244,7 @@ export default function Blog() {
                     <div className="flex-1 min-w-0">
                       <blockquote className="border-l-4 border-[#1a1a1a] pl-4 mb-5">
                         <p className="font-['Playfair_Display'] italic text-gray-600 text-base leading-relaxed line-clamp-4">
-                          {isAdmin ? (
+                          {isAdmin && !blog.isStatic ? (
                             <EditableText
                               collection="blogs"
                               docId={blog.id}
@@ -286,7 +288,7 @@ export default function Blog() {
                       >
                         {openBlogId === blog.id && (
                           <div className="bg-[#f5f5f5] rounded-lg p-5 text-gray-700 font-['Inter'] text-base shadow-sm">
-                            {isAdmin ? (
+                            {isAdmin && !blog.isStatic ? (
                               <EditableText
                                 collection="blogs"
                                 docId={blog.id}

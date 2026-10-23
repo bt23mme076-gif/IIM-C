@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../context/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { FiMail, FiLock, FiAlertCircle } from 'react-icons/fi';
+import SEO from '../components/SEO';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -55,6 +56,7 @@ export default function AdminLogin() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#fafaf8] to-white px-6 py-12">
+      <SEO title="Admin - Prof. Bodhibrata Nag" noindex />
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">

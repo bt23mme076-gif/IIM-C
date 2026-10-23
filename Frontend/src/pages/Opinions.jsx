@@ -4,6 +4,7 @@ import { db } from '../firebase/config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FiExternalLink, FiEdit2, FiCheck, FiX, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useAuth } from '../context/useAuth';
+import SEO from '../components/SEO';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -76,6 +77,12 @@ export default function Opinions() {
 
   return (
     <div className="bg-[#F7F4EE] min-h-screen">
+      <SEO
+        title="Opinions & Columns - Prof. Bodhibrata Nag"
+        description="Opinion pieces and Forbes India columns by Prof. Bodhibrata Nag on cybersecurity, AI risk, cyber insurance and supply chains."
+        url="https://www.profnag.com/opinions"
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Opinions', item: 'https://www.profnag.com/opinions' }]}
+      />
 
       {/* Admin Banner */}
       {isAdmin && (

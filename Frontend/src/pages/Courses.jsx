@@ -7,6 +7,7 @@ import EditableText from '../components/EditableText';
 import { useAuth } from '../context/useAuth';
 import { collection, addDoc, updateDoc, deleteDoc, doc, where } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import SEO from '../components/SEO';
 
 export default function Courses() {
   const { isAdmin } = useAuth() || {};
@@ -225,6 +226,12 @@ export default function Courses() {
 
   return (
     <div className="bg-[#F7F4EE] min-h-screen">
+      <SEO
+        title="Courses & Teaching - Prof. Bodhibrata Nag, IIM Calcutta"
+        description="Courses taught by Prof. Bodhibrata Nag at IIM Calcutta: Operations Research, Simulation Modeling, Project Management, Sustainable Supply Chain Analytics, Business Risk Management and Strategic Game Theory."
+        url="https://www.profnag.com/courses"
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Courses', item: 'https://www.profnag.com/courses' }]}
+      />
       {/* Hero Section */}
       <section className="bg-[#1E2A38] py-20 px-4 sm:px-6 lg:px-16">
         <div className="max-w-5xl mx-auto">

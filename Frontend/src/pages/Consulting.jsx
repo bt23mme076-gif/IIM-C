@@ -4,6 +4,7 @@ import { db } from '../firebase/config';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { FiBriefcase, FiEdit2, FiCheck, FiX, FiPlus, FiTrash2 } from 'react-icons/fi';
 import { useAuth } from '../context/useAuth';
+import SEO from '../components/SEO';
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -88,6 +89,12 @@ export default function Consulting() {
 
   return (
     <div className="bg-[#F7F4EE] min-h-screen">
+      <SEO
+        title="Consulting & Executive Engagement - Prof. Bodhibrata Nag"
+        description="Consulting, executive education and advisory work by Prof. Bodhibrata Nag of IIM Calcutta in operations, logistics, railways, energy, public procurement and cyber risk."
+        url="https://www.profnag.com/consulting"
+        breadcrumbs={[{ name: 'Home', item: 'https://www.profnag.com/' }, { name: 'Consulting', item: 'https://www.profnag.com/consulting' }]}
+      />
 
       {/* Admin Banner */}
       {isAdmin && (

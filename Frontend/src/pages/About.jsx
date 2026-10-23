@@ -200,9 +200,9 @@ export default function About() {
   const viewportOptions = { once: true, margin: "0px 0px -50px 0px", amount: 0.2 };
 
   const achievements = [
-    { icon: <FiAward />, title: "Academic", desc: "Faculty at IIM Calcutta." },
-    { icon: <FiBriefcase />, title: "Researcher", desc: "Research coming soon." },
-    { icon: <FiBookOpen />, title: "Author", desc: "Publications coming soon." }
+    { icon: <FiAward />, title: "Academic", desc: "Professor of Operations Management at IIM Calcutta; former Dean (Academic) and Acting Director." },
+    { icon: <FiBriefcase />, title: "Researcher", desc: "Operations research, simulation and analytics for transportation, energy, logistics and cybersecurity." },
+    { icon: <FiBookOpen />, title: "Author", desc: "Co-author of Introduction to Operations Research (Special Indian Editions) and author of Optimal Design of Timetables for Large Railways." }
   ];
 
   const INVITED_TALKS_RECENT = [
@@ -225,8 +225,8 @@ export default function About() {
   }
   
   // Page-level SEO
-  const seoTitle = `${aboutData?.header?.title || 'About'} - Prof. Bodhibrata Nag`;
-  const seoDesc = aboutData?.journey?.paragraph1 || 'Profile of Prof. Bodhibrata Nag, IIM Calcutta.';
+  const seoTitle = 'About Prof. Bodhibrata Nag - Biography, Career & Awards | IIM Calcutta';
+  const seoDesc = 'Biography of Prof. Bodhibrata Nag, Professor of Operations Management at IIM Calcutta: IIT Madras and IIM Calcutta alumnus, former Dean (Academic), Indian Railways and Central Electricity Authority career, Fulbright Fellow, awards and invited talks.';
 
   return (
     <div className="bg-[#F7F4EE]">
@@ -242,7 +242,7 @@ export default function About() {
       {/* Admin save indicator */}
       {isAdmin && saving && (
         <div className="fixed top-20 right-4 z-50 bg-[#1E2A38] text-white px-4 py-2 rounded-lg text-sm font-['Inter'] shadow-lg animate-pulse">
-          Savingâ€¦
+          Saving…
         </div>
       )}
 
@@ -684,7 +684,7 @@ export default function About() {
                 {isAdmin && addingMedia && (
                   <motion.div layout initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }}
                     className="flex items-center gap-1">
-                    <input value={draftMedia} onChange={e => setDraftMedia(e.target.value)} placeholder="Outlet nameâ€¦" autoFocus
+                    <input value={draftMedia} onChange={e => setDraftMedia(e.target.value)} placeholder="Outlet name…" autoFocus
                       className="w-32 px-2 py-1.5 border-2 border-[#333333] rounded-full text-sm font-['Inter'] focus:outline-none"
                       onKeyDown={e => { if (e.key === 'Enter') commitMedia('new'); if (e.key === 'Escape') setAddingMedia(false); }} />
                     <button onClick={() => commitMedia('new')} className="bg-[#333333] text-white p-1.5 rounded-full"><FiSave size={11} /></button>
@@ -694,7 +694,7 @@ export default function About() {
               </AnimatePresence>
             </div>
             <p className="text-lg font-['Inter'] text-gray-700 mt-8 leading-relaxed">
-              Academic publications in <span className="font-semibold">Academy of Management Journal</span>, <span className="font-semibold">Human Resource Management</span>, <span className="font-semibold">Personnel Review</span>, and more.
+              Research published in <span className="font-semibold">ACM Transactions on Management Information Systems</span>, <span className="font-semibold">IEEE Access</span>, <span className="font-semibold">OPSEARCH</span>, <span className="font-semibold">Global Business Review</span> and the <span className="font-semibold">INFORMS Winter Simulation Conference</span>, with regular columns on cybersecurity, AI risk and supply chains in <span className="font-semibold">Forbes India</span>.
             </p>
 
             {/* Invited Talks (summarized) */}
